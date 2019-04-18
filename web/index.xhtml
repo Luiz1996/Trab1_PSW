@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous"></link>
+
+    <title>BiblioTec v1.0</title>
+
+    <meta charset="utf-8">
+        <style>
+            .popup {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                width: 500px;
+                height: 260px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+                display: none;
+            }
+        </style>
+    </meta>
+
+    <script type="text/javascript">
+        function abrir() {
+            document.getElementById('popup').style.display = 'block';
+        }
+        function fechar() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+</h:head>
+<h:body>
+    <div id="popup" class="popup">
+        <p>Bem vindo ao Sistema BiblioTec!
+            <a href="#" onClick="document.getElementById('popup').style.display = 'none';">[Fechar]</a>
+            <b></b>
+            <p>
+                Se você é um visitante, poderá clicar em Consultar Acervo para saber quais obras temos em nossa instituição.
+            </p>
+            <b></b>
+            <p>
+                Agora, se você desejar ter acesso as funcionalidades especiais, preencha seu usuário/senha e clique em Login.
+            </p>
+            <b></b>
+            <p>
+                Caso não tenha um cadastro, poderá fazê-lo clicando em Cadastre-se.
+            </p>
+        </p>
+
+    </div>
+    <i><h1 align="center"> BiblioTec </h1></i>
+    <p:menubar>
+        <p:menuitem value="CONSULTAR ACERVO" url="consultarAcervo.xhtml"></p:menuitem>
+        <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
+    </p:menubar>
+    <section alig="center" class="row">
+        <div class="jumbotron">
+
+            <h:form id="telaInicio">
+                <h5 align="center">Acesso</h5><br></br>
+                <div class="form-group">
+                    <h:outputLabel value="Usuário"/><br></br>
+                    <h:inputText value="#{loginBean.user.usuario}" class="form-control" required="true"></h:inputText>
+                    <!--<input type="text" name="usuario" value="#{loginBean.usuario}"></input><br></br>-->
+                </div>
+                <div class="form-group">
+
+                    <h:outputLabel value="Senha"/><br></br>
+                    <h:inputText value="#{loginBean.user.senha}" required="true" class="form-control"></h:inputText>
+                    <!--<input type="password" name="senha" class="form-control" value="#{loginBean.senha}" minlength="8"></input>-->
+                </div>
+                <div class="form-group">
+                    <h:commandButton value="Login" class="btn btn-block btn-primary"
+                                     action="#{loginBean.realizarAcesso}"></h:commandButton>
+                </div>
+                <div class="form-group">
+                    <h:commandButton value="Cadastrar-se" class="btn btn-block btn-primary"
+                                     href="index.xhtml"></h:commandButton>
+                </div>
+            </h:form>
+        </div>
+        <div>
+            <a href="http://www.bce.uem.br/" title="Novas aquisições da BCE." target="_blank">
+                <img align="right" src="manchete1.jpg" width="1110" height="463" alt="Banner UEM."/></a>
+        </div>
+    </section>
+</h:body>
+</html>
