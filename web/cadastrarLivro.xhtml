@@ -11,7 +11,10 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous"></link>
 
-    <title>Cadastrando Obra | BiblioTec</title>
+    <title> Cadastrar Livro | BiblioTec</title>
+
+    <link href="icone.png" rel="shortcut icon" type="image/x-png"></link>
+
     <meta charset="utf-8">
         <style>
             .popup {
@@ -19,14 +22,29 @@
                 top: -200px;
                 bottom: 0;
                 left: 0;
-                right: -73px;
+                right: -50px;
                 margin: auto;
                 width: 500px;
-                height: 200px;
+                height: 160px;
                 padding: 15px;
                 border: solid 1pX black;
                 background: white;
                 display: none;
+            }
+
+            .fechaAjuda {
+                position: absolute;
+                top: -120px;
+                bottom: 0;
+                left: 0;
+                right: -460px;
+                margin: auto;
+                width: 25px;
+                height: 25px;
+                border: black 1px solid;
+                border-radius: 3px;
+                background: gray;
+                color: blue;
             }
         </style>
     </meta>
@@ -43,15 +61,15 @@
 </h:head>
 <h:body>
     <div id="popup" class="popup">
-        <p>Bem vindo ao Sistema BiblioTec!
-            <a href="#" onClick="document.getElementById('popup').style.display = 'none';">[Fechar]</a>
+        <p>Olá,
+            <button class="fechaAjuda" onclick="fechar()" >x</button>
             <b></b>
             <p>
-                Para realizar o cadastramento de um novo livro, é obrigatório o preenchimento de todos os campo!
+                Para realizar o cadastro de um novo livro,<b> é obrigatório o preenchimento de todos os campos. </b>
             </p>
             <b></b><b></b>
             <p>
-                Se algum campo ficar em branco, o cadastramento não acontecerá, mesmo que você clique em Salvar.
+                Em seguida, clique no botão <b>Salvar</b>.
             </p>
         </p>
 
@@ -61,7 +79,7 @@
         <p:menuitem value="MENU INICIAL" url="acessoBibliotecario.xhtml"></p:menuitem>
         <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
     </p:menubar>
-    <section alig="center" class="row">
+    <section alig="center" class="right">
         <div class="jumbotron">
             <h:form id="cadastroLivro">
                 <div class="form-group">
@@ -69,71 +87,58 @@
                 </div>
                 <div class="form-group">
                     <div class="form-group">
-                        <h:commandButton value="Cadastrar" class="btn btn-block btn-primary"
-                                         action="#{livroBean.realizarCadastroLivro}"></h:commandButton>
-                    </div>
-                    <div class="form-group">
                         <h:commandButton value="Consultar" class="btn btn-block btn-primary"
-                                         action="#{livroBean.realizarCadastroLivro}"></h:commandButton>
+                                         action="consultarLivro" url="index.home.xhtml"></h:commandButton>
                     </div>
                     <div class="form-group">
                         <h:commandButton value="Alterar" class="btn btn-block btn-primary"
-                                         action="#{livroBean.realizarCadastroLivro}"></h:commandButton>
+                                         action="alterarLivro"></h:commandButton>
                     </div>
                     <div class="form-group">
                         <h:commandButton value="Deletar" class="btn btn-block btn-primary"
-                                         action="#{livroBean.realizarCadastroLivro}"></h:commandButton>
-                    </div>
-                    <div class="form-group">
-                        <p> Perfil: Bibliotecário</p>
+                                         action="deletarLivro"></h:commandButton>
                     </div>
                 </div>
             </h:form>
-        </div>
-        <div class="jumbotron">
             <h:form id="dadosLivro">
                 <div class="form-group">
-                    <h:outputLabel value="Título* " /><br></br>
-                    <h:inputText value="#{cadastrarLivroBean.livro.titulo}" class="form-control"
+                    <h:outputLabel value="Título" /><font color="red">*</font>
+                    <h:inputText value="#{livroBean.livro.titulo}" class="form-control"
                                  required="true"></h:inputText>
 
-                    <h:outputLabel value="Autor*"/>
-                    <h:inputText value="#{cadastrarLivroBean.livro.autor}" class="form-control"
+                    <h:outputLabel value="Autor"/><font color="red">*</font>
+                    <h:inputText value="#{livroBean.livro.autor}" class="form-control"
                                  required="true"></h:inputText>
 
-                    <h:outputLabel value="Editora*"/>
-                    <h:inputText value="#{cadastrarLivroBean.livro.editora}" class="form-control"
+                    <h:outputLabel value="Editora"/><font color="red">*</font>
+                    <h:inputText value="#{livroBean.livro.editora}" class="form-control"
                                  required="true"></h:inputText>
 
-                    <h:outputLabel value="Ano Lançamento*"/>
-                    <h:inputText value="#{cadastrarLivroBean.livro.anolancamento}" class="form-control"
+                    <h:outputLabel value="Ano Lançamento"/><font color="red">*</font>
+                    <h:inputText value="#{livroBean.livro.anolancamento}" class="form-control"
                                  required="true"></h:inputText>
                 </div>
+                <div class="form-group">
+                    <h:outputLabel value="Cidade"/><font color="red">*</font>
+                    <h:inputText value="#{livroBean.livro.cidade}" class="form-control"
+                                 required="true"></h:inputText>
 
-                    <div class="form-group">
-                        <h:outputLabel value="Cidade*"/><br></br>
-                        <h:inputText value="#{cadastrarLivroBean.livro.cidade}" class="form-control"
-                                     required="true"></h:inputText>
+                    <h:outputLabel value="Volume"/><font color="red">*</font>
+                    <h:inputText value="#{livroBean.livro.volume}" class="form-control"
+                                 required="true"></h:inputText>
 
-                        <h:outputLabel value="Volume*"/>
-                        <h:inputText value="#{cadastrarLivroBean.livro.volume}" class="form-control"
-                                     required="true"></h:inputText>
+                    <h:outputLabel value="Código Catalogação"/><font color="red">*</font>
+                    <h:inputText value="#{livroBean.livro.codcatalogacao}" class="form-control"
+                                 required="true"></h:inputText>
 
-                        <h:outputLabel value="Código Catalogação*"/>
-                        <h:inputText value="#{cadastrarLivroBean.livro.codcatalogacao}" class="form-control"
-                                     required="true"></h:inputText>
-
-                        <h:outputLabel value="Número Chamada*"/>
-                        <h:inputText value="#{cadastrarLivroBean.livro.numchamada}" class="form-control"
-                                     required="true"></h:inputText>
-                    </div>
-
-                    <div class="form-group">
-                        <h:commandButton value="Salvar" class="btn btn-block btn-primary"
-                                         action="#{cadastrarLivroBean.realizarCadastroLivro}"
-                                         url="acessoBibliotecario.xhtml"></h:commandButton>
-                    </div>
-
+                    <h:outputLabel value="Número Chamada"/><font color="red">*</font>
+                    <h:inputText value="#{livroBean.livro.numchamada}" class="form-control"
+                                 required="true"></h:inputText>
+                </div>
+                <div class="form-group">
+                    <h:commandButton value="Cadastrar" class="btn btn-block btn-primary"
+                                     action="#{livroBean.realizarCadastroLivro}"/>
+                </div>
             </h:form>
         </div>
     </section>

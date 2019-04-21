@@ -3,10 +3,12 @@ package br.uem.din.bibliotec.config.controller;
 import br.uem.din.bibliotec.config.model.M_Usuario;
 import br.uem.din.bibliotec.config.model.M_Usuario_DAO;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import java.awt.*;
 import java.sql.SQLException;
 
 @ManagedBean(name = "loginBean", eager = true)
+@SessionScoped
 public class C_Login {
     M_Usuario_DAO userDAO = new M_Usuario_DAO();
     M_Usuario user = new M_Usuario("","");

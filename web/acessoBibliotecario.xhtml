@@ -12,6 +12,9 @@
           crossorigin="anonymous"></link>
 
     <title>Menu Bibliotecário | BiblioTec</title>
+
+    <link href="icone.png" rel="shortcut icon" type="image/x-png"></link>
+
     <meta charset="utf-8">
         <style>
             .popup {
@@ -28,6 +31,35 @@
                 background: white;
                 display: none;
             }
+
+            .fechar {
+                position: absolute;
+                top: -370px;
+                bottom: 0;
+                left: 0;
+                right: -460px;
+                margin: auto;
+                width: 25px;
+                height: 25px;
+                border: black 1px solid;
+                border-radius: 3px;
+                background: gray;
+                color: blue;
+            }
+
+            .retornos {
+                position: fixed;
+                top: -350px;
+                bottom: 0;
+                left: 200px;
+                right: 0px;
+                margin: auto;
+                width: 1140px;
+                height: 45px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+            }
         </style>
     </meta>
 
@@ -43,8 +75,8 @@
 </h:head>
 <h:body>
     <div id="popup" class="popup">
-        <p>Bem vindo ao Sistema BiblioTec!
-            <a href="#" onClick="document.getElementById('popup').style.display = 'none';">[Fechar]</a>
+        <p>
+            <button class="fechar" onclick="fechar()">x</button>
             <b></b>
             <p>
                 Olá, notamos que você é um <b>Bibliotecário(a)</b>, então temos as opções:
@@ -61,7 +93,7 @@
                 <b>
                     - Consultar :
                 </b>
-                Possibilita buscar os dados de um livro preenchendo o Título ou Autor ou Editora.
+                Possibilita buscar os dados de um livro preenchendo o Título.
             </p>
             <b></b>
             <p>
@@ -78,12 +110,10 @@
                 Esta opção poderá ser utilizada quando algum livro deixar de existir em sua biblioteca, isso acarretará em baixa do livro em nosso sistema.
             </p>
         </p>
-
-
     </div>
     <i><h1 align="center"> BiblioTec </h1></i>
     <p:menubar style="align-items: center">
-        <p:menuitem value="SAIR" url="index.xhtml"></p:menuitem>
+        <p:menuitem value="SAIR" url="gestaoBibliotecas.xhtml"></p:menuitem>
         <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
     </p:menubar>
     <section alig="center" class="row">
@@ -99,15 +129,15 @@
                     </div>
                     <div class="form-group">
                         <h:commandButton value="Consultar" class="btn btn-block btn-primary"
-                                         action="cadastrarLivro" url="cadastrarLivro.xhtml"></h:commandButton>
+                                         action="consultarLivro" url="consultarLivro.xhtml"></h:commandButton>
                     </div>
                     <div class="form-group">
                         <h:commandButton value="Alterar" class="btn btn-block btn-primary"
-                                         action="cadastrarLivro" url="cadastrarLivro.xhtml"></h:commandButton>
+                                         action="alterarLivro" url="cadastrarLivro.xhtml"></h:commandButton>
                     </div>
                     <div class="form-group">
                         <h:commandButton value="Deletar" class="btn btn-block btn-primary"
-                                         action="cadastrarLivro" url="cadastrarLivro.xhtml"></h:commandButton>
+                                         action="deletarLivro" url="deletarLivro.xhtml"></h:commandButton>
                     </div>
                     <div class="form-group">
                         <p> Perfil: Bibliotecário</p>
@@ -116,5 +146,12 @@
             </h:form>
         </div>
     </section>
+    <div align="left" class="retornos" id="retornos">
+        <b>
+            <font color="#{livroBean.livro.color_msg_retorno}">
+                #{livroBean.livro.msg_retorno}
+            </font>
+        </b>
+    </div>
 </h:body>
 </html>
