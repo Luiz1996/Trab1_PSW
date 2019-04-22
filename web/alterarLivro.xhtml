@@ -3,7 +3,6 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
@@ -129,7 +128,7 @@
             <h:form id="buscarLivro">
                 <div class="form-group">
                     <h:outputLabel value="Título"/>
-                    <h:inputText value="#{livroBean.livro.titulo}" class="form-control" required="false"></h:inputText>
+                    <p:inputText value="#{livroBean.livro.titulo}" class="form-control" required="false" placeholder="Insira o título do livro"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Buscar" class="btn btn-block btn-primary"
@@ -190,48 +189,48 @@
                     <h:form id="alterarLivro">
                         <div class="form-group">
                             <h:outputLabel value="Título"/>
-                            <h:inputText value="#{livroBean.livro.titulo}" class="form-control"
-                                         required="false"></h:inputText>
+                            <p:inputText value="#{livroBean.livro.titulo}" class="form-control"
+                                         required="false" placeholder="Insira o título do livro"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Autor(a)"/>
-                            <h:inputText value="#{livroBean.livro.autor}" class="form-control"
-                                         required="false"></h:inputText>
+                            <p:inputText value="#{livroBean.livro.autor}" class="form-control"
+                                         required="false" placeholder="Insira o nome do autor do livro"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Edtora"/>
-                            <h:inputText value="#{livroBean.livro.editora}" class="form-control"
-                                         required="false"></h:inputText>
+                            <p:inputText value="#{livroBean.livro.editora}" class="form-control"
+                                         required="false" placeholder="Insira o nome da editora"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Ano lançamento"/>
-                            <h:inputText value="#{livroBean.livro.anolancamento}" class="form-control"
-                                         required="false"></h:inputText>
+                            <p:inputText value="#{livroBean.livro.anolancamento}" class="form-control"
+                                         required="false" placeholder="Insira o ano de lançamento"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Cidade"/>
-                            <h:inputText value="#{livroBean.livro.cidade}" class="form-control"
-                                         required="false"></h:inputText>
+                            <p:inputText value="#{livroBean.livro.cidade}" class="form-control"
+                                         required="false" placeholder="Insira a cidade"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Volume"/>
-                            <h:inputText value="#{livroBean.livro.volume}" class="form-control"
-                                         required="false"></h:inputText>
+                            <p:inputText value="#{livroBean.livro.volume}" class="form-control"
+                                         required="false" placeholder="Insira o volume do livro"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Código Catalogação"/>
-                            <h:inputText value="#{livroBean.livro.codcatalogacao}" class="form-control"
-                                         required="false"></h:inputText>
+                            <p:inputText value="#{livroBean.livro.codcatalogacao}" class="form-control"
+                                         required="false" placeholder="Insira o código de catalogação"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Número Chamada"/>
-                            <h:inputText value="#{livroBean.livro.numchamada}" class="form-control"
-                                         required="false"></h:inputText>
+                            <p:inputText value="#{livroBean.livro.numchamada}" class="form-control"
+                                         required="false" placeholder="Insira o número de chamado"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Id do Livro"/><font color="red">*</font>
-                            <h:inputText value="#{livroBean.livro.codlivro}" class="form-control"
-                                         required="true"></h:inputText>
+                            <p:inputText value="#{livroBean.livro.codlivro}" class="form-control"
+                                         required="true" placeholder="Insira o Id do livro"></p:inputText>
                         </div>
                         <div class="form-group">
                             <p:growl id="msg"/>

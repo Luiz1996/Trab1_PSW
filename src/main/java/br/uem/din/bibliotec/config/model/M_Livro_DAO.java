@@ -1,6 +1,7 @@
 package br.uem.din.bibliotec.config.model;
 
 import br.uem.din.bibliotec.config.conexao.Conexao;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -99,16 +100,33 @@ public class M_Livro_DAO {
 
     public String deletarLivro(M_Livro livro){
         String titulo = "";
+        Integer codlivro_local = 0;
+
+        //valida se o código do livro não foi fornecido
+        if(livro.getCodlivro() == 0){
+            livro.setMsg_retorno("Retorno: O código Id do livro é inválido, deleção falhou.");
+            livro.setColor_msg_retorno("red");
+            return "acessoBibliotecario";
+        }
+
         try {
             Conexao con = new Conexao();
             Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             con.conexao.setAutoCommit(true);
 
-            st.execute("select titulo from `bibliotec`.`livro` where codlivro = " + livro.getCodlivro() + ";");
+            st.execute("select titulo, codlivro from `bibliotec`.`livro` where codlivro = " + livro.getCodlivro() + ";");
             ResultSet rs = st.getResultSet();
 
             while (rs.next()){
                 titulo = rs.getString("titulo");
+                codlivro_local = rs.getInt("codlivro");
+            }
+
+            //valida de o código do livro foi fornecido incorretamente
+            if(codlivro_local == 0){
+                livro.setMsg_retorno("Retorno: O livro com codlivro: "+ livro.getCodlivro() +" não existe, deleção falhou.");
+                livro.setColor_msg_retorno("red");
+                return "acessoBibliotecario";
             }
 
             st.executeUpdate("UPDATE `bibliotec`.`livro` SET `ativo` = '0' WHERE (`codlivro` =" + livro.getCodlivro() +  ");");
@@ -129,17 +147,33 @@ public class M_Livro_DAO {
 
     public String editarLivro(M_Livro livro, boolean validaStatus){
         String titulo_anterior = "";
+        Integer codlivro_local = 0;
+
+        //valida se o código do livro não foi fornecido
+        if(livro.getCodlivro() == 0){
+            livro.setMsg_retorno("Retorno: O código Id do livro é inválido, edição falhou.");
+            livro.setColor_msg_retorno("red");
+            return "acessoBibliotecario";
+        }
 
         try {
             Conexao con = new Conexao();
             Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             con.conexao.setAutoCommit(true);
 
-            st.execute("SELECT titulo FROM `bibliotec`.`livro` WHERE codlivro = " + livro.getCodlivro() + ";");
+            st.execute("SELECT titulo, codlivro FROM `bibliotec`.`livro` WHERE codlivro = " + livro.getCodlivro() + ";");
             ResultSet rs = st.getResultSet();
 
             while (rs.next()){
                 titulo_anterior = rs.getString("titulo");
+                codlivro_local = rs.getInt("codlivro");
+            }
+
+            //valida se o código do livro foi fornecido de forma incorreta
+            if(codlivro_local == 0){
+                livro.setMsg_retorno("Retorno: O livro com codlivro: "+ livro.getCodlivro() +" não existe, edição falhou.");
+                livro.setColor_msg_retorno("red");
+                return "acessoBibliotecario";
             }
 
             if(!livro.getTitulo().equals("")){
