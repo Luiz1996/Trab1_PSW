@@ -3,8 +3,6 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -89,11 +87,11 @@
                 <h5 align="center">Acesso</h5><br></br>
                 <div class="form-group">
                     <h:outputLabel value="Usuário"/><br></br>
-                    <p:inputText value="#{loginBean.user.usuario}" class="form-control" required="true"/>
+                    <p:inputText value="#{loginBean.user.usuario}" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Senha"/><br></br>
-                    <p:password value="#{loginBean.user.senha}" required="true" class="form-control"/>
+                    <p:password value="#{loginBean.user.senha}" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Login" class="btn btn-block btn-primary"
@@ -103,11 +101,18 @@
                     <h:commandButton value="Cadastrar-se" class="btn btn-block btn-primary"
                                      href="index.xhtml"></h:commandButton>
                 </div>
+                <div align="center">
+                    <font color="red">
+                        <i>
+                            <h:outputLabel value="#{loginBean.user.msg_autenticacao}"/>
+                        </i>
+                    </font>
+                </div>
             </h:form>
         </div>
         <div>
             <a href="http://www.bce.uem.br/" title="Novas aquisições da BCE." target="_blank">
-                <img align="right" src="manchete.jpg" width="1090" height="463" alt="Banner UEM."/></a>
+                <img align="right" src="manchete.jpg" width="1090" height="475" alt="Banner UEM."/></a>
         </div>
     </section>
 </h:body>

@@ -1,6 +1,7 @@
 package br.uem.din.bibliotec.config.model;
 
 import br.uem.din.bibliotec.config.conexao.Conexao;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,7 +9,7 @@ import java.sql.Statement;
 public class M_Usuario_DAO {
 
     public String buscaPermissao(M_Usuario user) throws SQLException {
-        String retorno = "index";
+        String retorno = "gestaoBibliotecas";
         int permissao = 0;
 
         try {
@@ -35,8 +36,21 @@ public class M_Usuario_DAO {
                 retorno = "acessoAluno";
             }
         } catch (SQLException e) {
-            System.out.println("Usuário ou senha inválidos!");
+            System.out.println("Usuario/Senha inválidos.");
         }
+
+        if(permissao != 1 && permissao != 2 && permissao != 3){
+            user.setMsg_autenticacao("Usuario/Senha inválidos.");
+            user.setUsuario("");
+            user.setSenha("");
+            return retorno;
+        }
+
+        //reinicializando as variáveis
+        user.setUsuario("");
+        user.setSenha("");
+        user.setMsg_autenticacao("");
+
         return retorno;
     }
 }
