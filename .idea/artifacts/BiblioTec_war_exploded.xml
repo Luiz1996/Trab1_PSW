@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="BiblioTec:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/BiblioTec.war</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="BiblioTec/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="BiblioTec" />
+          <element id="jpa-descriptors" facet="BiblioTec/jpa/JPA" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.sun.faces:jsf-api:2.2.4" />
+          <element id="library" level="project" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.46" />
+          <element id="library" level="project" name="Maven: com.sun.faces:jsf-api:2.2.13" />
+          <element id="library" level="project" name="Maven: org.primefaces:primefaces:5.1" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
