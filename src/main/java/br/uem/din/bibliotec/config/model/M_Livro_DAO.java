@@ -219,6 +219,7 @@ public class M_Livro_DAO {
             }
             livro.setColor_msg_retorno("green");
 
+            
             con.conexao.close();
         } catch (SQLException e) {
             System.out.println("Dados informados são inválidos!");
