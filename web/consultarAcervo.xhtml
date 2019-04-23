@@ -52,6 +52,7 @@
         function abrir() {
             document.getElementById('popup').style.display = 'block';
         }
+
         function fechar() {
             document.getElementById('popup').style.display = 'none';
         }
@@ -86,11 +87,13 @@
             <h:form id="telaConsultaVisitante">
                 <div class="form-group">
                     <h:outputLabel value="Título"/>
-                    <p:inputText value="#{livroBean.livro.titulo}" class="form-control" required="false" placeholder="Insira o título do livro"></p:inputText>
+                    <p:inputText value="#{livroBean.livro.titulo}" class="form-control" required="false"
+                                 placeholder="Insira o título do livro"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Consultar" class="btn btn-block btn-primary"
-                                     action="#{livroBean.realizarConsultaLivro}" url="index.home.xhtml"></h:commandButton>
+                                     action="#{livroBean.realizarConsultaLivro}"
+                                     url="index.home.xhtml"></h:commandButton>
                 </div>
             </h:form>
             <section alig="center" class="row">
@@ -105,7 +108,8 @@
                         <p:column>
                             <f:facet name="header">Título</f:facet>
                             #{livro.titulo}
-                        </p:column><p:column>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">Autor(a)</f:facet>
                             #{livro.autor}
                         </p:column>

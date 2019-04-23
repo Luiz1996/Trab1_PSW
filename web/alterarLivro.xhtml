@@ -187,6 +187,7 @@
                         <font color="red">**Inserir as informações apenas nos campos que deseja alterar**</font>
                     </p>
                     <h:form id="alterarLivro">
+                        #{livroBean.livro.titulo = ""}
                         <div class="form-group">
                             <h:outputLabel value="Título"/>
                             <p:inputText value="#{livroBean.livro.titulo}" class="form-control"
