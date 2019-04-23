@@ -1,10 +1,12 @@
 package br.uem.din.bibliotec.config.model;
 
 public class M_Usuario {
+    //atributos dos usuarios
     private String usuario = "";
     private String senha = "";
     private String msg_autenticacao = "";
 
+    //contrutores e gets/sets
     public M_Usuario(String usuario, String senha) {
         this.usuario = usuario;
         this.senha = senha;

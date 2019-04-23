@@ -2,18 +2,22 @@ package br.uem.din.bibliotec.config.controller;
 
 import br.uem.din.bibliotec.config.model.M_Livro;
 import br.uem.din.bibliotec.config.model.M_Livro_DAO;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import java.sql.SQLException;
 import java.util.List;
 
+//declaração do Bean
 @ManagedBean(name = "livroBean", eager = true)
 @RequestScoped
 public class C_Livro {
+    //Objetos para manipulação dos estados e trocas de dados
     M_Livro livro = new M_Livro(0, "", "", "", "", "", "", "", 0, 0);
     M_Livro_DAO livroDAO = new M_Livro_DAO();
     private boolean status = false;
 
+    //contrutores e gets/sets
     public boolean isStatus() {
         return status;
     }

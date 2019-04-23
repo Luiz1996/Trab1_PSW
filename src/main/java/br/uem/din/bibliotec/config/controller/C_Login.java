@@ -2,17 +2,21 @@ package br.uem.din.bibliotec.config.controller;
 
 import br.uem.din.bibliotec.config.model.M_Usuario;
 import br.uem.din.bibliotec.config.model.M_Usuario_DAO;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.awt.*;
 import java.sql.SQLException;
 
+//declaração do Bean
 @ManagedBean(name = "loginBean", eager = true)
 @SessionScoped
 public class C_Login {
+    //declaração de objetos para manipulação dos estados e troca de dados
     M_Usuario_DAO userDAO = new M_Usuario_DAO();
     M_Usuario user = new M_Usuario("","");
 
+    //contrutores e gets/sets
     public M_Usuario_DAO getUserDAO() {
         return userDAO;
     }
@@ -29,6 +33,7 @@ public class C_Login {
         this.user = user;
     }
 
+    //realizando a chamado do método de autenticação na Model M_Usuario_DAO
     public String realizarAcesso() throws SQLException, AWTException {
         return userDAO.buscaPermissao(user);
     }

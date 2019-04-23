@@ -3,6 +3,7 @@ package br.uem.din.bibliotec.config.model;
 import java.util.Objects;
 
 public class M_Livro {
+    //declaracao dos atributos do livro
     private Integer codlivro = 0;
     private String codcatalogacao = "";
     private String numchamada = "";
@@ -17,6 +18,7 @@ public class M_Livro {
     private String msg_retorno = "";
     private String color_msg_retorno = "";
 
+    //contrutores e gets/sets
     public M_Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo) {
         this.codlivro = codlivro;
         this.codcatalogacao = codcatalogacao;
@@ -60,9 +62,7 @@ public class M_Livro {
         return msg_retorno;
     }
 
-    public void setMsg_retorno(String msg_retorno) {
-        this.msg_retorno = msg_retorno;
-    }
+    public void setMsg_retorno(String msg_retorno) { this.msg_retorno = msg_retorno; }
 
     public String getStatus() { return status; }
 
@@ -144,6 +144,7 @@ public class M_Livro {
 
     public void setAtivo(Integer ativo) { this.ativo = ativo; }
 
+    //declaração da equals e hashcode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
