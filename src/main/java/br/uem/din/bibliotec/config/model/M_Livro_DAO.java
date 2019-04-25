@@ -16,19 +16,21 @@ public class M_Livro_DAO {
     //método de cadastramento de livro
     public String cadastrarLivro(M_Livro livro) throws SQLException {
         try {
+            //já seta livro como ativo
+            livro.setAtivo(1);
+
             //realiza conexão com banco de dados
             Conexao con = new Conexao();
             Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             con.conexao.setAutoCommit(true);
 
-            //já seta livro como ativo
-            livro.setAtivo(1);
-
             //realiza insert no banco e retorna mensagem de sucesso na cor verde
-            st.executeUpdate("INSERT INTO `bibliotec`.`livro` (`codcatalogacao`, `numchamada`, `titulo`, `autor`, `editora`, `anolancamento`, `cidade`, `volume`, `ativo`) VALUES ('"+ livro.getCodcatalogacao() +"', '"+ livro.getNumchamada() +"', '"+ livro.getTitulo() +"', '"+ livro.getAutor() +"', '"+ livro.getEditora() +"', '"+ livro.getAnolancamento() +"', '"+ livro.getCidade() +"', '"+ livro.getVolume() +"', '"+ livro.getAtivo() +"');");
+            st.executeUpdate("INSERT INTO `bibliotec`.`livro` (`codcatalogacao`, `numchamada`, `titulo`, `autor`, `editora`, `anolancamento`, `cidade`, `volume`, `ativo`) VALUES ('"+livro.getCodcatalogacao()+"', '"+livro.getNumchamada()+"', '"+livro.getTitulo()+"', '"+livro.getAutor()+"', '"+livro.getEditora()+"', '"+livro.getAnolancamento()+"', '"+livro.getCidade()+"', "+livro.getVolume()+", "+livro.getAtivo()+");");
+
             livro.setMsg_retorno("Retorno: O livro '"+ livro.getTitulo() +"' foi cadastrado com sucesso.");
             livro.setColor_msg_retorno(SUCESSO);
 
+            st.close();
             con.conexao.close();
         } catch (SQLException e) {
             //em caso de erro no insert é retornado mensagem de falha na cor vermelha
@@ -154,7 +156,7 @@ public class M_Livro_DAO {
             }
 
             //executa a EXCLUSÃO LÓGICA do livro no banco de dados, ou seja, ativo recebe 0
-            st.executeUpdate("UPDATE `bibliotec`.`livro` SET `ativo` = '0' WHERE (`codlivro` =" + livro.getCodlivro() +  ");");
+            st.executeUpdate("UPDATE `bibliotec`.`livro` SET `ativo` = '0' WHERE (`codlivro` =" + livro.getCodlivro() + ");");
 
             //retorna msg de sucesso na cor verde
             livro.setMsg_retorno("Retorno: O livro '" + titulo + "' foi deletado com sucesso.");

@@ -17,17 +17,46 @@
         <style>
             .popup {
                 position: fixed;
-                top: 0;
+                top: 140px;
                 bottom: 0;
                 left: 0;
                 right: 0;
                 margin: auto;
-                width: 500px;
-                height: 260px;
+                width: 600px;
+                height: 420px;
                 padding: 15px;
                 border: solid 1pX black;
                 background: white;
                 display: none;
+            }
+
+            .retornos {
+                position: fixed;
+                top: -350px;
+                bottom: 0;
+                left: 280px;
+                right: 0px;
+                margin: auto;
+                width: 1040px;
+                height: 45px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+            }
+
+            .fechar {
+                position: absolute;
+                top: -370px;
+                bottom: 0;
+                left: 0;
+                right: -550px;
+                margin: auto;
+                width: 25px;
+                height: 25px;
+                border: black 1px solid;
+                border-radius: 3px;
+                background: gray;
+                color: blue;
             }
         </style>
     </meta>
@@ -36,6 +65,7 @@
         function abrir() {
             document.getElementById('popup').style.display = 'block';
         }
+
         function fechar() {
             document.getElementById('popup').style.display = 'none';
         }
@@ -43,17 +73,34 @@
 </h:head>
 <h:body>
     <div id="popup" class="popup">
-        <p>Olá,
-            <a href="#" onClick="document.getElementById('popup').style.display = 'none';">[Fechar]</a>
-            <b></b>
+        <p> Olá, notamos que você é um <b>Balconista(a)</b>, então temos as opções:
+            <button class="fechar" onclick="fechar()">x</button>
             <p>
-                COLOCAR A AJUDA DO BALCONISTA AQUI
-            </p>
-            <b></b>
+                <b>Cadastrar Usuário:</b> Realiza o cadastramento de um novo usuário ativo e com permissão.<br/>
+                <b>Consultar Usuário:</b> Realiza a busca por usuário(s), exibindo-os em uma tabela.<br/>
+                <b>Alterar Usuário:</b> Realiza a alteração dos dados de um usuário.<br/>
+                <b>Deletar Usuário:</b> Realiza a inativação do cadastro do usuário.<br/>
+                <br/><br/>
+                <b>Cadastrar Empréstimo:</b> Realiza a criação de um novo empréstimo é realizado no sistema.<br/>
+                <b>Consultar Empréstimo:</b> Reliza a busca pelos dados de um determinado empréstimo.<br/>
+                <b>Alterar Empréstimo:</b> Reliza a alteração/atualização dos dados de um empréstimo.<br/>
+                <b>Deletar Empréstimo:</b> Reliza a inativação de um determinado empréstimo, setando livro como disponível em seguida.<br/>
 
+
+
+
+            </p><b></b>
         </p>
-
     </div>
+
+    <div align="left" class="retornos" id="retornos">
+        <b>
+            <font color="#{userBean.user.color_msg}">
+                #{userBean.user.msg_autenticacao}
+            </font>
+        </b>
+    </div>
+
     <i><h1 align="center"> BiblioTec </h1></i>
     <p:menubar style="align-items: center">
         <p:menuitem value="SAIR" url="gestaoBibliotecas.xhtml"></p:menuitem>
@@ -63,29 +110,52 @@
         <div class="jumbotron">
             <h:form id="telaBalconista">
                 <div class="form-group">
-                    <h5 align="center">Menu do Balconista</h5>
+                    <h5 align="center">Controle de Usuarios</h5>
                 </div>
                 <div class="form-group">
-                    <!--<div class="form-group">
-                        <h:commandButton value="Cadastrar" class="btn btn-block btn-primary"
-                                         action="#{bibliotecarioBean.cadastrarObra}"></h:commandButton>
-                    </div>
                     <div class="form-group">
-                        <h:commandButton value="Consultar" class="btn btn-block btn-primary"
-                                         action="#{bibliotecarioBean.cadastrarObra}"></h:commandButton>
-                    </div>
-                    <div class="form-group">
-                        <h:commandButton value="Alterar" class="btn btn-block btn-primary"
-                                         action="#{bibliotecarioBean.cadastrarObra}"></h:commandButton>
-                    </div>
-                    <div class="form-group">
-                        <h:commandButton value="Deletar" class="btn btn-block btn-primary"
-                                         action="#{bibliotecarioBean.cadastrarObra}"></h:commandButton>
-                    </div>-->
-                    <div class="form-group">
-                        <p> Perfil: Balconista</p>
+                        <h:commandButton value="Cadastrar Usuario" class="btn btn-block btn-primary"
+                                         action="cadastrarUsuarioBalconista"></h:commandButton>
+
+                        <h:commandButton value="Consultar Usuario" class="btn btn-block btn-primary"
+                                         action="consultaUsuario"></h:commandButton>
+
+                        <h:commandButton value="Alterar Usuario" class="btn btn-block btn-primary"
+                                         action="editarUsuario"></h:commandButton>
+
+                        <h:commandButton value="Deletar Usuario" class="btn btn-block btn-primary"
+                                         action="deletarUsuario"></h:commandButton>
+
+
                     </div>
                 </div>
+
+
+                <div class="form-group">
+                    <h5 align="center">Controle de Empréstimos</h5>
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <h:commandButton value="Cadastrar Empréstimo" class="btn btn-block btn-primary"
+                                         action="acessoBalconista"></h:commandButton>
+
+                        <h:commandButton value="Consultar Empréstimo" class="btn btn-block btn-primary"
+                                         action="acessoBalconista"></h:commandButton>
+
+                        <h:commandButton value="Alterar Empréstimo" class="btn btn-block btn-primary"
+                                         action="acessoBalconista"></h:commandButton>
+
+                        <h:commandButton value="Deletar Empréstimo" class="btn btn-block btn-primary"
+                                         action="acessoBalconista"></h:commandButton>
+
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <p> Perfil: Balconista</p>
+                </div>
+
             </h:form>
         </div>
     </section>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous"></link>
+
+    <title>Alterar Usuários | BiblioTec</title>
+
+    <link href="icone.png" rel="shortcut icon" type="image/x-png"></link>
+
+    <meta charset="utf-8">
+        <style>
+            .popup {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                width: 500px;
+                height: 260px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+                display: none;
+            }
+        </style>
+    </meta>
+
+    <script type="text/javascript">
+        function abrir() {
+            document.getElementById('popup').style.display = 'block';
+        }
+        function fechar() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+</h:head>
+<h:body>
+    <div id="popup" class="popup">
+        <p>Olá,
+            <a href="#" onClick="document.getElementById('popup').style.display = 'none';">[Fechar]</a>
+            <b></b>
+            <p>
+                COLOCAR A AJUDA DO BALCONISTA AQUI
+            </p>
+            <b></b>
+
+        </p>
+
+    </div>
+    <i><h1 align="center"> BiblioTec </h1></i>
+    <p:menubar style="align-items: center">
+        <p:menuitem value="MENU INICIAL" url="acessoBalconista.xhtml"></p:menuitem>
+        <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
+    </p:menubar>
+    <section alig="center" class="right">
+        <div class="jumbotron">
+            <h:form id="telaBalconista">
+                <div class="form-group">
+                    <h5 align="center">Controle de Usuarios</h5>
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+
+                        oi
+
+                    </div>
+                </div>
+            </h:form>
+        </div>
+    </section>
+</h:body>
+</html>

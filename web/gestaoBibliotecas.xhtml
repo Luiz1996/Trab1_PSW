@@ -79,6 +79,7 @@
     <p:menubar>
         <p:menuitem value="ACERVO" url="consultarAcervo.xhtml"></p:menuitem>
         <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
+        <p:menuitem value="aaaaaaa?" url="acessoBalconista.xhtml"></p:menuitem>
     </p:menubar>
     <section alig="center" class="row">
         <div class="jumbotron">
@@ -87,7 +88,7 @@
                 <h5 align="center">Acesso</h5><br></br>
                 <div class="form-group">
                     <h:outputLabel value="Usuário"/><br></br>
-                    <p:inputText value="#{loginBean.user.usuario}" class="form-control" placeholder="Usuário"/>
+                    <p:inputText value="#{loginBean.user.usuario}" class="form-control" placeholder="Usuário ou E-mail"/>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Senha"/><br></br>
@@ -99,12 +100,13 @@
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Cadastrar-se" class="btn btn-block btn-primary"
-                                     href="index.xhtml"></h:commandButton>
+                                     action="cadastroUsuario" url="cadastroUsuario.xhtml"></h:commandButton>
                 </div>
                 <div align="center">
                     <font color="red">
                         <i>
                             <h:outputLabel value="#{loginBean.user.msg_autenticacao}"/>
+                            <h:outputLabel value="#{userBean.user.msg_autenticacao}"/>
                         </i>
                     </font>
                 </div>

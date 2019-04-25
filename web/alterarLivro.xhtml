@@ -132,8 +132,7 @@
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Buscar" class="btn btn-block btn-primary"
-                                     action="#{livroBean.realizarConsultaLivroBibliotecario}"
-                                     url="consultarLivro.xhtml"></h:commandButton>
+                                     action="#{livroBean.realizarConsultaLivroBibliotecario}"></h:commandButton>
                 </div>
             </h:form>
             <section alig="center" class="row">
@@ -141,7 +140,6 @@
                     <p:dataTable value="#{livroBean.realizarConsultaLivroBibliotecario()}" var="livro" border="9"
                                  rendered="true"
                                  title="Relação de Livros.">
-                        <p:commandButton value="Deletar" action="#{livroBean.realizarDelecaoLivro}"/>
                         <p:column>
                             <f:facet name="header">Id</f:facet>
                             #{livro.codlivro}

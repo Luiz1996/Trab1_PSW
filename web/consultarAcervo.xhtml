@@ -56,6 +56,10 @@
         function fechar() {
             document.getElementById('popup').style.display = 'none';
         }
+
+        function tiraTabela(){
+            document.getElementById('dataTable').style.display = 'none'
+        }
     </script>
 </h:head>
 <h:body>
@@ -93,11 +97,11 @@
                 <div class="form-group">
                     <h:commandButton value="Consultar" class="btn btn-block btn-primary"
                                      action="#{livroBean.realizarConsultaLivro}"
-                                     url="index.home.xhtml"></h:commandButton>
+                                     url="javascript: tiraTabela();"/>
                 </div>
             </h:form>
             <section alig="center" class="row">
-                <div class="form-group">
+                <div class="form-group" id="dataTable">
                     <p:dataTable value="#{livroBean.realizarConsultaLivro()}" var="livro" border="9" rendered="true"
                                  title="Relação de Livros.">
 

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous"></link>
+
+    <title> Cadastrar Usuário | BiblioTec</title>
+
+    <link href="icone.png" rel="shortcut icon" type="image/x-png"></link>
+
+    <meta charset="utf-8">
+        <style>
+            .popup {
+                position: fixed;
+                top: -200px;
+                bottom: 0;
+                left: 0;
+                right: 0px;
+                margin: auto;
+                width: 650px;
+                height: 150px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+                display: none;
+            }
+
+            .fechaAjuda {
+                position: absolute;
+                top: -105px;
+                bottom: 0;
+                left: 0;
+                right: -605px;
+                margin: auto;
+                width: 25px;
+                height: 25px;
+                border: black 1px solid;
+                border-radius: 3px;
+                background: gray;
+                color: blue;
+            }
+        </style>
+    </meta>
+
+    <script type="text/javascript">
+        function abrir() {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function fechar() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+</h:head>
+<h:body>
+    <div id="popup" class="popup">
+        <p>Olá,
+            <button class="fechaAjuda" onclick="fechar()">x</button>
+            <b></b>
+            <p>
+                Para cadastrar um usuário em nosso sistema, siga os passos abaixo:<br/>
+                1º) Fornecer os dados necessário,<b> é obrigatório o preenchimento de todos os dados. </b><br/>
+                2º) Após preencher corretamente todos os dados, clique em <b>Enviar dados</b><br/>.
+            </p>
+        </p>
+    </div>
+
+    <i><h1 align="center"> BiblioTec </h1></i>
+    <p:menubar style="align-items: center">
+        <p:menuitem value="MENU INICIAL" url="acessoBalconista.xhtml"></p:menuitem>
+        <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
+    </p:menubar>
+    <section alig="center" class="right">
+        <div class="jumbotron">
+            <h:form id="cadastroLivro">
+                <div class="form-group">
+                    <h5 align="center">Formulário de Usuário</h5><br/>
+                </div>
+            </h:form>
+            <h:form id="dadosUsuario">
+                <div class="form-group">
+                    <h:outputLabel value="Nome Completo"/><font color="red">*</font>
+                    <p:inputText value="#{userBean.user.nome}" class="form-control"
+                                 required="true" placeholder="Insira o seu nome"></p:inputText>
+
+                    <h:outputLabel value="Username"/><font color="red">*</font>
+                    <p:inputText value="#{userBean.user.usuario}" class="form-control"
+                                 required="true" placeholder="Insira o username de acesso"></p:inputText>
+
+                    <h:outputLabel value="Senha"/><font color="red">*</font>
+                    <p:inputText value="#{userBean.user.senha}" class="form-control"
+                                 required="true" placeholder="Insira a senha de acesso"></p:inputText>
+
+                    <h:outputLabel value="RG"/><font color="red">*</font>
+                    <p:inputText value="#{userBean.user.rg}" class="form-control"
+                                 required="true" placeholder="Insira o seu RG(somente números)"></p:inputText>
+
+                    <h:outputLabel value="CPF"/><font color="red">*</font>
+                    <p:inputText value="#{userBean.user.cpf}" class="form-control"
+                                 required="true" placeholder="Insira o seu CPF(somente números)"></p:inputText>
+
+                    <h:outputLabel value="Endereço"/><font color="red">*</font>
+                    <p:inputText value="#{userBean.user.endereco}" class="form-control"
+                                 required="true"
+                                 placeholder="Insira os dados do seu endereço(ex: rua, bairro, número, etc...)"></p:inputText>
+
+                    <h:outputLabel value="CEP"/><font color="red">*</font>
+                    <p:inputText value="#{userBean.user.cep}" class="form-control"
+                                 required="true" placeholder="Insira o CEP da sua rua(somente números)"></p:inputText>
+
+                    <h:outputLabel value="Cidade"/><font color="red">*</font>
+                    <p:inputText value="#{userBean.user.cidade}" class="form-control"
+                                 required="true" placeholder="Insira a cidade onde mora"></p:inputText>
+
+                    <h:outputLabel value="Estado"/><font color="red">*</font>
+                    <p:inputText value="#{userBean.user.estado}" class="form-control"
+                                 required="true" placeholder="Insira o Estado onde mora"></p:inputText>
+
+                    <h:outputLabel value="E-mail"/><font color="red">*</font>
+                    <p:inputText value="#{userBean.user.email}" class="form-control"
+                                 required="true" placeholder="Insira seu endereço de e-mail"></p:inputText>
+                    <h:outputText value="Perfil de Usuário"/><font color="red">*</font>
+                    <div align="left" class="form-group">
+                        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                            <p:selectOneButton value="#{userBean.user.permissao}" required="true">
+                                <f:selectItem itemLabel="Bibliotecário" itemValue='1'/>
+                                <f:selectItem itemLabel="Balconista" itemValue='2'/>
+                                <f:selectItem itemLabel="Aluno" itemValue='3'/>
+                            </p:selectOneButton>
+                        </h:panelGrid>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:commandButton value="Enviar dados" class="btn btn-block btn-primary"
+                                     action="#{userBean.realizarCadastroUsuarioBalconista}"/>
+                </div>
+            </h:form>
+        </div>
+    </section>
+</h:body>
+</html>

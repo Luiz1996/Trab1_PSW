@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 //classe responsável por fazer a conexão com banco
 public class Conexao {
-    //Ddeclaração das strings que vão compor a url da conexão
+    //Declaração das strings que vão compor a url da conexão
     String servername = "localhost";
     String mydb = "bibliotec";
     String usuario = "root";
