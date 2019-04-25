@@ -13,7 +13,7 @@ public class M_Livro {
     private String anolancamento = "";
     private String cidade = "";
     private Integer volume = 0;
-    private Integer ativo = 0;
+    private Integer ativo = -1;
     private String status = "";
     private String msg_retorno = "";
     private String color_msg_retorno = "";

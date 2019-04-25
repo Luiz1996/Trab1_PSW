@@ -245,8 +245,10 @@ public class M_Livro_DAO {
                 st.executeUpdate("UPDATE `bibliotec`.`livro` SET numchamada = '" + livro.getNumchamada() + "' WHERE codlivro = " + livro.getCodlivro() + ";");
             }
 
-            if(validaStatus){
-                st.executeUpdate("UPDATE `bibliotec`.`livro` SET ativo = 1 WHERE codlivro = " + livro.getCodlivro() + ";");
+            if(livro.getAtivo() == 0){
+                st.executeUpdate("UPDATE `bibliotec`.`livro` SET ativo = '0' WHERE codlivro = " + livro.getCodlivro() + ";");
+            }else{
+                st.executeUpdate("UPDATE `bibliotec`.`livro` SET ativo = '1' WHERE codlivro = " + livro.getCodlivro() + ";");
             }
 
             //dependendo se o titulo informado na tela for vazio/nulo ele imprime na mensagem de retorno com base no titulo buscado no banco de dados

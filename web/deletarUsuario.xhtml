@@ -113,11 +113,19 @@
         <p:menuitem value="MENU INICIAL" url="acessoBalconista.xhtml"></p:menuitem>
         <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
     </p:menubar>
-    <section alig="center" class="row">
+    <section alig="center" class="right">
         <div class="jumbotron">
             <h:form id="telaBalconista">
                 <div class="form-group">
                     <h5 align="center">Controle de Usuarios</h5>
+                </div>
+                <div class="form-group">
+                    <h:commandButton value="Cadastrar Usuário" class="btn btn-block btn-primary"
+                                     action="cadastrarUsuarioBalconista.xhtml"/>
+                </div>
+                <div class="form-group">
+                    <h:commandButton value="Alterar Usuário" class="btn btn-block btn-primary"
+                                     action="editarUsuario.xhtml"/>
                 </div>
             </h:form>
             <h:form id="buscarLivro">

@@ -108,7 +108,7 @@
         <p:menuitem value="MENU INICIAL" url="acessoBibliotecario.xhtml"></p:menuitem>
         <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
     </p:menubar>
-    <section alig="center" class="row">
+    <section alig="center" class="right">
         <div class="jumbotron">
             <h:form id="telaBibliotecario">
                 <div class="form-group">
@@ -121,7 +121,7 @@
                     </div>
                     <div class="form-group">
                         <h:commandButton value="Deletar" class="btn btn-block btn-primary"
-                                         action="deletarLivro" url="cadastrarLivro.xhtml"></h:commandButton>
+                                         action="deletarLivro"></h:commandButton>
                     </div>
                 </div>
             </h:form>
@@ -232,11 +232,15 @@
                                          required="true" placeholder="Insira o Id do livro"></p:inputText>
                         </div>
                         <div class="form-group">
-                            <p:growl id="msg"/>
-                            <h:panelGrid columns="2" style="margin-bottom:1px" cellpadding="1">
-                                <p:selectBooleanCheckbox value="#{livroBean.status}"/>
-                                <h:outputLabel value="    Ativar Livro"/>
-                            </h:panelGrid>
+                            <h:outputText value="Status do Livro"/><font color="red">*</font>
+                            <div align="left" class="form-group">
+                                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                    <p:selectOneButton value="#{livroBean.livro.ativo}" required="true">
+                                        <f:selectItem itemLabel="Ativar" itemValue='1'/>
+                                        <f:selectItem itemLabel="Inativar" itemValue='0'/>
+                                    </p:selectOneButton>
+                                </h:panelGrid>
+                            </div>
                             <div id="conf" class="conf">
                                 <p align="center">
                                     <h:outputLabel value="Deseja salvar as alterações?"/>

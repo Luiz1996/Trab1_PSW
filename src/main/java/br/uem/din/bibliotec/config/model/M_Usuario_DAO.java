@@ -153,7 +153,7 @@ public class M_Usuario_DAO {
                     "",
                     "",
                     0,
-                    -1,
+                    0,
                     rs.getString("status"),
                     rs.getString("perfil"),
                     rs.getInt("codusuario")

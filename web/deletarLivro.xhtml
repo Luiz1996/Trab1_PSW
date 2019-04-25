@@ -114,7 +114,7 @@
         <p:menuitem value="MENU INICIAL" url="acessoBibliotecario.xhtml"></p:menuitem>
         <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
     </p:menubar>
-    <section alig="center" class="row">
+    <section alig="center" class="right">
         <div class="jumbotron">
             <h:form id="telaBibliotecario">
                 <div class="form-group">
@@ -142,7 +142,7 @@
                                      url="index.home.xhtml"></h:commandButton>
                 </div>
             </h:form>
-            <section alig="center" class="row">
+            <section alig="center" class="right">
                 <div class="form-group">
                     <p:dataTable value="#{livroBean.realizarConsultaLivroBibliotecario()}" var="livro" border="9"
                                  rendered="true"

@@ -108,11 +108,19 @@
         <p:menuitem value="MENU INICIAL" url="acessoBalconista.xhtml"></p:menuitem>
         <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
     </p:menubar>
-    <section alig="center" class="row">
+    <section alig="center" class="right">
         <div class="jumbotron">
             <h:form id="telaBibliotecario">
                 <div class="form-group">
                     <h5 align="center">Controle de Usuários</h5><br/>
+                </div>
+                <div class="form-group">
+                    <h:commandButton value="Cadastrar Usuário" class="btn btn-block btn-primary"
+                                     action="cadastrarUsuarioBalconista.xhtml"/>
+                </div>
+                <div class="form-group">
+                    <h:commandButton value="Deletar Usuário" class="btn btn-block btn-primary"
+                                     action="deletarUsuario.xhtml"/>
                 </div>
             </h:form>
             <h:form id="buscarUsuário">
@@ -126,7 +134,7 @@
                                      action="#{userBean.realizaConsultaUsuario}"></h:commandButton>
                 </div>
             </h:form>
-            <section alig="center" class="row">
+
                 <div class="form-group">
                     <p:dataTable value="#{userBean.realizaConsultaUsuario()}" var="usuario" border="9"
                                  rendered="true"
@@ -250,8 +258,8 @@
                         <div align="left" class="form-group">
                             <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                                 <p:selectOneButton value="#{userBean.user.ativo}" required="true">
-                                    <f:selectItem itemLabel="Ativo" itemValue='1'/>
-                                    <f:selectItem itemLabel="Inativo" itemValue='0'/>
+                                    <f:selectItem itemLabel="Ativar" itemValue='1'/>
+                                    <f:selectItem itemLabel="Inativar" itemValue='0'/>
                                 </p:selectOneButton>
                             </h:panelGrid>
                         </div>
@@ -286,7 +294,7 @@
                         </div>
                     </h:form>
                 </div>
-            </section>
+
         </div>
     </section>
 </h:body>

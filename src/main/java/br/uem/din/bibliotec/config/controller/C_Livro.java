@@ -13,7 +13,7 @@ import java.util.List;
 @RequestScoped
 public class C_Livro {
     //Objetos para manipulação dos estados e trocas de dados
-    M_Livro livro = new M_Livro(0, "", "", "", "", "", "", "", 0, 0);
+    M_Livro livro = new M_Livro(0, "", "", "", "", "", "", "", 0, -1);
     M_Livro_DAO livroDAO = new M_Livro_DAO();
     private boolean status = false;
 
