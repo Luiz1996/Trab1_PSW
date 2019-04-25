@@ -11,7 +11,7 @@ import java.util.List;
 @ManagedBean(name = "userBean", eager = true)
 public class C_Usuario {
     //atributos do controller
-    M_Usuario user = new M_Usuario("","","","","","","","","","",0,0,"","");
+    M_Usuario user = new M_Usuario("","","","","","","","","","",0,-1,"","");
     M_Usuario_DAO userDAO = new M_Usuario_DAO();
 
     //gets e sets
@@ -31,7 +31,7 @@ public class C_Usuario {
         this.userDAO = userDAO;
     }
 
-    //realizando o cadastro de novos usuários
+    //chama método de cadastramento de usuários no model
     public String realizarCadastroUsuario() throws SQLException, AWTException {
         return userDAO.cadastrarUsuario(user);
     }
@@ -40,9 +40,17 @@ public class C_Usuario {
         return userDAO.cadastrarUsuarioBalconista(user);
     }
 
+    //chama método de consulta de usuários no model
     public List<M_Usuario> realizaConsultaUsuario() throws SQLException {
         return userDAO.consultarUsuarioBalconista(user);
     }
 
+    //chama método de deleção de usuários no model
+    public String realizaDelecaoUsuario() throws SQLException{
+        return userDAO.deletarUsuario(user);
+    }
 
+    public String realizaEdicaoUsuario() throws SQLException{
+        return userDAO.editarUsuario(user);
+    }
 }

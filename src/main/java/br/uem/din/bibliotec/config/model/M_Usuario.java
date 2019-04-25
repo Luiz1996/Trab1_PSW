@@ -17,7 +17,10 @@ public class M_Usuario {
     private String msg_autenticacao = "";
     private String color_msg = "";
     private int    permissao  = 0;
-    private int    ativo = 0;
+    private int    ativo = -1;
+    private String status = "";
+    private String perfil = "";
+    private int    codusuario = 0;
 
     //contrutores e gets/sets
     public M_Usuario(String email, String usuario, String senha, String nome, String rg, String cpf, String endereco, String cep, String cidade, String estado, int permissao, int ativo, String msg_autenticacao, String color_msg) {
@@ -36,6 +39,38 @@ public class M_Usuario {
         this.msg_autenticacao = msg_autenticacao;
         this.color_msg = color_msg;
     }
+
+    public M_Usuario(String email, String usuario, String senha, String nome, String rg, String cpf, String endereco, String cep, String cidade, String estado, String msg_autenticacao, String color_msg, int permissao, int ativo, String status, String perfil, int codusuario) {
+        this.email = email;
+        this.usuario = usuario;
+        this.senha = senha;
+        this.nome = nome;
+        this.rg = rg;
+        this.cpf = cpf;
+        this.endereco = endereco;
+        this.cep = cep;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.msg_autenticacao = msg_autenticacao;
+        this.color_msg = color_msg;
+        this.permissao = permissao;
+        this.ativo = ativo;
+        this.status = status;
+        this.perfil = perfil;
+        this.codusuario = codusuario;
+    }
+
+    public int getCodusuario() { return codusuario; }
+
+    public void setCodusuario(int codusuario) { this.codusuario = codusuario; }
+
+    public String getStatus() { return status; }
+
+    public void setStatus(String status) { this.status = status; }
+
+    public String getPerfil() { return perfil; }
+
+    public void setPerfil(String perfil) { this.perfil = perfil; }
 
     public String getEmail() { return email; }
 
