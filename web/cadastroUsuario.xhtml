@@ -80,7 +80,7 @@
         <div class="jumbotron">
             <h:form id="cadastroLivro">
                 <div class="form-group">
-                    <h5 align="center">Formulário de Usuário</h5><br/>
+                    <h5 align="center">Formulário de Cadastro</h5><br/>
                 </div>
             </h:form>
             <h:form id="dadosUsuario">
@@ -124,6 +124,10 @@
                     <h:outputLabel value="E-mail"/><font color="red">*</font>
                     <p:inputText value="#{userBean.user.email}" class="form-control"
                                  required="true" placeholder="Insira seu endereço de e-mail"></p:inputText>
+
+                    <h:outputLabel value="Data Nascimento"/><font color="red">*</font>
+                    <p:inputText value="#{userBean.user.datanasc}" class="form-control"
+                                 required="true" placeholder="AAAA-MM-DD"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Enviar dados" class="btn btn-block btn-primary"

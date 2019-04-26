@@ -21,6 +21,9 @@ public class M_Usuario {
     private String status = "";
     private String perfil = "";
     private int    codusuario = 0;
+    private String datacad = "";
+    private String dataalt = "";
+    private String datanasc = "";
 
     //contrutores e gets/sets
     public M_Usuario(String email, String usuario, String senha, String nome, String rg, String cpf, String endereco, String cep, String cidade, String estado, int permissao, int ativo, String msg_autenticacao, String color_msg) {
@@ -59,6 +62,41 @@ public class M_Usuario {
         this.perfil = perfil;
         this.codusuario = codusuario;
     }
+
+    public M_Usuario(String email, String usuario, String senha, String nome, String rg, String cpf, String endereco, String cep, String cidade, String estado, String msg_autenticacao, String color_msg, int permissao, int ativo, String status, String perfil, int codusuario, String datacad, String dataalt, String datanasc) {
+        this.email = email;
+        this.usuario = usuario;
+        this.senha = senha;
+        this.nome = nome;
+        this.rg = rg;
+        this.cpf = cpf;
+        this.endereco = endereco;
+        this.cep = cep;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.msg_autenticacao = msg_autenticacao;
+        this.color_msg = color_msg;
+        this.permissao = permissao;
+        this.ativo = ativo;
+        this.status = status;
+        this.perfil = perfil;
+        this.codusuario = codusuario;
+        this.datacad = datacad;
+        this.dataalt = dataalt;
+        this.datanasc = datanasc;
+    }
+
+    public String getDatanasc() { return datanasc; }
+
+    public void setDatanasc(String datanasc) { this.datanasc = datanasc; }
+
+    public String getDatacad() { return datacad; }
+
+    public void setDatacad(String datacad) { this.datacad = datacad; }
+
+    public String getDataalt() { return dataalt; }
+
+    public void setDataalt(String dataalt) { this.dataalt = dataalt; }
 
     public int getCodusuario() { return codusuario; }
 

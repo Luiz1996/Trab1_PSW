@@ -17,6 +17,8 @@ public class M_Livro {
     private String status = "";
     private String msg_retorno = "";
     private String color_msg_retorno = "";
+    private String datacad = "";
+    private String dataalt = "";
 
     //contrutores e gets/sets
     public M_Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo) {
@@ -49,6 +51,32 @@ public class M_Livro {
         this.color_msg_retorno = color_msg_retorno;
         this.msg_retorno = msg_retorno;
     }
+
+    public M_Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo, String status, String msg_retorno, String color_msg_retorno, String datacad, String dataalt) {
+        this.codlivro = codlivro;
+        this.codcatalogacao = codcatalogacao;
+        this.numchamada = numchamada;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.editora = editora;
+        this.anolancamento = anolancamento;
+        this.cidade = cidade;
+        this.volume = volume;
+        this.ativo = ativo;
+        this.status = status;
+        this.msg_retorno = msg_retorno;
+        this.color_msg_retorno = color_msg_retorno;
+        this.datacad = datacad;
+        this.dataalt = dataalt;
+    }
+
+    public String getDatacad() { return datacad; }
+
+    public void setDatacad(String datacad) { this.datacad = datacad; }
+
+    public String getDataalt() { return dataalt; }
+
+    public void setDataalt(String dataalt) { this.dataalt = dataalt; }
 
     public String getColor_msg_retorno() {
         return color_msg_retorno;

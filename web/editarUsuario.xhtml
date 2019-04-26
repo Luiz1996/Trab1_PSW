@@ -184,6 +184,18 @@
                             #{usuario.estado}
                         </p:column>
                         <p:column>
+                            <f:facet name="header">Dt.Cad.</f:facet>
+                            #{usuario.datacad}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Dt. Alt.</f:facet>
+                            #{usuario.dataalt}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Dt.Nasc.</f:facet>
+                            #{usuario.datanasc}
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">Permissão</f:facet>
                             #{usuario.perfil}
                         </p:column>
@@ -241,6 +253,11 @@
                             <h:outputLabel value="Estado"/>
                             <p:inputText value="#{userBean.user.estado}" class="form-control"
                                          required="false" placeholder="Insira o novo estado do usuário"></p:inputText>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Data Nascimento"/>
+                            <p:inputText value="#{userBean.user.datanasc}" class="form-control"
+                                         required="false" placeholder="AAAA-MM-DD"></p:inputText>
                         </div>
 
                         <h:outputText value="Perfil de Usuário"/>

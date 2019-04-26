@@ -80,98 +80,109 @@
         <div class="jumbotron">
             <h:form id="telaBalconista">
                 <div class="form-group">
-                    <h5 align="center">Controle de Usuarios</h5>
+                    <h5 align="center">Controle de Usuários</h5><br/>
                 </div>
                 <div class="form-group">
-                    <h:commandButton value="Cadastrar Usuário" class="btn btn-block btn-primary"
-                                     action="cadastrarUsuarioBalconista.xhtml"/>
-                </div>
-                <div class="form-group">
-                    <h:commandButton value="Alterar Usuário" class="btn btn-block btn-primary"
-                                     action="editarUsuario.xhtml"/>
-                </div>
-                <div class="form-group">
-                    <h:commandButton value="Deletar Usuário" class="btn btn-block btn-primary"
-                                     action="deletarUsuario.xhtml"/>
-                </div>
-                <div class="form-group">
-                    <section alig="center" class="row">
-
-                        <div class="form-group">
-                            <h:form id="telaConsultaUsuarios">
-                                <div class="form-group">
-                                    <h:outputLabel value="Nome do Usuário"/>
-                                    <p:inputText value="#{userBean.user.nome}" class="form-control" required="false"
-                                                 placeholder="Insira o nome do usuário"></p:inputText>
-                                </div>
-                                <div class="form-group">
-                                    <h:commandButton value="Buscar" class="btn btn-block btn-primary"
-                                                     action="#{userBean.realizaConsultaUsuario}"></h:commandButton>
-                                </div>
-                            </h:form>
-                            <p:dataTable value="#{userBean.realizaConsultaUsuario()}" var="usuario" border="9"
-                                         rendered="true"
-                                         title="Relação de Usuário.">
-
-                                <f:facet name="header">
-                                    Relação de Usuários
-                                </f:facet>
-
-                                <div align="center" class="form-group">
-                                    <p:column>
-                                        <f:facet name="header">Id</f:facet>
-                                        #{usuario.codusuario}
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">Nome</f:facet>
-                                        #{usuario.nome}
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">Usuario</f:facet>
-                                        #{usuario.usuario}
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">E-Mail</f:facet>
-                                        #{usuario.email}
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">RG</f:facet>
-                                        #{usuario.rg}
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">CPF</f:facet>
-                                        #{usuario.cpf}
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">Endereço</f:facet>
-                                        #{usuario.endereco}
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">CEP</f:facet>
-                                        #{usuario.cep}
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">Cidade</f:facet>
-                                        #{usuario.cidade}
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">Estado</f:facet>
-                                        #{usuario.estado}
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">Permissão</f:facet>
-                                        #{usuario.perfil}
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">Status</f:facet>
-                                        #{usuario.status}
-                                    </p:column>
-                                </div>
-                            </p:dataTable>
-                        </div>
-                    </section>
+                    <div class="form-group">
+                        <h:commandButton value="Cadastrar Usuário" class="btn btn-block btn-primary"
+                                         action="cadastrarUsuarioBalconista.xhtml"/>
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton value="Alterar Usuário" class="btn btn-block btn-primary"
+                                         action="editarUsuario.xhtml"/>
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton value="Deletar Usuário" class="btn btn-block btn-primary"
+                                         action="deletarUsuario.xhtml"/>
+                    </div>
                 </div>
             </h:form>
+            <section alig="center" class="row">
+                <div class="form-group">
+                    <h:form id="telaConsultaUsuarios">
+                        <div class="form-group">
+                            <h:outputLabel value="Nome do Usuário"/>
+                            <p:inputText value="#{userBean.user.nome}" class="form-control" required="false"
+                                         placeholder="Insira o nome do usuário"></p:inputText>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton value="Buscar" class="btn btn-block btn-primary"
+                                             action="#{userBean.realizaConsultaUsuario}"></h:commandButton>
+                        </div>
+                    </h:form>
+                    <p:dataTable value="#{userBean.realizaConsultaUsuario()}" var="usuario" border="9"
+                                 rendered="true"
+                                 title="Relação de Usuário.">
+
+                        <f:facet name="header">
+                            Relação de Usuários
+                        </f:facet>
+
+                        <div align="center" class="form-group">
+                            <p:column>
+                                <f:facet name="header">Id</f:facet>
+                                #{usuario.codusuario}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Nome</f:facet>
+                                #{usuario.nome}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Usuario</f:facet>
+                                #{usuario.usuario}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">E-Mail</f:facet>
+                                #{usuario.email}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">RG</f:facet>
+                                #{usuario.rg}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">CPF</f:facet>
+                                #{usuario.cpf}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Endereço</f:facet>
+                                #{usuario.endereco}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">CEP</f:facet>
+                                #{usuario.cep}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Cidade</f:facet>
+                                #{usuario.cidade}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Estado</f:facet>
+                                #{usuario.estado}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Dt. Cad.</f:facet>
+                                #{usuario.datacad}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Dt. Alt.</f:facet>
+                                #{usuario.dataalt}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Dt. Nasc.</f:facet>
+                                #{usuario.datanasc}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Permissão</f:facet>
+                                #{usuario.perfil}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Status</f:facet>
+                                #{usuario.status}
+                            </p:column>
+                        </div>
+                    </p:dataTable>
+                </div>
+            </section>
         </div>
     </section>
 </h:body>

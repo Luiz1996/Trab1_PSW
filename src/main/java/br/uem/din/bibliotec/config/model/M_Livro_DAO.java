@@ -25,7 +25,7 @@ public class M_Livro_DAO {
             con.conexao.setAutoCommit(true);
 
             //realiza insert no banco e retorna mensagem de sucesso na cor verde
-            st.executeUpdate("INSERT INTO `bibliotec`.`livro` (`codcatalogacao`, `numchamada`, `titulo`, `autor`, `editora`, `anolancamento`, `cidade`, `volume`, `ativo`) VALUES ('"+livro.getCodcatalogacao()+"', '"+livro.getNumchamada()+"', '"+livro.getTitulo()+"', '"+livro.getAutor()+"', '"+livro.getEditora()+"', '"+livro.getAnolancamento()+"', '"+livro.getCidade()+"', "+livro.getVolume()+", "+livro.getAtivo()+");");
+            st.executeUpdate("INSERT INTO `bibliotec`.`livro` (`codcatalogacao`, `numchamada`, `titulo`, `autor`, `editora`, `anolancamento`, `cidade`, `volume`, `ativo`, `datacad`) VALUES ('"+livro.getCodcatalogacao()+"', '"+livro.getNumchamada()+"', '"+livro.getTitulo()+"', '"+livro.getAutor()+"', '"+livro.getEditora()+"', '"+livro.getAnolancamento()+"', '"+livro.getCidade()+"', "+livro.getVolume()+", "+livro.getAtivo()+", current_date());");
 
             livro.setMsg_retorno("Retorno: O livro '"+ livro.getTitulo() +"' foi cadastrado com sucesso.");
             livro.setColor_msg_retorno(SUCESSO);
@@ -86,7 +86,7 @@ public class M_Livro_DAO {
         Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
         //buscando as informações no banco de dados de acordo com o titulo do livro informado pelo usupario, essa busca possui diferencial da coluna Status (Ativo/Inativo)
-        st.execute("select l.codlivro, l.codcatalogacao, l.numchamada, l.titulo, l.autor, l.editora, l.anolancamento, l.cidade, l.volume, l.ativo, case when l.ativo = 1 then \" Ativo \" else \" Inativo \" end as status from livro l where l.titulo like \"%"+ livro.getTitulo() +"%\" order by 1 ;");
+        st.execute("select l.codlivro, l.codcatalogacao, l.numchamada, l.titulo, l.autor, l.editora, l.anolancamento, l.cidade, l.volume, l.ativo, case when l.ativo = 1 then \" Ativo \" else \" Inativo \" end as status, datacad, dataalt from livro l where l.titulo like \"%"+ livro.getTitulo() +"%\" order by 1 ;");
         ResultSet rs = st.getResultSet();
 
         //declara o arrayList que será usado no dataTable do Bibliotecário
@@ -105,7 +105,11 @@ public class M_Livro_DAO {
                     rs.getString("cidade"),
                     rs.getInt("volume"),
                     rs.getInt("ativo"),
-                    rs.getString("status")
+                    rs.getString("status"),
+                   "",
+                   "",
+                   rs.getString("datacad"),
+                   rs.getString("dataalt")
                    );
 
             livros.add(livro_temporario);
@@ -156,7 +160,7 @@ public class M_Livro_DAO {
             }
 
             //executa a EXCLUSÃO LÓGICA do livro no banco de dados, ou seja, ativo recebe 0
-            st.executeUpdate("UPDATE `bibliotec`.`livro` SET `ativo` = '0' WHERE (`codlivro` =" + livro.getCodlivro() + ");");
+            st.executeUpdate("UPDATE `bibliotec`.`livro` SET `ativo` = '0', dataalt = current_date() WHERE (`codlivro` =" + livro.getCodlivro() + ");");
 
             //retorna msg de sucesso na cor verde
             livro.setMsg_retorno("Retorno: O livro '" + titulo + "' foi deletado com sucesso.");
@@ -176,7 +180,7 @@ public class M_Livro_DAO {
         return "acessoBibliotecario";
     }
 
-    public String editarLivro(M_Livro livro, boolean validaStatus){
+    public String editarLivro(M_Livro livro){
         //declaração de varáveis locais que nos ajudará nas tratativas de erros
         String titulo_anterior = "";
         Integer codlivro_local = 0;
@@ -213,6 +217,8 @@ public class M_Livro_DAO {
             }
 
             //este bloco realiza os updates apenas nos campos que foram preenchidos pelo usuário
+            st.executeUpdate("UPDATE `bibliotec`.`livro` SET dataalt = current_date() WHERE codlivro ="+ livro.getCodlivro() +";");
+
             if(!livro.getTitulo().equals("")){
                 st.executeUpdate("UPDATE `bibliotec`.`livro` SET titulo = '" + livro.getTitulo() + "' WHERE codlivro = " + livro.getCodlivro() + ";");
             }

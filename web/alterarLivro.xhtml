@@ -116,11 +116,11 @@
                 </div>
                 <div class="form-group">
                     <div class="form-group">
-                        <h:commandButton value="Cadastrar" class="btn btn-block btn-primary"
+                        <h:commandButton value="Cadastrar Livro" class="btn btn-block btn-primary"
                                          action="cadastrarLivro" url="cadastrarLivro.xhtml"></h:commandButton>
                     </div>
                     <div class="form-group">
-                        <h:commandButton value="Deletar" class="btn btn-block btn-primary"
+                        <h:commandButton value="Deletar Livro" class="btn btn-block btn-primary"
                                          action="deletarLivro"></h:commandButton>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                     <p:inputText value="#{livroBean.livro.titulo}" class="form-control" required="false" placeholder="Insira o título do livro"></p:inputText>
                 </div>
                 <div class="form-group">
-                    <h:commandButton value="Buscar" class="btn btn-block btn-primary"
+                    <h:commandButton value="Buscar Livro" class="btn btn-block btn-primary"
                                      action="#{livroBean.realizarConsultaLivroBibliotecario}"></h:commandButton>
                 </div>
             </h:form>
@@ -175,6 +175,14 @@
                         <p:column>
                             <f:facet name="header">Núm. Chamada</f:facet>
                             #{livro.numchamada}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Dt. Cad</f:facet>
+                            #{livro.datacad}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Dt. Alt</f:facet>
+                            #{livro.dataalt}
                         </p:column>
                         <p:column>
                             <f:facet name="header">Status</f:facet>
@@ -258,7 +266,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <h:commandButton value="Alterar" class="btn btn-block btn-primary"
+                            <h:commandButton value="Alterar Livro" class="btn btn-block btn-primary"
                                              rendered="true" onclick="abri()"></h:commandButton>
                         </div>
                     </h:form>

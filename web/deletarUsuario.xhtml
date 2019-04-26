@@ -24,28 +24,13 @@
                 right: 0;
                 margin: auto;
                 width: 500px;
-                height: 160px;
+                height: 180px;
                 padding: 15px;
                 border: solid 1pX black;
                 background: white;
                 display: none;
             }
 
-
-        </style>
-    </meta>
-    <script type="text/javascript">
-        function abrir() {
-            document.getElementById('popup').style.display = 'block';
-        }
-
-        function fechar() {
-            document.getElementById('popup').style.display = 'none';
-        }
-    </script>
-
-    <meta charset="utf-8">
-        <style>
             .conf {
                 position: fixed;
                 top: 10px;
@@ -61,9 +46,9 @@
                 display: none;
             }
 
-            .fechar {
+            .fechaAjuda {
                 position: absolute;
-                top: -120px;
+                top: -137px;
                 bottom: 0;
                 left: 0;
                 right: -460px;
@@ -77,6 +62,16 @@
             }
         </style>
     </meta>
+
+    <script type="text/javascript">
+        function abrir() {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function fechar() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
 
     <script type="text/javascript">
         function abri() {
@@ -117,7 +112,7 @@
         <div class="jumbotron">
             <h:form id="telaBalconista">
                 <div class="form-group">
-                    <h5 align="center">Controle de Usuarios</h5>
+                    <h5 align="center">Controle de Usuários</h5><br/>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Cadastrar Usuário" class="btn btn-block btn-primary"
@@ -132,7 +127,7 @@
                 <div class="form-group">
                     <h:outputLabel value="Nome do Usuário"/>
                     <p:inputText value="#{userBean.user.nome}" class="form-control" required="false"
-                                 placeholder="Insira o título do livro"></p:inputText>
+                                 placeholder="Insira o nome do usuário"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Buscar" class="btn btn-block btn-primary"
@@ -188,6 +183,18 @@
                         <p:column>
                             <f:facet name="header">Estado</f:facet>
                             #{usuario.estado}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Dt. Cad.</f:facet>
+                            #{usuario.datacad}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Dt. Alt.</f:facet>
+                            #{usuario.dataalt}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Dt. Nasc.</f:facet>
+                            #{usuario.datanasc}
                         </p:column>
                         <p:column>
                             <f:facet name="header">Permissão</f:facet>

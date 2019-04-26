@@ -6,6 +6,8 @@ import br.uem.din.bibliotec.config.model.M_Usuario_DAO;
 import javax.faces.bean.ManagedBean;
 import java.awt.*;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 //declaração do Bean
 @ManagedBean(name = "loginBean", eager = true)
@@ -33,6 +35,10 @@ public class C_Login {
 
     //realizando a chamado do método de autenticação na Model M_Usuario_DAO
     public String realizarAcesso() throws SQLException, AWTException {
+        System.out.println("abc");
+        Date data = new Date(System.currentTimeMillis());
+        SimpleDateFormat formatarDate = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.print(formatarDate.format(data));
         return userDAO.buscaPermissao(user);
     }
 }
