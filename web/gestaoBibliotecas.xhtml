@@ -31,18 +31,101 @@
             }
 
             .fechar {
+                 position: absolute;
+                 top: -200px;
+                 bottom: 0;
+                 left: 0;
+                 right: -460px;
+                 margin: auto;
+                 width: 25px;
+                 height: 25px;
+                 border: black 1px solid;
+                 border-radius: 3px;
+                 background: gray;
+                 color: blue;
+             }
+
+            .parteLogin {
                 position: absolute;
-                top: -200px;
+                top: -160px;
                 bottom: 0;
-                left: 0;
-                right: -460px;
+                left: -1077px;
+                right: 0px;
                 margin: auto;
-                width: 25px;
-                height: 25px;
-                border: black 1px solid;
-                border-radius: 3px;
-                background: gray;
-                color: blue;
+                width: 280px;
+                height: 290px;
+                border: darkgray 1px solid;
+                border-radius: 5px;
+                background: lightgray;
+                color: black;
+            }
+
+            .usuario {
+                position: absolute;
+                top: -230px;
+                bottom: 0;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                width: 250px;
+                height: 30px;
+            }
+
+            .senha {
+                position: absolute;
+                top: -90px;
+                bottom: 0;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                width: 250px;
+                height: 30px;
+            }
+
+            .login {
+                position: absolute;
+                top: 58px;
+                bottom: 0;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                width: 247px;
+                height: 30px;
+            }
+
+            .cadastro {
+                position: absolute;
+                top: 145px;
+                bottom: 0;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                width: 247px;
+                height: 30px;
+            }
+
+            .retorno {
+                position: absolute;
+                top: 245px;
+                bottom: 0;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                border: 1px;
+                width: 250px;
+                height: 30px;
+            }
+
+            .imagem {
+                position: absolute;
+                top: -420px;
+                bottom: 0;
+                left: 0px;
+                right: -1100px;
+                margin: auto;
+                border: 1px;
+                width: 250px;
+                height: 30px;
             }
         </style>
     </meta>
@@ -51,6 +134,7 @@
         function abrir() {
             document.getElementById('popup').style.display = 'block';
         }
+
         function fechar() {
             document.getElementById('popup').style.display = 'none';
         }
@@ -80,28 +164,29 @@
         <p:menuitem value="ACERVO" url="consultarAcervo.xhtml"></p:menuitem>
         <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
     </p:menubar>
-    <section alig="center" class="row">
-        <div class="jumbotron">
+    <section  class="row">
+        <div class="parteLogin" id="parteLogin">
 
-            <h:form id="telaInicio">
-                <h5 align="center">Acesso</h5><br></br>
-                <div class="form-group">
+            <h:form id="telaLogin">
+                <i><h5 align="center">Acesso</h5><br></br></i>
+                <div class="usuario" id="usuario">
                     <h:outputLabel value="Usuário"/><br></br>
-                    <p:inputText value="#{loginBean.user.usuario}" class="form-control" placeholder="Usuário ou E-mail"/>
+                    <p:inputText value="#{loginBean.user.usuario}" class="form-control"
+                                 placeholder="Usuário ou E-mail"/>
                 </div>
-                <div class="form-group">
+                <div class="senha" id="senha">
                     <h:outputLabel value="Senha"/><br></br>
                     <p:password value="#{loginBean.user.senha}" class="form-control" placeholder="Senha"/>
                 </div>
-                <div class="form-group">
+                <div class="login" id="login">
                     <h:commandButton value="Login" class="btn btn-block btn-primary"
                                      action="#{loginBean.realizarAcesso}"></h:commandButton>
                 </div>
-                <div class="form-group">
+                <div class="cadastro" id="cadastro">
                     <h:commandButton value="Cadastrar-se" class="btn btn-block btn-primary"
                                      action="cadastroUsuario" url="cadastroUsuario.xhtml"></h:commandButton>
                 </div>
-                <div align="center">
+                <div align="center" class="retorno" id="retorno">
                     <font color="red">
                         <i>
                             <h:outputLabel value="#{loginBean.user.msg_autenticacao}"/>
@@ -111,9 +196,10 @@
                 </div>
             </h:form>
         </div>
-        <div>
+
+        <div id="imagem" class="imagem">
             <a href="http://www.bce.uem.br/" title="Novas aquisições da BCE." target="_blank">
-                <img align="right" src="manchete.jpg" width="1090" height="475" alt="Banner UEM."/></a>
+                <img align="right" src="manchete.jpg" width="1070" height="475" alt="Banner UEM."/></a>
         </div>
     </section>
 </h:body>
