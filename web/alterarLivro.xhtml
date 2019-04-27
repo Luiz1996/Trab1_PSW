@@ -117,27 +117,27 @@
                 <div class="form-group">
                     <div class="form-group">
                         <h:commandButton value="Cadastrar Livro" class="btn btn-block btn-primary"
-                                         action="cadastrarLivro" url="cadastrarLivro.xhtml"></h:commandButton>
+                                         action="cadastrarLivro?faces-redirect=true" url="cadastrarLivro.xhtml"></h:commandButton>
                     </div>
                     <div class="form-group">
                         <h:commandButton value="Deletar Livro" class="btn btn-block btn-primary"
-                                         action="deletarLivro"></h:commandButton>
+                                         action="deletarLivro?faces-redirect=true"></h:commandButton>
                     </div>
                 </div>
             </h:form>
             <h:form id="buscarLivro">
                 <div class="form-group">
                     <h:outputLabel value="Título"/>
-                    <p:inputText value="#{livroBean.livro.titulo}" class="form-control" required="false" placeholder="Insira o título do livro"></p:inputText>
+                    <p:inputText value="#{c_Livro.livro.titulo}" class="form-control" required="false" placeholder="Insira o título do livro"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Buscar Livro" class="btn btn-block btn-primary"
-                                     action="#{livroBean.realizarConsultaLivroBibliotecario}"></h:commandButton>
+                                     action="#{c_Livro.realizarConsultaLivroBibliotecario}"></h:commandButton>
                 </div>
             </h:form>
             <section alig="center" class="row">
                 <div class="form-group">
-                    <p:dataTable value="#{livroBean.realizarConsultaLivroBibliotecario()}" var="livro" border="9"
+                    <p:dataTable value="#{c_Livro.realizarConsultaLivroBibliotecario()}" var="livro" border="9"
                                  rendered="true"
                                  title="Relação de Livros.">
                         <p:column>
@@ -193,57 +193,57 @@
                         <font color="red">**Inserir as informações apenas nos campos que deseja alterar**</font>
                     </p>
                     <h:form id="alterarLivro">
-                        #{livroBean.livro.titulo = ""}
+                        #{c_Livro.livro.titulo = ""}
                         <div class="form-group">
                             <h:outputLabel value="Título"/>
-                            <p:inputText value="#{livroBean.livro.titulo}" class="form-control"
+                            <p:inputText value="#{c_Livro.livro.titulo}" class="form-control"
                                          required="false" placeholder="Insira o título do livro"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Autor(a)"/>
-                            <p:inputText value="#{livroBean.livro.autor}" class="form-control"
+                            <p:inputText value="#{c_Livro.livro.autor}" class="form-control"
                                          required="false" placeholder="Insira o nome do autor do livro"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Edtora"/>
-                            <p:inputText value="#{livroBean.livro.editora}" class="form-control"
+                            <p:inputText value="#{c_Livro.livro.editora}" class="form-control"
                                          required="false" placeholder="Insira o nome da editora"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Ano lançamento"/>
-                            <p:inputText value="#{livroBean.livro.anolancamento}" class="form-control"
+                            <p:inputText value="#{c_Livro.livro.anolancamento}" class="form-control"
                                          required="false" placeholder="Insira o ano de lançamento"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Cidade"/>
-                            <p:inputText value="#{livroBean.livro.cidade}" class="form-control"
+                            <p:inputText value="#{c_Livro.livro.cidade}" class="form-control"
                                          required="false" placeholder="Insira a cidade"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Volume"/>
-                            <p:inputText value="#{livroBean.livro.volume}" class="form-control"
+                            <p:inputText value="#{c_Livro.livro.volume}" class="form-control"
                                          required="false" placeholder="Insira o volume do livro"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Código Catalogação"/>
-                            <p:inputText value="#{livroBean.livro.codcatalogacao}" class="form-control"
+                            <p:inputText value="#{c_Livro.livro.codcatalogacao}" class="form-control"
                                          required="false" placeholder="Insira o código de catalogação"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Número Chamada"/>
-                            <p:inputText value="#{livroBean.livro.numchamada}" class="form-control"
+                            <p:inputText value="#{c_Livro.livro.numchamada}" class="form-control"
                                          required="false" placeholder="Insira o número de chamado"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Id do Livro"/><font color="red">*</font>
-                            <p:inputText value="#{livroBean.livro.codlivro}" class="form-control"
+                            <p:inputText value="#{c_Livro.livro.codlivro}" class="form-control"
                                          required="true" placeholder="Insira o Id do livro"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputText value="Status do Livro"/><font color="red">*</font>
                             <div align="left" class="form-group">
                                 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                                    <p:selectOneButton value="#{livroBean.livro.ativo}" required="true">
+                                    <p:selectOneButton value="#{c_Livro.livro.ativo}" required="true">
                                         <f:selectItem itemLabel="Ativar" itemValue='1'/>
                                         <f:selectItem itemLabel="Inativar" itemValue='0'/>
                                     </p:selectOneButton>
@@ -256,7 +256,7 @@
                                 <h:form>
                                     <div class="form-group">
                                         <h:commandButton value="Sim" class="btn btn-block btn-primary"
-                                                         action="#{livroBean.realizarEdicaoLivro}"/>
+                                                         action="#{c_Livro.realizarEdicaoLivro}"/>
                                     </div>
                                     <div class="form-group">
                                         <h:commandButton value="Não" class="btn btn-block btn-primary"

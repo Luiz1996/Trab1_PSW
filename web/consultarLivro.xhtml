@@ -84,15 +84,15 @@
                 <div class="form-group">
                     <div class="form-group">
                         <h:commandButton value="Cadastrar Livro" class="btn btn-block btn-primary"
-                                         action="cadastrarLivro" url="cadastrarLivro.xhtml"></h:commandButton>
+                                         action="cadastrarLivro?faces-redirect=true" url="cadastrarLivro.xhtml"></h:commandButton>
                     </div>
                     <div class="form-group">
                         <h:commandButton value="Alterar Livro" class="btn btn-block btn-primary"
-                                         action="alterarLivro" url="cadastrarLivro.xhtml"></h:commandButton>
+                                         action="alterarLivro?faces-redirect=true" url="cadastrarLivro.xhtml"></h:commandButton>
                     </div>
                     <div class="form-group">
                         <h:commandButton value="Deletar Livro" class="btn btn-block btn-primary"
-                                         action="deletarLivro" url="deletarLivro.xhtml"></h:commandButton>
+                                         action="deletarLivro?faces-redirect=true" url="deletarLivro.xhtml"></h:commandButton>
                     </div>
                 </div>
             </h:form>
@@ -101,15 +101,15 @@
                     <h:form id="telaConsultaBibliotecario">
                         <div class="form-group">
                             <h:outputLabel value="Título"/>
-                            <p:inputText value="#{livroBean.livro.titulo}" class="form-control" required="false"
+                            <p:inputText value="#{c_Livro.livro.titulo}" class="form-control" required="false"
                                          placeholder="Insira o título do livro"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:commandButton value="Buscar Livro" class="btn btn-block btn-primary"
-                                             action="#{livroBean.realizarConsultaLivroBibliotecario}"/>
+                                             action="#{c_Livro.realizarConsultaLivroBibliotecario}"/>
                         </div>
                     </h:form>
-                    <p:dataTable value="#{livroBean.realizarConsultaLivroBibliotecario()}" var="livro" border="9"
+                    <p:dataTable value="#{c_Livro.realizarConsultaLivroBibliotecario()}" var="livro" border="9"
                                  rendered="true"
                                  title="Relação de Livros.">
                         <p:column>

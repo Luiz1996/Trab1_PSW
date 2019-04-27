@@ -95,8 +95,8 @@
 
     <div align="left" class="retornos" id="retornos">
         <b>
-            <font color="#{userBean.user.color_msg}">
-                #{userBean.user.msg_autenticacao}
+            <font color="#{c_Usuario.user.color_msg}">
+                #{c_Usuario.user.msg_autenticacao}
             </font>
         </b>
     </div>
@@ -116,16 +116,16 @@
                 <div class="form-group">
                     <div class="form-group">
                         <h:commandButton value="Cadastrar" class="btn btn-block btn-primary"
-                                         action="cadastrarUsuarioBalconista"></h:commandButton>
+                                         action="cadastrarUsuarioBalconista?faces-redirect=true"></h:commandButton>
 
                         <h:commandButton value="Consultar" class="btn btn-block btn-primary"
-                                         action="consultaUsuario"></h:commandButton>
+                                         action="consultaUsuario?faces-redirect=true"></h:commandButton>
 
                         <h:commandButton value="Alterar" class="btn btn-block btn-primary"
-                                         action="editarUsuario"></h:commandButton>
+                                         action="editarUsuario?faces-redirect=true"></h:commandButton>
 
                         <h:commandButton value="Deletar" class="btn btn-block btn-primary"
-                                         action="deletarUsuario"></h:commandButton>
+                                         action="deletarUsuario?faces-redirect=true"></h:commandButton>
 
 
                     </div>
@@ -138,16 +138,16 @@
                 <div class="form-group">
                     <div class="form-group">
                         <h:commandButton value="Cadastrar" class="btn btn-block btn-primary"
-                                         action="acessoBalconista"></h:commandButton>
+                                         action="acessoBalconista?faces-redirect=true"></h:commandButton>
 
                         <h:commandButton value="Consultar" class="btn btn-block btn-primary"
-                                         action="acessoBalconista"></h:commandButton>
+                                         action="acessoBalconista?faces-redirect=true"></h:commandButton>
 
                         <h:commandButton value="Alterar" class="btn btn-block btn-primary"
-                                         action="acessoBalconista"></h:commandButton>
+                                         action="acessoBalconista?faces-redirect=true"></h:commandButton>
 
                         <h:commandButton value="Deletar" class="btn btn-block btn-primary"
-                                         action="acessoBalconista"></h:commandButton>
+                                         action="acessoBalconista?faces-redirect=true"></h:commandButton>
 
 
                     </div>

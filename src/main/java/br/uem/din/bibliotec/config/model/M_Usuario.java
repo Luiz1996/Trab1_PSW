@@ -43,6 +43,11 @@ public class M_Usuario {
         this.color_msg = color_msg;
     }
 
+    public M_Usuario(String usuario, String senha) {
+        this.usuario = usuario;
+        this.senha = senha;
+    }
+
     public M_Usuario(String email, String usuario, String senha, String nome, String rg, String cpf, String endereco, String cep, String cidade, String estado, String msg_autenticacao, String color_msg, int permissao, int ativo, String status, String perfil, int codusuario) {
         this.email = email;
         this.usuario = usuario;

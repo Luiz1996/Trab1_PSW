@@ -3,12 +3,15 @@ package br.uem.din.bibliotec.config.controller;
 import br.uem.din.bibliotec.config.model.M_Usuario;
 import br.uem.din.bibliotec.config.model.M_Usuario_DAO;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.List;
 
-@ManagedBean(name = "userBean", eager = true)
+//declaração do Bean
+@Named
+@RequestScoped
 public class C_Usuario {
     //atributos do controller
     M_Usuario user = new M_Usuario("","","","","","","","","","",0,-1,"","");

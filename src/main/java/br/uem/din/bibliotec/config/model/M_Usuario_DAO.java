@@ -189,7 +189,7 @@ public class M_Usuario_DAO {
             }
 
             if (codusuario == 0) {
-                user.setMsg_autenticacao("Retorno: Não existe usuário com Id '" + codusuario + "' cadastrado em nosso sistema, deleção falhou.");
+                user.setMsg_autenticacao("Retorno: Não existe usuário com Id informado em nosso sistema, deleção falhou.");
                 user.setColor_msg(FALHA);
                 return "acessoBalconista";
             }
@@ -244,7 +244,7 @@ public class M_Usuario_DAO {
 
             //valida se o código do usuário foi fornecido de forma incorreta, ou seja, usuário inexistente na base de dados
             if (codusuario == 0) {
-                user.setMsg_autenticacao("Retorno: O usuário com Id " + user.getCodusuario() + " não existe, edição falhou.");
+                user.setMsg_autenticacao("Retorno: O usuário com Id informado não existe, edição falhou.");
                 user.setColor_msg(FALHA);
                 return "acessoBalconista";
             }
@@ -307,7 +307,7 @@ public class M_Usuario_DAO {
             if (user.getNome().equals("")) {
                 user.setMsg_autenticacao("Retorno: As informações do usuário '" + nome_anterior + "' foram atualizadas com sucesso.");
             } else {
-                user.setMsg_autenticacao("Retorno: As informações do livro '" + user.getNome() + "' foram atualizadas com sucesso.");
+                user.setMsg_autenticacao("Retorno: As informações do usuário '" + user.getNome() + "' foram atualizadas com sucesso.");
             }
             user.setColor_msg(SUCESSO);
 
