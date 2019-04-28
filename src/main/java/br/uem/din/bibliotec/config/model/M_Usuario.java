@@ -91,6 +91,8 @@ public class M_Usuario {
         this.datanasc = datanasc;
     }
 
+    public M_Usuario(int codusuario) { this.codusuario = codusuario; }
+
     public String getDatanasc() { return datanasc; }
 
     public void setDatanasc(String datanasc) { this.datanasc = datanasc; }

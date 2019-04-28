@@ -70,6 +70,8 @@ public class M_Livro {
         this.dataalt = dataalt;
     }
 
+    public M_Livro(Integer codlivro) { this.codlivro = codlivro; }
+
     public String getDatacad() { return datacad; }
 
     public void setDatacad(String datacad) { this.datacad = datacad; }

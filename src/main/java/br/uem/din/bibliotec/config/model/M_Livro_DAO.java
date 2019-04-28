@@ -53,7 +53,7 @@ public class M_Livro_DAO {
     }
 
 
-    public List<M_Livro> consultarLivro(M_Livro livro) throws SQLException {
+    public List<M_Livro> consultarLivro(M_Livro livro, int soDisponiveis) throws SQLException {
         //realiza conexão com banco de dados
         Conexao con = new Conexao();
         con.conexao.setAutoCommit(true);
@@ -63,8 +63,12 @@ public class M_Livro_DAO {
         livro.setEditora(livro.getTitulo());
         livro.setAutor(livro.getTitulo());
 
-        //busca todas as informações de acordo com titulo informado
-        st.execute("select * from `bibliotec`.`livro` where (titulo like \"%"+ livro.getTitulo() +"%\" or autor like \"%" + livro.getAutor() + "%\" or editora like \"%" + livro.getEditora() + "%\") and ativo = '1' order by 2;");
+        //busca todas as informações de acordo com os dados fornecidos
+        if(soDisponiveis == 0){
+            st.execute("select * from `bibliotec`.`livro` where (titulo like \"%"+ livro.getTitulo() +"%\" or autor like \"%" + livro.getAutor() + "%\" or editora like \"%" + livro.getEditora() + "%\") and ativo = '1' order by 2;");
+        }else{
+            st.execute("select * from `bibliotec`.`livro` where (titulo like \"%"+ livro.getTitulo() +"%\" or autor like \"%" + livro.getAutor() + "%\" or editora like \"%" + livro.getEditora() + "%\") and ativo = '1' and disponiblidade = 1 order by 2;");
+        }
         ResultSet rs = st.getResultSet();
 
         //declaração do arrayList para auxiliar na impressão da dataTable do consultar acervo do Visitante

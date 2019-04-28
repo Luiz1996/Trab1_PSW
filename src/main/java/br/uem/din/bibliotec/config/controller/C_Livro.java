@@ -40,7 +40,11 @@ public class C_Livro {
 
     //método para consultar livro(s)
     public List<M_Livro> realizarConsultaLivro() throws SQLException {
-        return livroDAO.consultarLivro(livro);
+        return livroDAO.consultarLivro(livro, 0);
+    }
+
+    public List<M_Livro> realizarConsultaLivroEmp() throws SQLException {
+        return livroDAO.consultarLivro(livro, 1);
     }
 
     public List<M_Livro> realizarConsultaLivroBibliotecario() throws SQLException {

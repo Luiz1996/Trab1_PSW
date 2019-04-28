@@ -45,7 +45,11 @@ public class C_Usuario {
 
     //chama método de consulta de usuários no model
     public List<M_Usuario> realizaConsultaUsuario() throws SQLException {
-        return userDAO.consultarUsuarioBalconista(user);
+        return userDAO.consultarUsuarioBalconista(user, 0);
+    }
+
+    public List<M_Usuario> realizaConsultaUsuarioEmp() throws SQLException {
+        return userDAO.consultarUsuarioBalconista(user, 1);
     }
 
     //chama método de deleção de usuários no model
