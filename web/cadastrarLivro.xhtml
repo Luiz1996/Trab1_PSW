@@ -102,37 +102,37 @@
                 <div class="form-group">
                     <h:outputLabel value="Título"  /><font color="red">*</font>
                     <p:inputText value="#{c_Livro.livro.titulo}" class="form-control"
-                                 required="true" placeholder="Insira o título do livro"></p:inputText>
+                                 maxlength="60" required="true" placeholder="Insira o título do livro"></p:inputText>
 
 
                     <h:outputLabel value="Autor"/><font color="red">*</font>
                     <p:inputText value="#{c_Livro.livro.autor}" class="form-control"
-                                 required="true" placeholder="Insira o nome do autor"></p:inputText>
+                                 maxlength="60" required="true" placeholder="Insira o nome do autor"></p:inputText>
 
                     <h:outputLabel value="Editora"/><font color="red">*</font>
                     <p:inputText value="#{c_Livro.livro.editora}" class="form-control"
-                                 required="true" placeholder="Insira o nome da editora"></p:inputText>
+                                 maxlength="60" required="true" placeholder="Insira o nome da editora"></p:inputText>
 
                     <h:outputLabel value="Ano Lançamento"/><font color="red">*</font>
                     <p:inputText value="#{c_Livro.livro.anolancamento}" class="form-control"
-                                 required="true" placeholder="Insira o ano lançamento"></p:inputText>
+                                 maxlength="4" required="true" placeholder="Insira o ano lançamento"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Cidade"/><font color="red">*</font>
                     <p:inputText value="#{c_Livro.livro.cidade}" class="form-control"
-                                 required="true" placeholder="Insira a cidade"></p:inputText>
+                                 maxlength="60" required="true" placeholder="Insira a cidade"></p:inputText>
 
                     <h:outputLabel value="Volume"/><font color="red">*</font>
                     <p:inputText value="#{c_Livro.livro.volume}" class="form-control"
-                                 required="true" placeholder="Insira o volume"></p:inputText>
+                                 maxlength="2" required="true" placeholder="Insira o volume"></p:inputText>
 
                     <h:outputLabel value="Código de Catalogação"/><font color="red">*</font>
                     <p:inputText value="#{c_Livro.livro.codcatalogacao}" class="form-control"
-                                 required="true" placeholder="Insira o código de catalogação"></p:inputText>
+                                 maxlength="15" required="true" placeholder="Insira o código de catalogação"></p:inputText>
 
                     <h:outputLabel value="Número Chamada"/><font color="red">*</font>
                     <p:inputText value="#{c_Livro.livro.numchamada}" class="form-control"
-                                 required="true" placeholder="Insira o número de chamada"></p:inputText>
+                                 maxlength="15" required="true" placeholder="Insira o número de chamada"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Cadastrar Livro" class="btn btn-block btn-primary"

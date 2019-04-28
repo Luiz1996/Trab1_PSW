@@ -58,6 +58,20 @@
                 background: white;
                 display: none;
             }
+
+            .section {
+                position: fixed;
+                top: -126px;
+                bottom: 0;
+                left: 0;
+                right: 1150px;
+                margin: auto;
+                width: 200px;
+                height: 300px;
+                padding: 15px;
+                border-radius: 5px;
+                color: black;
+            }
         </style>
     </meta>
 
@@ -119,39 +133,47 @@
     </div>
 
     <i><h1 align="center"> BiblioTec </h1></i>
-    <p:menubar style="align-items: center">
-        <p:menuitem value="SAIR" url="gestaoBibliotecas.xhtml"></p:menuitem>
-        <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
-    </p:menubar>
-    <section alig="center" class="row">
-        <div class="jumbotron">
-            <h:form id="telaBibliotecario">
-                <div class="form-group">
-                    <h5 align="center">Acervo de Livros</h5><br/>
-                </div>
-                <div class="form-group">
+    <div id="menu" class="menu">
+        <p:menubar style="align-items: center">
+            <p:menuitem value="SAIR" url="gestaoBibliotecas.xhtml"></p:menuitem>
+            <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
+        </p:menubar>
+    </div>
+    <div id="section" class="section">
+        <section alig="center" class="row">
+            <div class="jumbotron">
+                <h:form id="telaBibliotecario">
                     <div class="form-group">
-                        <h:commandButton value="Cadastrar" class="btn btn-block btn-primary"
-                                         action="cadastrarLivro?faces-redirect=true" url="cadastrarLivro.xhtml"></h:commandButton>
+                        <h5 align="center">Acervo de Livros</h5><br/>
                     </div>
                     <div class="form-group">
-                        <h:commandButton value="Consultar" class="btn btn-block btn-primary"
-                                         action="consultarLivro?faces-redirect=true" url="consultarLivro.xhtml"></h:commandButton>
+                        <div class="form-group">
+                            <h:commandButton value="Cadastrar" class="btn btn-block btn-primary"
+                                             action="cadastrarLivro?faces-redirect=true"
+                                             url="cadastrarLivro.xhtml"></h:commandButton>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton value="Consultar" class="btn btn-block btn-primary"
+                                             action="consultarLivro?faces-redirect=true"
+                                             url="consultarLivro.xhtml"></h:commandButton>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton value="Alterar" class="btn btn-block btn-primary"
+                                             action="alterarLivro?faces-redirect=true"
+                                             url="cadastrarLivro.xhtml"></h:commandButton>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton value="Deletar" class="btn btn-block btn-primary"
+                                             action="deletarLivro?faces-redirect=true"
+                                             url="deletarLivro.xhtml"></h:commandButton>
+                        </div>
+                        <div class="form-group">
+                            <p> Perfil: Bibliotecário</p>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <h:commandButton value="Alterar" class="btn btn-block btn-primary"
-                                         action="alterarLivro?faces-redirect=true" url="cadastrarLivro.xhtml"></h:commandButton>
-                    </div>
-                    <div class="form-group">
-                        <h:commandButton value="Deletar" class="btn btn-block btn-primary"
-                                         action="deletarLivro?faces-redirect=true" url="deletarLivro.xhtml"></h:commandButton>
-                    </div>
-                    <div class="form-group">
-                        <p> Perfil: Bibliotecário</p>
-                    </div>
-                </div>
-            </h:form>
-        </div>
-    </section>
+                </h:form>
+            </div>
+        </section>
+    </div>
 </h:body>
 </html>

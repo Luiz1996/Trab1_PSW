@@ -133,8 +133,8 @@
             </h:form>
             <h:form id="buscarLivro">
                 <div class="form-group">
-                    <h:outputLabel value="Título"/>
-                    <p:inputText value="#{c_Livro.livro.titulo}" class="form-control" required="false" placeholder="Insira o título do livro"></p:inputText>
+                    <h:outputLabel value="Título, Autor ou Editora"/>
+                    <p:inputText maxlength="100" value="#{c_Livro.livro.titulo}" class="form-control" required="false" placeholder="Insira o título, autor ou editora do livro desejado"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Buscar Livro" class="btn btn-block btn-primary"

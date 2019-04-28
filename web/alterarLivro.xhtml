@@ -127,8 +127,8 @@
             </h:form>
             <h:form id="buscarLivro">
                 <div class="form-group">
-                    <h:outputLabel value="Título"/>
-                    <p:inputText value="#{c_Livro.livro.titulo}" class="form-control" required="false" placeholder="Insira o título do livro"></p:inputText>
+                    <h:outputLabel value="Título, Autor ou Editora"/>
+                    <p:inputText maxlength="60" value="#{c_Livro.livro.titulo}" class="form-control" required="false" placeholder="Insira o título, autor ou editora do livro desejado"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Buscar Livro" class="btn btn-block btn-primary"
@@ -194,45 +194,47 @@
                     </p>
                     <h:form id="alterarLivro">
                         #{c_Livro.livro.titulo = ""}
+                        #{c_Livro.livro.autor = ""}
+                        #{c_Livro.livro.editora = ""}
                         <div class="form-group">
                             <h:outputLabel value="Título"/>
                             <p:inputText value="#{c_Livro.livro.titulo}" class="form-control"
-                                         required="false" placeholder="Insira o título do livro"></p:inputText>
+                                         maxlength="60" required="false" placeholder="Insira o título do livro"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Autor(a)"/>
                             <p:inputText value="#{c_Livro.livro.autor}" class="form-control"
-                                         required="false" placeholder="Insira o nome do autor do livro"></p:inputText>
+                                         maxlength="60" required="false" placeholder="Insira o nome do autor do livro"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Edtora"/>
                             <p:inputText value="#{c_Livro.livro.editora}" class="form-control"
-                                         required="false" placeholder="Insira o nome da editora"></p:inputText>
+                                         maxlength="60" required="false" placeholder="Insira o nome da editora"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Ano lançamento"/>
                             <p:inputText value="#{c_Livro.livro.anolancamento}" class="form-control"
-                                         required="false" placeholder="Insira o ano de lançamento"></p:inputText>
+                                         maxlength="4"required="false" placeholder="Insira o ano de lançamento"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Cidade"/>
                             <p:inputText value="#{c_Livro.livro.cidade}" class="form-control"
-                                         required="false" placeholder="Insira a cidade"></p:inputText>
+                                         maxlength="60" required="false" placeholder="Insira a cidade"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Volume"/>
                             <p:inputText value="#{c_Livro.livro.volume}" class="form-control"
-                                         required="false" placeholder="Insira o volume do livro"></p:inputText>
+                                         maxlength="2" required="false" placeholder="Insira o volume do livro"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Código Catalogação"/>
                             <p:inputText value="#{c_Livro.livro.codcatalogacao}" class="form-control"
-                                         required="false" placeholder="Insira o código de catalogação"></p:inputText>
+                                         maxlength="15" required="false" placeholder="Insira o código de catalogação"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Número Chamada"/>
                             <p:inputText value="#{c_Livro.livro.numchamada}" class="form-control"
-                                         required="false" placeholder="Insira o número de chamado"></p:inputText>
+                                         maxlength="15" required="false" placeholder="Insira o número de chamado"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Id do Livro"/><font color="red">*</font>

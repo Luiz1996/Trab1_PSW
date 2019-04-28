@@ -125,9 +125,9 @@
             </h:form>
             <h:form id="buscarUsuário">
                 <div class="form-group">
-                    <h:outputLabel value="Nome do Usuário"/>
+                    <h:outputLabel value="Nome do Usuário, Username, E-Mail ou CPF"/>
                     <p:inputText value="#{c_Usuario.user.nome}" class="form-control" required="false"
-                                 placeholder="Insira o nome do usuário"></p:inputText>
+                                 placeholder="Insira o nome do usuário, username, e-mail ou cpf" maxlength="100"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Buscar" class="btn btn-block btn-primary"
@@ -137,8 +137,7 @@
 
                 <div class="form-group">
                     <p:dataTable value="#{c_Usuario.realizaConsultaUsuario()}" var="usuario" border="9"
-                                 rendered="true"
-                                 title="Relação de Usuários.">
+                                 rendered="true" title="Relação de Usuários.">
 
                         <f:facet name="header">
                             Relação de Usuários
@@ -207,57 +206,59 @@
                     <p align="center">
                         <font color="red">**Inserir as informações apenas nos campos que deseja alterar**</font>
                     </p>
+                    #{c_Usuario.user.nome = ""}
+                    #{c_Usuario.user.usuario = ""}
+                    #{c_Usuario.user.cpf = ""}
+                    #{c_Usuario.user.email = ""}
                     <h:form id="alterarUsuario">
-                        #{c_Usuario.user.nome = ""}
                         <div class="form-group">
                             <h:outputLabel value="Nome"/>
                             <p:inputText value="#{c_Usuario.user.nome}" class="form-control"
-                                         required="false" placeholder="Insira o nome do usuário"></p:inputText>
+                                         maxlength="60" required="false" placeholder="Insira o nome do usuário"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Usuário"/>
                             <p:inputText value="#{c_Usuario.user.usuario}" class="form-control"
-                                         required="false" placeholder="Insira o username"></p:inputText>
+                                         maxlength="30" required="false" placeholder="Insira o username"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="E-Mail"/>
                             <p:inputText value="#{c_Usuario.user.email}" class="form-control"
-                                         required="false" placeholder="Insira o novo e-mail"></p:inputText>
+                                         maxlength="100" required="false" placeholder="Insira o novo e-mail"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="RG"/>
                             <p:inputText value="#{c_Usuario.user.rg}" class="form-control"
-                                         required="false" placeholder="Insira o RG(somente números)"></p:inputText>
+                                         maxlength="10" required="false" placeholder="Insira o RG(somente números)"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="CPF"/>
                             <p:inputText value="#{c_Usuario.user.cpf}" class="form-control"
-                                         required="false" placeholder="Insira o CPF(somente números)"></p:inputText>
+                                         maxlength="15" required="false" placeholder="Insira o CPF(somente números)"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Endereço"/>
                             <p:inputText value="#{c_Usuario.user.endereco}" class="form-control"
-                                         required="false" placeholder="Insira o novo endereço do usuário"></p:inputText>
+                                         maxlength="100" required="false" placeholder="Insira o novo endereço do usuário"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="CEP"/>
                             <p:inputText value="#{c_Usuario.user.cep}" class="form-control"
-                                         required="false" placeholder="Insira o novo CEP(somente números)"></p:inputText>
+                                         maxlength="9" required="false" placeholder="Insira o novo CEP(somente números)"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Cidade"/>
                             <p:inputText value="#{c_Usuario.user.cidade}" class="form-control"
-                                         required="false" placeholder="Insira a nova cidade do usuário"></p:inputText>
+                                         maxlength="60" required="false" placeholder="Insira a nova cidade do usuário"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Estado"/>
                             <p:inputText value="#{c_Usuario.user.estado}" class="form-control"
-                                         required="false" placeholder="Insira o novo estado do usuário"></p:inputText>
+                                         maxlength="20" required="false" placeholder="Insira o novo estado do usuário"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Data Nascimento"/>
-                            <p:inputText value="#{c_Usuario.user.datanasc}" class="form-control"
-                                         required="false" placeholder="AAAA-MM-DD"></p:inputText>
+                            <p:inputMask class="form-control" value="#{c_Usuario.user.datanasc}" mask="99/99/9999" placeholder="DD/MM/AAAA" maxlength="10"/>
                         </div>
 
                         <h:outputText value="Perfil de Usuário"/>

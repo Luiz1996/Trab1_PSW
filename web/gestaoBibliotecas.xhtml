@@ -172,11 +172,11 @@
                 <div class="usuario" id="usuario">
                     <h:outputLabel value="Usuário"/><br></br>
                     <p:inputText value="#{c_Login.user.usuario}" class="form-control"
-                                 placeholder="Usuário ou E-mail"/>
+                                 placeholder="Usuário, E-mail ou CPF" maxlength="100"/>
                 </div>
                 <div class="senha" id="senha">
                     <h:outputLabel value="Senha"/><br></br>
-                    <p:password value="#{c_Login.user.senha}" class="form-control" placeholder="Senha"/>
+                    <p:password value="#{c_Login.user.senha}" class="form-control" maxlength="30" placeholder="Senha"/>
                 </div>
                 <div class="login" id="login">
                     <h:commandButton value="Login" class="btn btn-block btn-primary"

@@ -125,9 +125,9 @@
             </h:form>
             <h:form id="buscarLivro">
                 <div class="form-group">
-                    <h:outputLabel value="Nome do Usuário"/>
+                    <h:outputLabel value="Nome do Usuário, Username, E-Mail ou CPF"/>
                     <p:inputText value="#{c_Usuario.user.nome}" class="form-control" required="false"
-                                 placeholder="Insira o nome do usuário"></p:inputText>
+                                 placeholder="Insira o nome do usuário, username, e-mail ou cpf" maxlength="100"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Buscar" class="btn btn-block btn-primary"

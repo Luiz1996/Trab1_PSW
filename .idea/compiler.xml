@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="BiblioTec" target="7" />
+      <module name="BiblioTec" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

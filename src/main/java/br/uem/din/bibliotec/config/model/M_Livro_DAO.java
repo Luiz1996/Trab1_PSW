@@ -13,6 +13,17 @@ public class M_Livro_DAO {
     final String SUCESSO = "green";
     final String FALHA = "red";
 
+    //como o dado é informado como AAAA-MM-DD precisamos convertê-la para o formato do brasileiro ao imprimir no front-end ao usuário
+    public String formatadorDatasBrasil(String data){
+        if(data == null){
+            return " ";
+        }else{
+            String[] dataSeparada = data.split("-");
+            String dataPadraoBrasil = dataSeparada[2]+"/"+dataSeparada[1]+"/"+dataSeparada[0];
+            return dataPadraoBrasil.trim();
+        }
+    }
+
     //método de cadastramento de livro
     public String cadastrarLivro(M_Livro livro) throws SQLException {
         try {
@@ -48,8 +59,12 @@ public class M_Livro_DAO {
         con.conexao.setAutoCommit(true);
         Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
+        //setando os valores obtidos no front-end para realizar busca no banco de dados
+        livro.setEditora(livro.getTitulo());
+        livro.setAutor(livro.getTitulo());
+
         //busca todas as informações de acordo com titulo informado
-        st.execute("select * from `bibliotec`.`livro` where titulo like \"%"+ livro.getTitulo() +"%\" and ativo = '1' order by 2;");
+        st.execute("select * from `bibliotec`.`livro` where (titulo like \"%"+ livro.getTitulo() +"%\" or autor like \"%" + livro.getAutor() + "%\" or editora like \"%" + livro.getEditora() + "%\") and ativo = '1' order by 2;");
         ResultSet rs = st.getResultSet();
 
         //declaração do arrayList para auxiliar na impressão da dataTable do consultar acervo do Visitante
@@ -85,8 +100,12 @@ public class M_Livro_DAO {
         con.conexao.setAutoCommit(true);
         Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
+        //setando os valores obtidos no front-end para realizar busca no banco de dados
+        livro.setEditora(livro.getTitulo());
+        livro.setAutor(livro.getTitulo());
+
         //buscando as informações no banco de dados de acordo com o titulo do livro informado pelo usupario, essa busca possui diferencial da coluna Status (Ativo/Inativo)
-        st.execute("select l.codlivro, l.codcatalogacao, l.numchamada, l.titulo, l.autor, l.editora, l.anolancamento, l.cidade, l.volume, l.ativo, case when l.ativo = 1 then \" Ativo \" else \" Inativo \" end as status, datacad, dataalt from livro l where l.titulo like \"%"+ livro.getTitulo() +"%\" order by 1 ;");
+        st.execute("select l.codlivro, l.codcatalogacao, l.numchamada, l.titulo, l.autor, l.editora, l.anolancamento, l.cidade, l.volume, l.ativo, case when l.ativo = 1 then \" Ativo \" else \" Inativo \" end as status, datacad, dataalt from livro l where (l.titulo like \"%"+ livro.getTitulo() +"%\" or l.autor like \"%" + livro.getAutor() + "%\" or l.editora like \"%" + livro.getEditora() + "%\") order by 1 ;");
         ResultSet rs = st.getResultSet();
 
         //declara o arrayList que será usado no dataTable do Bibliotecário
@@ -108,8 +127,8 @@ public class M_Livro_DAO {
                     rs.getString("status"),
                    "",
                    "",
-                   rs.getString("datacad"),
-                   rs.getString("dataalt")
+                   formatadorDatasBrasil(rs.getString("datacad")),
+                   formatadorDatasBrasil(rs.getString("dataalt"))
                    );
 
             livros.add(livro_temporario);
