@@ -188,6 +188,10 @@
                             <f:facet name="header">Status</f:facet>
                             #{livro.status}
                         </p:column>
+                        <p:column>
+                            <f:facet name="header">Dispon</f:facet>
+                            #{livro.disponibilidade}
+                        </p:column>
                     </p:dataTable>
                     <p align="center">
                         <font color="red">**Inserir as informações apenas nos campos que deseja alterar**</font>
@@ -214,7 +218,7 @@
                         <div class="form-group">
                             <h:outputLabel value="Ano lançamento"/>
                             <p:inputText value="#{c_Livro.livro.anolancamento}" class="form-control"
-                                         maxlength="4"required="false" placeholder="Insira o ano de lançamento"></p:inputText>
+                                         maxlength="4" required="false" placeholder="Insira o ano de lançamento"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:outputLabel value="Cidade"/>
@@ -237,11 +241,6 @@
                                          maxlength="15" required="false" placeholder="Insira o número de chamado"></p:inputText>
                         </div>
                         <div class="form-group">
-                            <h:outputLabel value="Id do Livro"/><font color="red">*</font>
-                            <p:inputText value="#{c_Livro.livro.codlivro}" class="form-control"
-                                         required="true" placeholder="Insira o Id do livro"></p:inputText>
-                        </div>
-                        <div class="form-group">
                             <h:outputText value="Status do Livro"/><font color="red">*</font>
                             <div align="left" class="form-group">
                                 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
@@ -250,6 +249,20 @@
                                         <f:selectItem itemLabel="Inativar" itemValue='0'/>
                                     </p:selectOneButton>
                                 </h:panelGrid>
+                            </div>
+                            <h:outputText value="Torná-lo disponível para empréstimos?"/><font color="red">*</font>
+                            <div align="left" class="form-group">
+                                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                    <p:selectOneButton value="#{c_Livro.livro.disponibilidade}" required="true">
+                                        <f:selectItem itemLabel="Sim" itemValue='1'/>
+                                        <f:selectItem itemLabel="Não" itemValue='0'/>
+                                    </p:selectOneButton>
+                                </h:panelGrid>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="Id do Livro"/><font color="red">*</font>
+                                <p:inputText value="#{c_Livro.livro.codlivro}" class="form-control"
+                                             required="true" placeholder="Insira o Id do livro"></p:inputText>
                             </div>
                             <div id="conf" class="conf">
                                 <p align="center">

@@ -24,7 +24,7 @@
                 right: 0px;
                 margin: auto;
                 width: 650px;
-                height: 150px;
+                height: 160px;
                 padding: 15px;
                 border: solid 1pX black;
                 background: white;
@@ -65,8 +65,9 @@
             <b></b>
             <p>
                 Para cadastrar um empréstimo em nosso sistema, siga os passos abaixo:<br/>
-                1º) Fornecer os dados necessário,<b> é obrigatório o preenchimento de todos os dados. </b><br/>
-                2º) Após preencher corretamente todos os dados, clique em <b>Enviar dados</b>.<br/>
+                1º) Filtrar o usuário desejado e anotar seu <b> ID</b>.<br/>
+                2º) Filtrar o Livro desejado e anotar seu <b> Id</b>.<br/>
+                3º) Clicar em <b>Cadastrar</b>.<br/>
             </p>
         </p>
     </div>
@@ -115,6 +116,16 @@
                     <f:facet name="header">
                         Relação de Usuário(s)
                     </f:facet>
+                    <!--<p:column>
+                        <f:facet name="header">Ação</f:facet>
+                        <h:form>
+                            <div>
+                                <h:commandButton value="Selecionar" class="btn btn-block btn-primary"
+                                                 action="consultaUsuario.xhtml"
+                                                 url="consultaUsuario.xhtml"></h:commandButton>
+                            </div>
+                        </h:form>
+                    </p:column>-->
                     <p:column>
                         <f:facet name="header">Id</f:facet>
                         #{usuario.codusuario}
