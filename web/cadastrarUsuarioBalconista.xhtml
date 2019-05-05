@@ -45,6 +45,10 @@
                 background: gray;
                 color: blue;
             }
+
+            .jumbotron{
+                background: lightgray;
+            }
         </style>
     </meta>
 
@@ -99,7 +103,7 @@
                 <div class="form-group">
                     <h:outputLabel value="Nome Completo"/><font color="red">*</font>
                     <p:inputText value="#{c_Usuario.user.nome}" class="form-control"
-                                 required="true" placeholder="Insira o seu nome"> maxlength="60"</p:inputText>
+                                 required="true" placeholder="Insira o seu nome" maxlength="60"></p:inputText>
 
                     <h:outputLabel value="Username"/><font color="red">*</font>
                     <p:inputText value="#{c_Usuario.user.usuario}" class="form-control"

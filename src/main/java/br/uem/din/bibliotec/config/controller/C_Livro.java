@@ -5,13 +5,14 @@ import br.uem.din.bibliotec.config.model.M_Livro_DAO;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
 //declaração do Bean
 @Named
 @RequestScoped
-public class C_Livro {
+public class C_Livro implements Serializable {
     //Objetos para manipulação dos estados e trocas de dados
     M_Livro livro = new M_Livro(0, "", "", "", "", "", "", "", 0, -1);
     M_Livro_DAO livroDAO = new M_Livro_DAO();

@@ -82,6 +82,10 @@
                 height: 200px;
                 background: white;
             }
+
+            .emp{
+                height: 216px;
+            }
         </style>
     </meta>
 
@@ -112,10 +116,15 @@
             </p><b></b>
         </p>
     </div>
+
+    <!--RETORNOS-->
     <div align="left" class="retornos" id="retornos">
         <b>
             <font color="#{c_Usuario.user.color_msg}">
                 #{c_Usuario.user.msg_autenticacao}
+            </font>
+            <font color="#{c_Emprestimo.emp.color_msg_retorno}">
+                #{c_Emprestimo.emp.msg_retorno}
             </font>
         </b>
     </div>
@@ -161,7 +170,7 @@
                     <div class="form-group">
                         <h5 align="center">Controle de Empréstimos</h5>
                     </div>
-                    <div class="form-group">
+                    <div class="emp">
                         <div class="form-group">
                             <h:commandButton value="Cadastrar" class="btn btn-block btn-primary"
                                              action="cadastrarEmprestimo?faces-redirect=true"></h:commandButton>
@@ -172,12 +181,12 @@
                             <h:commandButton value="Alterar" class="btn btn-block btn-primary"
                                              action="alterarEmprestimo?faces-redirect=true"></h:commandButton>
 
-                            <h:commandButton value="Deletar" class="btn btn-block btn-primary"
+                            <h:commandButton value="Finalizar" class="btn btn-block btn-primary"
                                              action="deletarEmprestimo?faces-redirect=true"></h:commandButton>
                         </div>
                     </div>
                     <div class="form-group">
-                        <p>Perfil: Balconista</p>
+                        <p></p>
                     </div>
                 </h:form>
             </div>

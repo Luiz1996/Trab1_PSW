@@ -91,6 +91,13 @@ public class M_Usuario {
         this.datanasc = datanasc;
     }
 
+    public M_Usuario(String nome, int codusuario, String cpf, String email) {
+        this.nome = nome;
+        this.codusuario = codusuario;
+        this.cpf = cpf;
+        this.email = email;
+    }
+
     public M_Usuario(int codusuario) { this.codusuario = codusuario; }
 
     public String getDatanasc() { return datanasc; }

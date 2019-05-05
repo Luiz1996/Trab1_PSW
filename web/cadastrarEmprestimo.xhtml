@@ -16,21 +16,6 @@
 
     <meta charset="utf-8">
         <style>
-            .popup {
-                position: fixed;
-                top: -200px;
-                bottom: 0;
-                left: 0;
-                right: 0px;
-                margin: auto;
-                width: 650px;
-                height: 160px;
-                padding: 15px;
-                border: solid 1pX black;
-                background: white;
-                display: none;
-            }
-
             .fechaAjuda {
                 position: absolute;
                 top: -105px;
@@ -44,6 +29,48 @@
                 border-radius: 3px;
                 background: gray;
                 color: blue;
+            }
+
+            .menu {
+                position: absolute;
+                top: -370px;
+                bottom: 0;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                width: 1290px;
+                height: 25px;
+            }
+
+            .selectItems {
+                position: absolute;
+                top: 50px;
+                bottom: 0;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                width: 1290px;
+                height: 25px;
+            }
+
+            .popup {
+                position: fixed;
+                top: -160px;
+                bottom: 0;
+                left: 0;
+                right: 0px;
+                margin: auto;
+                width: 650px;
+                height: 160px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+                display: none;
+            }
+
+            .jumbotron{
+                background: lightgray;
+                height: 490px;
             }
         </style>
     </meta>
@@ -59,170 +86,67 @@
     </script>
 </h:head>
 <h:body>
-    <div id="popup" class="popup">
-        <p>Olá,
-            <button class="fechaAjuda" onclick="fechar()">x</button>
-            <b></b>
-            <p>
-                Para cadastrar um empréstimo em nosso sistema, siga os passos abaixo:<br/>
-                1º) Filtrar o usuário desejado e anotar seu <b> ID</b>.<br/>
-                2º) Filtrar o Livro desejado e anotar seu <b> Id</b>.<br/>
-                3º) Clicar em <b>Cadastrar</b>.<br/>
-            </p>
-        </p>
-    </div>
-
     <i><h1 align="center"> BiblioTec </h1></i>
-    <p:menubar style="align-items: center">
+    <p:menubar>
         <p:menuitem value="MENU INICIAL" url="acessoBalconista.xhtml"></p:menuitem>
         <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
     </p:menubar>
-    <section alig="center" class="right">
-        <div class="jumbotron">
-            <h:form id="telaBibliotecario">
-                <div class="form-group">
+    <div class="jumbotron">
+        <section alig="center" class="right">
+            <h:form id="telaCadEmp">
+                <div class="menu">
                     <h5 align="center">Controle de Empréstimos</h5><br/>
-                </div>
-                <div class="form-group">
                     <h:commandButton value="Consultar Empréstimo" class="btn btn-block btn-primary"
                                      action="consultarEmprestimo?faces-redirect=true"/>
-                </div>
-                <div class="form-group">
+
+
                     <h:commandButton value="Alterar Empréstimo" class="btn btn-block btn-primary"
                                      action="alterarEmprestimo?faces-redirect=true"/>
-                </div>
-                <div class="form-group">
-                    <h:commandButton value="Deletar Empréstimo" class="btn btn-block btn-primary"
+
+                    <h:commandButton value="Finalizar Empréstimo" class="btn btn-block btn-primary"
                                      action="deletarEmprestimo?faces-redirect=true"/>
                 </div>
             </h:form>
-            <h:form id="buscarUsuáriosAtivos">
-                <div class="form-group">
-                    <h:outputLabel value="Nome do Usuário, Username, E-Mail ou CPF"/>
-                    <p:inputText value="#{c_Usuario.user.nome}" class="form-control" required="false"
-                                 placeholder="Insira o nome do usuário, username, e-mail ou cpf"
-                                 maxlength="100"></p:inputText>
+            <div class="selectItems">
+                <div id="popup" class="popup">
+                    <p>Olá,
+                        <button class="fechaAjuda" onclick="fechar()">x</button>
+                        <b></b>
+                        <p>
+                            Para cadastrar um empréstimo em nosso sistema, siga os passos abaixo:<br/>
+                            1º) Selecionar o usuário que receberá o livro.<br/>
+                            2º) Selecionar o livro desejado.<br/>
+                            3º) Clicar em <b>Cadastrar</b>.<br/>
+                        </p>
+                    </p>
                 </div>
-                <div class="form-group">
-                    <h:commandButton value="Buscar Usuário" class="btn btn-block btn-primary"
-                                     action="#{c_Usuario.realizaConsultaUsuarioEmp}"></h:commandButton>
-                </div>
-            </h:form>
+                <p:outputLabel value="Usuários"/><font color="red">*</font>
+                <h:form id="Empréstimo">
+                    <p:selectOneMenu filter="true" value="#{c_Emprestimo.emp.codusuario}" filterMatchMode="contains"
+                                     required="true" style="width:1290px" panelStyle="width:1290px">
 
-            <div class="form-group">
-                <p:dataTable value="#{c_Usuario.realizaConsultaUsuarioEmp()}" var="usuario" border="9"
-                             rendered="true" title="Relação de Usuário(s)">
+                        <f:selectItem noSelectionOption="true" itemLabel="Selecione um usuário"/>
+                        <f:selectItems value="#{c_Emprestimo.consultaUsuariosEmprestimo()}" var="user"
+                                       itemLabel="Nome: #{user.nome} | CPF: #{user.cpf} | E-Mail: #{user.email}"
+                                       itemValue="#{user.codusuario}"/>
+                    </p:selectOneMenu>
 
-                    <f:facet name="header">
-                        Relação de Usuário(s)
-                    </f:facet>
-                    <!--<p:column>
-                        <f:facet name="header">Ação</f:facet>
-                        <h:form>
-                            <div>
-                                <h:commandButton value="Selecionar" class="btn btn-block btn-primary"
-                                                 action="consultaUsuario.xhtml"
-                                                 url="consultaUsuario.xhtml"></h:commandButton>
-                            </div>
-                        </h:form>
-                    </p:column>-->
-                    <p:column>
-                        <f:facet name="header">Id</f:facet>
-                        #{usuario.codusuario}
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">Nome</f:facet>
-                        #{usuario.nome}
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">Usuario</f:facet>
-                        #{usuario.usuario}
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">E-Mail</f:facet>
-                        #{usuario.email}
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">CPF</f:facet>
-                        #{usuario.cpf}
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">Dt.Nasc.</f:facet>
-                        #{usuario.datanasc}
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">Permissão</f:facet>
-                        #{usuario.perfil}
-                    </p:column>
-                </p:dataTable>
-                #{c_Usuario.user.nome = ""}
-                #{c_Usuario.user.usuario = ""}
-                #{c_Usuario.user.cpf = ""}
-                #{c_Usuario.user.email = ""}
+                    <p:outputLabel value="Livros"/><font color="red">*</font>
+                    <p:selectOneMenu filter="true" value="#{c_Emprestimo.emp.codlivro}" filterMatchMode="contains"
+                                     required="true" style="width:1290px" panelStyle="width:1290px">
+                        <f:selectItem noSelectionOption="true" itemLabel="Selecione um livro"/>
+                        <f:selectItems value="#{c_Emprestimo.consultaLivrosEmprestimo()}" var="book"
+                                       itemLabel="Título: #{book.titulo} | Autor: #{book.autor} | Editora: #{book.editora} | Ano Lanç.: #{book.anolancamento} - Cód. Catal: #{book.codcatalogacao}"
+                                       itemValue="#{book.codlivro}"/>
 
-                <h:form id="telaConsultaLivrosDisponiveisEAtivos">
+                    </p:selectOneMenu>
                     <div class="form-group">
-                        <h:outputLabel value="Título, Autor ou Editora"/>
-                        <p:inputText value="#{c_Livro.livro.titulo}" class="form-control" required="false"
-                                     maxlength="100"
-                                     placeholder="Insira o título, autor ou editora do livro desejado"></p:inputText>
-                    </div>
-                    <div class="form-group">
-                        <h:commandButton value="Buscar Livro" class="btn btn-block btn-primary"
-                                         action="#{c_Livro.realizarConsultaLivroEmp}"
-                                         url="javascript: tiraTabela();"/>
+                        <h:commandButton value="Cadastrar" class="btn btn-block btn-primary"
+                                         action="#{c_Emprestimo.realizaCadastroEmprestimo}"/>
                     </div>
                 </h:form>
-
-                <div class="form-group" id="dataTable">
-                    <p:dataTable value="#{c_Livro.realizarConsultaLivroEmp()}" var="livro" border="9" rendered="true"
-                                 title="Relação de Livros.">
-                        <f:facet name="header">
-                            Relação de Livro(s)
-                        </f:facet>
-                        <p:column>
-                            <f:facet name="header">Id</f:facet>
-                            #{livro.codlivro}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Título</f:facet>
-                            #{livro.titulo}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Autor(a)</f:facet>
-                            #{livro.autor}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Editora</f:facet>
-                            #{livro.editora}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Ano Lançamento</f:facet>
-                            #{livro.anolancamento}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Volume</f:facet>
-                            #{livro.volume}
-                        </p:column>
-                    </p:dataTable>
-                </div>
-
             </div>
-            <h:form id="finalizarCadEmp">
-                <div class="form-group">
-                    <h:outputLabel value="Id do Usuário"/><font color="red">*</font>
-                    <p:inputText value="#{c_Emprestimo.emp.codusuario}" class="form-control" required="true"
-                                 placeholder="Insira o Id do Usuário"></p:inputText>
-                    <h:outputLabel value="Id do Livro"/><font color="red">*</font>
-                    <p:inputText value="#{c_Emprestimo.emp.codlivro}" class="form-control" required="true"
-                                 placeholder="Insira o Id do Livro"></p:inputText>
-                </div>
-                <div class="form-group">
-                    <h:commandButton value="Cadastrar" class="btn btn-block btn-primary"
-                                     action="#{c_Emprestimo.realizaCadastroEmprestimo}"/>
-                </div>
-            </h:form>
-        </div>
-    </section>
+        </section>
+    </div>
 </h:body>
 </html>

@@ -149,7 +149,10 @@ public class M_Usuario_DAO {
         return "acessoBalconista";
     }
 
-    public List<M_Usuario> consultarUsuarioBalconista(M_Usuario user, int soAtivos) throws SQLException {
+    public List<M_Usuario> consultarUsuarioBalconista(M_Usuario user) throws SQLException {
+        //declaração do arrayList para auxiliar na impressão da dataTable do consultar usuarios
+        List<M_Usuario> usuarios = new ArrayList<>();
+
         //realiza conexão com banco de dados
         Conexao con = new Conexao();
         con.conexao.setAutoCommit(true);
@@ -160,16 +163,9 @@ public class M_Usuario_DAO {
         user.setCpf(user.getNome());
 
         //busca todas as informações de acordo com os dados fornecidos
-        if(soAtivos == 0){
-            st.execute("SELECT u.email, u.usuario, u.nome, u.rg, u.cpf, u.endereco, u.cep, u.cidade, u.estado, CASE WHEN u.permissao = 1 THEN 'Bibliotecário' WHEN u.permissao = 2 THEN 'Balconista' WHEN u.permissao = 3 THEN 'Aluno' WHEN u.permissao = 0 THEN 'Sem Permissões' END AS perfil, CASE WHEN u.ativo = 1 THEN 'Ativo' ELSE 'Inativo' END AS status, u.codusuario, u.datacad, u.dataalt, u.datanasc FROM `bibliotec`.`usuarios` u WHERE u.nome LIKE '%" + user.getNome() + "%' or u.email LIKE '%" + user.getEmail() + "%' or u.cpf LIKE '" + user.getCpf() + "' or u.usuario LIKE '" + user.getUsuario() + "';");
-        }else{
-            st.execute("SELECT u.email, u.usuario, u.nome, u.rg, u.cpf, u.endereco, u.cep, u.cidade, u.estado, CASE WHEN u.permissao = 1 THEN 'Bibliotecário' WHEN u.permissao = 2 THEN 'Balconista' WHEN u.permissao = 3 THEN 'Aluno' WHEN u.permissao = 0 THEN 'Sem Permissões' END AS perfil, CASE WHEN u.ativo = 1 THEN 'Ativo' ELSE 'Inativo' END AS status, u.codusuario, u.datacad, u.dataalt, u.datanasc FROM `bibliotec`.`usuarios` u WHERE (u.nome LIKE '%" + user.getNome() + "%' or u.email LIKE '%" + user.getEmail() + "%' or u.cpf LIKE '" + user.getCpf() + "' or u.usuario LIKE '" + user.getUsuario() + "') and u.ativo = 1;");
-        }
+        st.execute("SELECT u.email, u.usuario, u.nome, u.rg, u.cpf, u.endereco, u.cep, u.cidade, u.estado, CASE WHEN u.permissao = 1 THEN 'Bibliotecário' WHEN u.permissao = 2 THEN 'Balconista' WHEN u.permissao = 3 THEN 'Aluno' WHEN u.permissao = 0 THEN 'Sem Permissões' END AS perfil, CASE WHEN u.ativo = 1 THEN 'Ativo' ELSE 'Inativo' END AS status, u.codusuario, u.datacad, u.dataalt, u.datanasc FROM `bibliotec`.`usuarios` u WHERE u.nome LIKE '%" + user.getNome() + "%' or u.email LIKE '%" + user.getEmail() + "%' or u.cpf LIKE '" + user.getCpf() + "' or u.usuario LIKE '" + user.getUsuario() + "';");
 
         ResultSet rs = st.getResultSet();
-
-        //declaração do arrayList para auxiliar na impressão da dataTable do consultar usuarios
-        List<M_Usuario> usuarios = new ArrayList<>();
 
         //obtendo os valores carregados no result set e carregado no arrayList
         while (rs.next()) {
@@ -195,6 +191,7 @@ public class M_Usuario_DAO {
                     formatadorDatasBrasil(rs.getString("dataalt")),
                     formatadorDatasBrasil(rs.getString("datanasc"))
             );
+
             usuarios.add(usuario_temp);
         }
 

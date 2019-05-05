@@ -72,6 +72,15 @@ public class M_Livro {
         this.disponibilidade = disponibilidade;
     }
 
+    public M_Livro(Integer codlivro, String titulo, String autor, String editora, String anolancamento, String codcatalogacao) {
+        this.codlivro = codlivro;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.editora = editora;
+        this.anolancamento = anolancamento;
+        this.codcatalogacao = codcatalogacao;
+    }
+
     public String getDisponibilidade() { return disponibilidade; }
 
     public void setDisponibilidade(String disponibilidade) { this.disponibilidade = disponibilidade; }
