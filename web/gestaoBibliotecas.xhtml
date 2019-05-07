@@ -47,7 +47,7 @@
 
             .parteLogin {
                 position: absolute;
-                top: -160px;
+                top: -120px;
                 bottom: 0;
                 left: -1077px;
                 right: 0px;
@@ -118,7 +118,7 @@
 
             .imagem {
                 position: absolute;
-                top: -420px;
+                top: -380px;
                 bottom: 0;
                 left: 0px;
                 right: -1104px;
@@ -171,26 +171,26 @@
                 <h5 align="center">Acesso</h5><br></br>
                 <div class="usuario" id="usuario">
                     <h:outputLabel value="Usuário"/><br></br>
-                    <p:inputText value="#{loginBean.user.usuario}" class="form-control"
-                                 placeholder="Usuário ou E-mail"/>
+                    <p:inputText value="#{c_Login.user.usuario}" class="form-control"
+                                 placeholder="Usuário, E-mail ou CPF" maxlength="100"/>
                 </div>
                 <div class="senha" id="senha">
                     <h:outputLabel value="Senha"/><br></br>
-                    <p:password value="#{loginBean.user.senha}" class="form-control" placeholder="Senha"/>
+                    <p:password value="#{c_Login.user.senha}" class="form-control" maxlength="30" placeholder="Senha"/>
                 </div>
                 <div class="login" id="login">
                     <h:commandButton value="Login" class="btn btn-block btn-primary"
-                                     action="#{loginBean.realizarAcesso}"></h:commandButton>
+                                     action="#{c_Login.realizarAcesso}"></h:commandButton>
                 </div>
                 <div class="cadastro" id="cadastro">
                     <h:commandButton value="Cadastrar-se" class="btn btn-block btn-primary"
-                                     action="cadastroUsuario" url="cadastroUsuario.xhtml"></h:commandButton>
+                                     action="cadastroUsuario?faces-redirect=true" url="cadastroUsuario.xhtml"></h:commandButton>
                 </div>
                 <div align="center" class="retorno" id="retorno">
                     <font color="red">
                         <i>
-                            <h:outputLabel value="#{loginBean.user.msg_autenticacao}"/>
-                            <h:outputLabel value="#{userBean.user.msg_autenticacao}"/>
+                            <h:outputLabel value="#{c_Login.user.msg_autenticacao}"/>
+                            <h:outputLabel value="#{c_Usuario.user.msg_autenticacao}"/>
                         </i>
                     </font>
                 </div>

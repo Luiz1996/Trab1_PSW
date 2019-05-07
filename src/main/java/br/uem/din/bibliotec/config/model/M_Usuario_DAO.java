@@ -5,12 +5,32 @@ import br.uem.din.bibliotec.config.conexao.Conexao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class M_Usuario_DAO {
     final String SUCESSO = "green";
     final String FALHA = "red";
+
+    //como o dado é informado como DD/MM/AAAA precisamos convertê-la para o formato do banco de dados
+    public String formatadorDatasMySQL(String data){
+        String[] dataSeparada = data.split("/");
+        LocalDate data_formatada = LocalDate.of(Integer.parseInt(dataSeparada[2]), Integer.parseInt(dataSeparada[1]), Integer.parseInt(dataSeparada[0]));
+
+        return data_formatada.toString().trim();
+    }
+
+    //como o dado é informado como AAAA-MM-DD precisamos convertê-la para o formato do brasileiro ao imprimir no front-end ao usuário
+    public String formatadorDatasBrasil(String data){
+        if(data == null){
+            return " ";
+        }else{
+            String[] dataSeparada = data.split("-");
+            String dataPadraoBrasil = dataSeparada[2]+"/"+dataSeparada[1]+"/"+dataSeparada[0];
+            return dataPadraoBrasil.trim();
+        }
+    }
 
     //método que realiza a autenticação do usuário retornando a permissão correta do usuário
     public String buscaPermissao(M_Usuario user) throws SQLException {
@@ -19,6 +39,7 @@ public class M_Usuario_DAO {
 
         //atribuindo o valor passado no front-end para o atributo e-mail
         user.setEmail(user.getUsuario());
+        user.setCpf(user.getUsuario());
 
         try {
             //realizando conexão com banco de dados
@@ -28,7 +49,7 @@ public class M_Usuario_DAO {
 
 
             //consultando se usuário está ativo e sua devida permissão
-            st.execute("select ativo, permissao from `bibliotec`.`usuarios` where (email = '" + user.getEmail() + "' or usuario = '" + user.getUsuario() + "') and senha = '" + user.getSenha() + "';");
+            st.execute("select ativo, permissao from `bibliotec`.`usuarios` where (email = '" + user.getEmail() + "' or usuario = '" + user.getUsuario() + "' or cpf = '" + user.getCpf() + "') and senha = '" + user.getSenha() + "';");
             user.setUsuario("");
 
             //obtendo dados
@@ -61,7 +82,6 @@ public class M_Usuario_DAO {
                 return "acessoAluno";
             }
 
-
             //se chegar a executação até aqui é porque autenticação falhou
             user.setMsg_autenticacao("Usuário inválido ou inativo.");
             return "gestaoBibliotecas";
@@ -77,6 +97,9 @@ public class M_Usuario_DAO {
         //ao realizar o cadastro, entende-se que o usuário ainda não está efetivamente ativo e com a devida permissão, o balconista que dirá qual a permissão do novo usuário
         user.setAtivo(0);
         user.setPermissao(0);
+
+        //convertendo a data para padrão do banco de dados
+        user.setDatanasc(formatadorDatasMySQL(user.getDatanasc()));
 
         try {
             //realizando conexão com banco de dados
@@ -102,6 +125,9 @@ public class M_Usuario_DAO {
         //ao realizar o cadastro, entende-se que o usuário ainda não está efetivamente ativo e com a devida permissão, o balconista que dirá qual a permissão do novo usuário
         user.setAtivo(1);
 
+        //convertendo a data para padrão do banco de dados
+        user.setDatanasc(formatadorDatasMySQL(user.getDatanasc()));
+
         try {
             //realizando conexão com banco de dados
             Conexao con = new Conexao();
@@ -123,17 +149,22 @@ public class M_Usuario_DAO {
     }
 
     public List<M_Usuario> consultarUsuarioBalconista(M_Usuario user) throws SQLException {
+        //declaração do arrayList para auxiliar na impressão da dataTable do consultar usuarios
+        List<M_Usuario> usuarios = new ArrayList<>();
+
         //realiza conexão com banco de dados
         Conexao con = new Conexao();
         con.conexao.setAutoCommit(true);
         Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
-        //busca todas as informações de acordo com titulo informado
-        st.execute("SELECT u.email, u.usuario, u.nome, u.rg, u.cpf, u.endereco, u.cep, u.cidade, u.estado, CASE WHEN u.permissao = 1 THEN 'Bibliotecário' WHEN u.permissao = 2 THEN 'Balconista' WHEN u.permissao = 3 THEN 'Aluno' WHEN u.permissao = 0 THEN 'Sem Permissões' END AS perfil, CASE WHEN u.ativo = 1 THEN 'Ativo' ELSE 'Inativo' END AS status, u.codusuario, u.datacad, u.dataalt, u.datanasc FROM `bibliotec`.`usuarios` u WHERE u.nome LIKE '%" + user.getNome() + "%';");
-        ResultSet rs = st.getResultSet();
+        user.setEmail(user.getNome());
+        user.setUsuario(user.getNome());
+        user.setCpf(user.getNome());
 
-        //declaração do arrayList para auxiliar na impressão da dataTable do consultar usuarios
-        List<M_Usuario> usuarios = new ArrayList<>();
+        //busca todas as informações de acordo com os dados fornecidos
+        st.execute("SELECT u.email, u.usuario, u.nome, u.rg, u.cpf, u.endereco, u.cep, u.cidade, u.estado, CASE WHEN u.permissao = 1 THEN 'Bibliotecário' WHEN u.permissao = 2 THEN 'Balconista' WHEN u.permissao = 3 THEN 'Aluno' WHEN u.permissao = 0 THEN 'Sem Permissões' END AS perfil, CASE WHEN u.ativo = 1 THEN 'Ativo' ELSE 'Inativo' END AS status, u.codusuario, u.datacad, u.dataalt, u.datanasc FROM `bibliotec`.`usuarios` u WHERE u.nome LIKE '%" + user.getNome() + "%' or u.email LIKE '%" + user.getEmail() + "%' or u.cpf LIKE '" + user.getCpf() + "' or u.usuario LIKE '" + user.getUsuario() + "';");
+
+        ResultSet rs = st.getResultSet();
 
         //obtendo os valores carregados no result set e carregado no arrayList
         while (rs.next()) {
@@ -155,10 +186,11 @@ public class M_Usuario_DAO {
                     rs.getString("status"),
                     rs.getString("perfil"),
                     rs.getInt("codusuario"),
-                    rs.getString("datacad"),
-                    rs.getString("dataalt"),
-                    rs.getString("datanasc")
+                    formatadorDatasBrasil(rs.getString("datacad")),
+                    formatadorDatasBrasil(rs.getString("dataalt")),
+                    formatadorDatasBrasil(rs.getString("datanasc"))
             );
+
             usuarios.add(usuario_temp);
         }
 
@@ -189,7 +221,7 @@ public class M_Usuario_DAO {
             }
 
             if (codusuario == 0) {
-                user.setMsg_autenticacao("Retorno: Não existe usuário com Id '" + codusuario + "' cadastrado em nosso sistema, deleção falhou.");
+                user.setMsg_autenticacao("Retorno: Não existe usuário com Id informado em nosso sistema, deleção falhou.");
                 user.setColor_msg(FALHA);
                 return "acessoBalconista";
             }
@@ -244,7 +276,7 @@ public class M_Usuario_DAO {
 
             //valida se o código do usuário foi fornecido de forma incorreta, ou seja, usuário inexistente na base de dados
             if (codusuario == 0) {
-                user.setMsg_autenticacao("Retorno: O usuário com Id " + user.getCodusuario() + " não existe, edição falhou.");
+                user.setMsg_autenticacao("Retorno: O usuário com Id informado não existe, edição falhou.");
                 user.setColor_msg(FALHA);
                 return "acessoBalconista";
             }
@@ -253,6 +285,9 @@ public class M_Usuario_DAO {
             st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET dataalt = current_date() WHERE codusuario = " + user.getCodusuario() + ";");
 
             if (!user.getDatanasc().equals("")) {
+                //convertendo a data para padrão do banco de dados
+                user.setDatanasc(formatadorDatasMySQL(user.getDatanasc()));
+
                 st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET datanasc = '" + user.getDatanasc() + "' WHERE codusuario = " + user.getCodusuario() + ";");
             }
 
@@ -307,7 +342,7 @@ public class M_Usuario_DAO {
             if (user.getNome().equals("")) {
                 user.setMsg_autenticacao("Retorno: As informações do usuário '" + nome_anterior + "' foram atualizadas com sucesso.");
             } else {
-                user.setMsg_autenticacao("Retorno: As informações do livro '" + user.getNome() + "' foram atualizadas com sucesso.");
+                user.setMsg_autenticacao("Retorno: As informações do usuário '" + user.getNome() + "' foram atualizadas com sucesso.");
             }
             user.setColor_msg(SUCESSO);
 

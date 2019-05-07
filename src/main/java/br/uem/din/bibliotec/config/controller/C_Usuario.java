@@ -3,16 +3,23 @@ package br.uem.din.bibliotec.config.controller;
 import br.uem.din.bibliotec.config.model.M_Usuario;
 import br.uem.din.bibliotec.config.model.M_Usuario_DAO;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import java.awt.*;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
-@ManagedBean(name = "userBean", eager = true)
-public class C_Usuario {
+//declaração do Bean
+@Named
+@RequestScoped
+public class C_Usuario implements Serializable {
     //atributos do controller
     M_Usuario user = new M_Usuario("","","","","","","","","","",0,-1,"","");
     M_Usuario_DAO userDAO = new M_Usuario_DAO();
+
+    public C_Usuario() throws SQLException {
+    }
 
     //gets e sets
     public M_Usuario getUser() {

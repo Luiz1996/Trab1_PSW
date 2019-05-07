@@ -3,13 +3,16 @@ package br.uem.din.bibliotec.config.controller;
 import br.uem.din.bibliotec.config.model.M_Livro;
 import br.uem.din.bibliotec.config.model.M_Livro_DAO;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
 //declaração do Bean
-@ManagedBean(name = "livroBean", eager = true)
-public class C_Livro {
+@Named
+@RequestScoped
+public class C_Livro implements Serializable {
     //Objetos para manipulação dos estados e trocas de dados
     M_Livro livro = new M_Livro(0, "", "", "", "", "", "", "", 0, -1);
     M_Livro_DAO livroDAO = new M_Livro_DAO();
@@ -38,7 +41,11 @@ public class C_Livro {
 
     //método para consultar livro(s)
     public List<M_Livro> realizarConsultaLivro() throws SQLException {
-        return livroDAO.consultarLivro(livro);
+        return livroDAO.consultarLivro(livro, 0);
+    }
+
+    public List<M_Livro> realizarConsultaLivroEmp() throws SQLException {
+        return livroDAO.consultarLivro(livro, 1);
     }
 
     public List<M_Livro> realizarConsultaLivroBibliotecario() throws SQLException {

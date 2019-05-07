@@ -60,6 +60,10 @@
                 background: gray;
                 color: blue;
             }
+
+            .jumbotron{
+                background: lightgray;
+            }
         </style>
     </meta>
 
@@ -116,27 +120,27 @@
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Cadastrar Usuário" class="btn btn-block btn-primary"
-                                     action="cadastrarUsuarioBalconista.xhtml"/>
+                                     action="cadastrarUsuarioBalconista?faces-redirect=true"/>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Alterar Usuário" class="btn btn-block btn-primary"
-                                     action="editarUsuario.xhtml"/>
+                                     action="editarUsuario?faces-redirect=true"/>
                 </div>
             </h:form>
             <h:form id="buscarLivro">
                 <div class="form-group">
-                    <h:outputLabel value="Nome do Usuário"/>
-                    <p:inputText value="#{userBean.user.nome}" class="form-control" required="false"
-                                 placeholder="Insira o nome do usuário"></p:inputText>
+                    <h:outputLabel value="Nome do Usuário, Username, E-Mail ou CPF"/>
+                    <p:inputText value="#{c_Usuario.user.nome}" class="form-control" required="false"
+                                 placeholder="Insira o nome do usuário, username, e-mail ou cpf" maxlength="100"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Buscar" class="btn btn-block btn-primary"
-                                     action="#{userBean.realizaConsultaUsuario}"></h:commandButton>
+                                     action="#{c_Usuario.realizaConsultaUsuario}"></h:commandButton>
                 </div>
             </h:form>
             <section alig="center" class="row">
                 <div class="form-group">
-                    <p:dataTable value="#{userBean.realizaConsultaUsuario()}" var="usuario" border="9"
+                    <p:dataTable value="#{c_Usuario.realizaConsultaUsuario()}" var="usuario" border="9"
                                  rendered="true"
                                  title="Relação de Usuários.">
 
@@ -208,7 +212,7 @@
                     <h:form id="deletarUsuario">
                         <div class="form-group">
                             <h:outputLabel value="Id do Usuario"/><font color="red">*</font>
-                            <p:inputText value="#{userBean.user.codusuario}" class="form-control"
+                            <p:inputText value="#{c_Usuario.user.codusuario}" class="form-control"
                                          required="true" placeholder="Insira o código Id do usuário"></p:inputText>
                         </div>
                         <div id="conf" class="conf">
@@ -218,7 +222,7 @@
                             <h:form>
                                 <div class="form-group">
                                     <h:commandButton value="Sim" class="btn btn-block btn-primary"
-                                                     action="#{userBean.realizaDelecaoUsuario}"/>
+                                                     action="#{c_Usuario.realizaDelecaoUsuario}"/>
                                 </div>
                                 <div class="form-group">
                                     <h:commandButton value="Não" class="btn btn-block btn-primary"

@@ -19,6 +19,7 @@ public class M_Livro {
     private String color_msg_retorno = "";
     private String datacad = "";
     private String dataalt = "";
+    private String disponibilidade = "";
 
     //contrutores e gets/sets
     public M_Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo) {
@@ -52,7 +53,7 @@ public class M_Livro {
         this.msg_retorno = msg_retorno;
     }
 
-    public M_Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo, String status, String msg_retorno, String color_msg_retorno, String datacad, String dataalt) {
+    public M_Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo, String status, String msg_retorno, String color_msg_retorno, String datacad, String dataalt, String disponibilidade) {
         this.codlivro = codlivro;
         this.codcatalogacao = codcatalogacao;
         this.numchamada = numchamada;
@@ -68,7 +69,23 @@ public class M_Livro {
         this.color_msg_retorno = color_msg_retorno;
         this.datacad = datacad;
         this.dataalt = dataalt;
+        this.disponibilidade = disponibilidade;
     }
+
+    public M_Livro(Integer codlivro, String titulo, String autor, String editora, String anolancamento, String codcatalogacao) {
+        this.codlivro = codlivro;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.editora = editora;
+        this.anolancamento = anolancamento;
+        this.codcatalogacao = codcatalogacao;
+    }
+
+    public String getDisponibilidade() { return disponibilidade; }
+
+    public void setDisponibilidade(String disponibilidade) { this.disponibilidade = disponibilidade; }
+
+    public M_Livro(Integer codlivro) { this.codlivro = codlivro; }
 
     public String getDatacad() { return datacad; }
 

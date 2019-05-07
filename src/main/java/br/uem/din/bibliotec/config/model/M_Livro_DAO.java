@@ -13,19 +13,27 @@ public class M_Livro_DAO {
     final String SUCESSO = "green";
     final String FALHA = "red";
 
+    //como o dado é informado como AAAA-MM-DD precisamos convertê-la para o formato do brasileiro ao imprimir no front-end ao usuário
+    public String formatadorDatasBrasil(String data){
+        if(data == null){
+            return " ";
+        }else{
+            String[] dataSeparada = data.split("-");
+            String dataPadraoBrasil = dataSeparada[2]+"/"+dataSeparada[1]+"/"+dataSeparada[0];
+            return dataPadraoBrasil.trim();
+        }
+    }
+
     //método de cadastramento de livro
     public String cadastrarLivro(M_Livro livro) throws SQLException {
         try {
-            //já seta livro como ativo
-            livro.setAtivo(1);
-
             //realiza conexão com banco de dados
             Conexao con = new Conexao();
             Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             con.conexao.setAutoCommit(true);
 
             //realiza insert no banco e retorna mensagem de sucesso na cor verde
-            st.executeUpdate("INSERT INTO `bibliotec`.`livro` (`codcatalogacao`, `numchamada`, `titulo`, `autor`, `editora`, `anolancamento`, `cidade`, `volume`, `ativo`, `datacad`) VALUES ('"+livro.getCodcatalogacao()+"', '"+livro.getNumchamada()+"', '"+livro.getTitulo()+"', '"+livro.getAutor()+"', '"+livro.getEditora()+"', '"+livro.getAnolancamento()+"', '"+livro.getCidade()+"', "+livro.getVolume()+", "+livro.getAtivo()+", current_date());");
+            st.executeUpdate("INSERT INTO `bibliotec`.`livro` (`codcatalogacao`, `numchamada`, `titulo`, `autor`, `editora`, `anolancamento`, `cidade`, `volume`, `ativo`, `datacad`, `disponibilidade`) VALUES ('"+livro.getCodcatalogacao()+"', '"+livro.getNumchamada()+"', '"+livro.getTitulo()+"', '"+livro.getAutor()+"', '"+livro.getEditora()+"', '"+livro.getAnolancamento()+"', '"+livro.getCidade()+"', "+livro.getVolume()+", '1', current_date(), '1');");
 
             livro.setMsg_retorno("Retorno: O livro '"+ livro.getTitulo() +"' foi cadastrado com sucesso.");
             livro.setColor_msg_retorno(SUCESSO);
@@ -42,14 +50,23 @@ public class M_Livro_DAO {
     }
 
 
-    public List<M_Livro> consultarLivro(M_Livro livro) throws SQLException {
+    public List<M_Livro> consultarLivro(M_Livro livro, int soDisponiveis) throws SQLException {
         //realiza conexão com banco de dados
         Conexao con = new Conexao();
         con.conexao.setAutoCommit(true);
         Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
-        //busca todas as informações de acordo com titulo informado
-        st.execute("select * from `bibliotec`.`livro` where titulo like \"%"+ livro.getTitulo() +"%\" and ativo = '1' order by 2;");
+        //setando os valores obtidos no front-end para realizar busca no banco de dados
+        livro.setEditora(livro.getTitulo());
+        livro.setAutor(livro.getTitulo());
+
+        //busca todas as informações de acordo com os dados fornecidos
+        if(soDisponiveis == 0){
+            st.execute("select * from `bibliotec`.`livro` where (titulo like \"%"+ livro.getTitulo() +"%\" or autor like \"%" + livro.getAutor() + "%\" or editora like \"%" + livro.getEditora() + "%\") and ativo = '1' order by 2;");
+        }else{
+            st.execute("select * from `bibliotec`.`livro` where (titulo like \"%"+ livro.getTitulo() +"%\" or autor like \"%" + livro.getAutor() + "%\" or editora like \"%" + livro.getEditora() + "%\") and ativo = '1' and disponibilidade = '1' order by 2;");
+        }
+
         ResultSet rs = st.getResultSet();
 
         //declaração do arrayList para auxiliar na impressão da dataTable do consultar acervo do Visitante
@@ -85,8 +102,12 @@ public class M_Livro_DAO {
         con.conexao.setAutoCommit(true);
         Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
+        //setando os valores obtidos no front-end para realizar busca no banco de dados
+        livro.setEditora(livro.getTitulo());
+        livro.setAutor(livro.getTitulo());
+
         //buscando as informações no banco de dados de acordo com o titulo do livro informado pelo usupario, essa busca possui diferencial da coluna Status (Ativo/Inativo)
-        st.execute("select l.codlivro, l.codcatalogacao, l.numchamada, l.titulo, l.autor, l.editora, l.anolancamento, l.cidade, l.volume, l.ativo, case when l.ativo = 1 then \" Ativo \" else \" Inativo \" end as status, datacad, dataalt from livro l where l.titulo like \"%"+ livro.getTitulo() +"%\" order by 1 ;");
+        st.execute("select l.codlivro, l.codcatalogacao, l.numchamada, l.titulo, l.autor, l.editora, l.anolancamento, l.cidade, l.volume, l.ativo, case when l.ativo = 1 then \" Ativo \" else \" Inativo \" end as status, datacad, dataalt, case when disponibilidade = 1 then \" S \" when disponibilidade = 0 then \" N \" end as disponibilidade  from livro l where (l.titulo like \"%"+ livro.getTitulo() +"%\" or l.autor like \"%" + livro.getAutor() + "%\" or l.editora like \"%" + livro.getEditora() + "%\") order by 1 ;");
         ResultSet rs = st.getResultSet();
 
         //declara o arrayList que será usado no dataTable do Bibliotecário
@@ -95,7 +116,7 @@ public class M_Livro_DAO {
         //carregando o arrayList com os valores obtidos no resultSet
         while (rs.next()) {
             M_Livro livro_temporario = new M_Livro
-                   (rs.getInt("codlivro"),
+                (   rs.getInt("codlivro"),
                     rs.getString("codcatalogacao"),
                     rs.getString("numchamada"),
                     rs.getString("titulo"),
@@ -108,9 +129,10 @@ public class M_Livro_DAO {
                     rs.getString("status"),
                    "",
                    "",
-                   rs.getString("datacad"),
-                   rs.getString("dataalt")
-                   );
+                   formatadorDatasBrasil(rs.getString("datacad")),
+                   formatadorDatasBrasil(rs.getString("dataalt")),
+                   rs.getString("disponibilidade")
+                );
 
             livros.add(livro_temporario);
         }
@@ -160,7 +182,7 @@ public class M_Livro_DAO {
             }
 
             //executa a EXCLUSÃO LÓGICA do livro no banco de dados, ou seja, ativo recebe 0
-            st.executeUpdate("UPDATE `bibliotec`.`livro` SET `ativo` = '0', dataalt = current_date() WHERE (`codlivro` =" + livro.getCodlivro() + ");");
+            st.executeUpdate("UPDATE `bibliotec`.`livro` SET `ativo` = '0', dataalt = current_date(), disponibilidade = '0' WHERE (`codlivro` =" + livro.getCodlivro() + ");");
 
             //retorna msg de sucesso na cor verde
             livro.setMsg_retorno("Retorno: O livro '" + titulo + "' foi deletado com sucesso.");
@@ -255,6 +277,12 @@ public class M_Livro_DAO {
                 st.executeUpdate("UPDATE `bibliotec`.`livro` SET ativo = '0' WHERE codlivro = " + livro.getCodlivro() + ";");
             }else{
                 st.executeUpdate("UPDATE `bibliotec`.`livro` SET ativo = '1' WHERE codlivro = " + livro.getCodlivro() + ";");
+            }
+
+            if(livro.getDisponibilidade().equals("0")){
+                st.executeUpdate("UPDATE `bibliotec`.`livro` SET disponibilidade = '0' WHERE codlivro = " + livro.getCodlivro() + ";");
+            }else{
+                st.executeUpdate("UPDATE `bibliotec`.`livro` SET disponibilidade = '1' WHERE codlivro = " + livro.getCodlivro() + ";");
             }
 
             //dependendo se o titulo informado na tela for vazio/nulo ele imprime na mensagem de retorno com base no titulo buscado no banco de dados

@@ -3,18 +3,18 @@ package br.uem.din.bibliotec.config.controller;
 import br.uem.din.bibliotec.config.model.M_Usuario;
 import br.uem.din.bibliotec.config.model.M_Usuario_DAO;
 
-import javax.faces.bean.ManagedBean;
-import java.awt.*;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 //declaração do Bean
-@ManagedBean(name = "loginBean", eager = true)
-public class C_Login {
+@Named
+@RequestScoped
+public class C_Login implements Serializable {
     //declaração de objetos para manipulação dos estados e troca de dados
     M_Usuario_DAO userDAO = new M_Usuario_DAO();
-    M_Usuario user = new M_Usuario("","","","","","","","","","",0,0,"", "");
+    M_Usuario user = new M_Usuario("","");
 
     //contrutores e gets/sets
     public M_Usuario_DAO getUserDAO() {
@@ -34,11 +34,7 @@ public class C_Login {
     }
 
     //realizando a chamado do método de autenticação na Model M_Usuario_DAO
-    public String realizarAcesso() throws SQLException, AWTException {
-        System.out.println("abc");
-        Date data = new Date(System.currentTimeMillis());
-        SimpleDateFormat formatarDate = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.print(formatarDate.format(data));
+    public String realizarAcesso() throws SQLException {
         return userDAO.buscaPermissao(user);
     }
 }
