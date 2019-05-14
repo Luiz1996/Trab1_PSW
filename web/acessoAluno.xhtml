@@ -17,16 +17,60 @@
         <style>
             .popup {
                 position: fixed;
-                top: 0;
+                top: 110px;
                 bottom: 0;
                 left: 0;
                 right: 0;
                 margin: auto;
                 width: 500px;
-                height: 260px;
+                height: 230px;
                 padding: 15px;
                 border: solid 1pX black;
                 background: white;
+                display: none;
+            }
+
+            .jumbotron {
+                position: fixed;
+                top: 150px;
+                bottom: 0;
+                left: -1080px;
+                right: 0;
+                margin: auto;
+                width: 270px;
+                height: 450px;
+            }
+
+            .retornos {
+                position: fixed;
+                top: -350px;
+                bottom: 0px;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                width: 1340px;
+                height: 45px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+            }
+
+            .fechar {
+                position: absolute;
+                top: -190px;
+                bottom: 0;
+                left: 0;
+                right: -460px;
+                margin: auto;
+                width: 25px;
+                height: 25px;
+                border: black 1px solid;
+                border-radius: 3px;
+                background: gray;
+                color: blue;
+            }
+
+            .resetValue{
                 display: none;
             }
         </style>
@@ -36,48 +80,60 @@
         function abrir() {
             document.getElementById('popup').style.display = 'block';
         }
+
         function fechar() {
             document.getElementById('popup').style.display = 'none';
         }
     </script>
 </h:head>
 <h:body>
-    <div id="popup" class="popup">
-        <p>Olá,
-            <a href="#" onClick="document.getElementById('popup').style.display = 'none';">[Fechar]</a>
-            <b></b>
-
-                COLOCAR A AJUDA DO ALUNO AQUI
-
-            <b></b>
-
-        </p>
-
+    <div align="left" class="retornos" id="retornos">
+        <b>
+            <font color="#{c_Livro.livro.color_msg_retorno}">
+                #{c_Livro.livro.msg_retorno}
+            </font>
+            <font color="#{c_Usuario.user.color_msg}">
+                #{c_Usuario.user.msg_autenticacao}
+            </font>
+        </b>
     </div>
+
     <i><h1 align="center"> BiblioTec </h1></i>
-    <p:menubar style="align-items: center">
-        <p:menuitem value="SAIR" url="gestaoBibliotecas.xhtml"></p:menuitem>
-        <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
-    </p:menubar>
-    <section alig="center" class="row">
+    <h:form>
+        <p:menubar>
+            <p:menuitem value="SAIR" action="#{c_Login.logoutSession}"/>
+            <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
+        </p:menubar>
+    </h:form>
+    <section alig="center" class="right">
         <div class="jumbotron">
             <h:form id="telaAluno">
-                <div class="form-group">
                     <h5 align="center">Menu do Aluno</h5>
-                </div>
                 <div class="menu">
                     <div class="form-group">
                         <h:commandButton value="Consultar Livros" class="btn btn-block btn-primary"
                                          action="consultarAcervoAluno?faces-redirect=true"/>
                     </div>
                     <div class="form-group">
+                        <h:commandButton value="Reservar Livros" class="btn btn-block btn-primary"
+                                         action="cadastrarReserva?faces-redirect=true"/>
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton value="Cancelar Reservas" class="btn btn-block btn-primary"
+                                         action="cancelarReserva?faces-redirect=true"/>
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton value="Minhas Reservas" class="btn btn-block btn-primary"
+                                         action="minhasReservas?faces-redirect=true"/>
+                    </div>
+                    <div class="form-group">
                         <h:commandButton value="Meus Empréstimos" class="btn btn-block btn-primary"
-                                         action="acessoAluno?faces-redirect=true"/>
+                                         action="meusEmprestimos?faces-redirect=true"/>
                     </div>
                     <div class="form-group">
 
                         <h:commandButton value="Dados Cadastrais" class="btn btn-block btn-primary"
-                                         action="acessoAluno?faces-redirect=true"/>
+                                         action="meusDados?faces-redirect=true"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -85,7 +141,41 @@
                         <p> Perfil: Aluno</p>
                     </div>
                 </div>
+                <div id="popup" class="popup">
+                    <p>
+                        <button class="fechar" onclick="fechar()">x</button>
+                        <b></b>
+                        <p>
+                            Olá, notamos que você é um <b>Aluno(a)</b>, então temos as sessões:
+                        </p>
+                        <b></b>
+                        <p>
+                            <b>
+                                - Menu do Aluno :
+                            </b>
+                            Esta sessão possui as funcionalidades particulares de um aluno, onde você pode consultar os livros do acervo da biblioteca e também a disponibildiade para empréstimos, pode reservar e cancelar reservas de livros, ter acesso aos empréstimos em seu nome e também pode editar suas informações cadastrais.
+                        </p>
+                        <b></b>
+                    </p>
+                </div>
             </h:form>
+        </div>
+        <div class="resetValue">
+            #{c_Usuario.user.msg_autenticacao = ''}
+            #{c_Usuario.user.nome = ''}
+            #{c_Usuario.user.usuario = ''}
+            #{c_Usuario.user.senha = ''}
+            #{c_Usuario.user.rg = ''}
+            #{c_Usuario.user.cpf = ''}
+            #{c_Usuario.user.email = ''}
+            #{c_Usuario.user.endereco = ''}
+            #{c_Usuario.user.cep = ''}
+            #{c_Usuario.user.cidade = ''}
+            #{c_Usuario.user.estado = ''}
+            #{c_Usuario.user.datanasc = ''}
+            #{c_Livro.livro.msg_retorno = ''}
+            #{c_Livro.livro.codlivro = -1}
+            #{c_Livro.livro.titulo = ''}
         </div>
     </section>
 </h:body>

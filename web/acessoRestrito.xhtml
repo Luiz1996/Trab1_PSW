@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+>
+<h:head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous"></link>
+    <title>Acesso Restrito | BiblioTec</title>
+    <meta charset="utf-8">
+        <style>
+            .div-principal {
+                position: fixed;
+                top: 0px;
+                bottom: 0px;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                width: 400px;
+                height: 150px;
+                border: solid 0.5px black;
+                border-radius: 5px;
+                display: block;
+            }
+
+            .geral {
+                background: gray;
+            }
+
+            .btn {
+                position: absolute;
+                top: 0px;
+                bottom: -35px;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                width: 247px;
+                height: 40px;
+            }
+        </style>
+    </meta>
+    <link href="icone.png" rel="shortcut icon" type="image/x-png"></link>
+</h:head>
+<h:body>
+    <section class="right">
+        <div class="geral" id="geral">
+            <div class="div-principal" id="div-principal">
+                <div align="center" class="first" id="first">
+                    <i><h1>Acesso Restrito</h1></i>
+                </div>
+                <div align="center" class="second" id="second">
+                    <h7>Você não tem permissão para acessar esta área.</h7>
+                </div>
+                <br/>
+                <h:form>
+                    <div class="btn" id="btn">
+                        <h:commandButton value="Voltar" class="btn btn-block btn-primary"
+                                         action="#{c_Login.logoutSession}"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </section>
+</h:body>
+</html>

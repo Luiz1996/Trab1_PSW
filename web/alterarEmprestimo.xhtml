@@ -135,7 +135,7 @@
 
                         <f:selectItem noSelectionOption="true" itemLabel="Selecione o empréstimo que deseja alterar"/>
                         <f:selectItems value="#{c_Emprestimo.consultaEmprestimosEmVigor()}" var="emp"
-                                       itemLabel="Nome: #{emp.nome_user} | E-mail: #{emp.email_user} | Título: #{emp.titulo_book} | Autor: #{emp.autor_book} | Editora: #{emp.editora_book} | Ano lanç.: #{emp.anolancamento_book}"
+                                       itemLabel="Nome: #{emp.nome_user} | E-mail: #{emp.email_user} | CPF: #{emp.cpf_user} | RG: #{emp.rg_user} | Título: #{emp.titulo_book} | Autor: #{emp.autor_book} | Editora: #{emp.editora_book} | Ano lanç.: #{emp.anolancamento_book}"
                                        itemValue="#{emp.codemprestimo}"/>
                     </p:selectOneMenu>
 
@@ -162,7 +162,7 @@
                     </p:selectOneMenu>
 
                     <p:outputLabel value="Data Devolução"/>
-                    <p:inputMask class="form-control" value="#{c_Emprestimo.emp.datadev}" mask="99/99/9999" required="true" placeholder="DD/MM/AAAA" maxlength="10"/>
+                    <p:inputMask class="form-control" value="#{c_Emprestimo.emp.datadev}" mask="99/99/9999" required="false" placeholder="DD/MM/AAAA" maxlength="10"/>
                     <br/>
 
                     <div id="conf" class="conf">

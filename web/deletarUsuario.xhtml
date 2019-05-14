@@ -61,7 +61,7 @@
                 color: blue;
             }
 
-            .jumbotron{
+            .jumbotron {
                 background: lightgray;
             }
         </style>
@@ -123,120 +123,42 @@
                                      action="cadastrarUsuarioBalconista?faces-redirect=true"/>
                 </div>
                 <div class="form-group">
+                    <h:commandButton value="Consultar Usuário" class="btn btn-block btn-primary"
+                                     action="consultaUsuario?faces-redirect=true"/>
+                </div>
+                <div class="form-group">
                     <h:commandButton value="Alterar Usuário" class="btn btn-block btn-primary"
                                      action="editarUsuario?faces-redirect=true"/>
                 </div>
             </h:form>
-            <h:form id="buscarLivro">
-                <div class="form-group">
-                    <h:outputLabel value="Nome do Usuário, Username, E-Mail ou CPF"/>
-                    <p:inputText value="#{c_Usuario.user.nome}" class="form-control" required="false"
-                                 placeholder="Insira o nome do usuário, username, e-mail ou cpf" maxlength="100"></p:inputText>
-                </div>
-                <div class="form-group">
-                    <h:commandButton value="Buscar" class="btn btn-block btn-primary"
-                                     action="#{c_Usuario.realizaConsultaUsuario}"></h:commandButton>
-                </div>
-            </h:form>
-            <section alig="center" class="row">
-                <div class="form-group">
-                    <p:dataTable value="#{c_Usuario.realizaConsultaUsuario()}" var="usuario" border="9"
-                                 rendered="true"
-                                 title="Relação de Usuários.">
+            <p:outputLabel value="Usuários"/><font color="red">*</font>
+            <h:form id="Usuario">
+                <p:selectOneMenu filter="true" value="#{c_Usuario.user.codusuario}" filterMatchMode="contains"
+                                 required="true" style="width:1290px" panelStyle="width:1330px">
 
-                        <f:facet name="header">
-                            Relação de Usuários
-                        </f:facet>
-
-                        <p:column>
-                            <f:facet name="header">Id</f:facet>
-                            #{usuario.codusuario}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Nome</f:facet>
-                            #{usuario.nome}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Usuario</f:facet>
-                            #{usuario.usuario}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">E-Mail</f:facet>
-                            #{usuario.email}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">RG</f:facet>
-                            #{usuario.rg}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">CPF</f:facet>
-                            #{usuario.cpf}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Endereço</f:facet>
-                            #{usuario.endereco}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">CEP</f:facet>
-                            #{usuario.cep}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Cidade</f:facet>
-                            #{usuario.cidade}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Estado</f:facet>
-                            #{usuario.estado}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Dt. Cad.</f:facet>
-                            #{usuario.datacad}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Dt. Alt.</f:facet>
-                            #{usuario.dataalt}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Dt. Nasc.</f:facet>
-                            #{usuario.datanasc}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Permissão</f:facet>
-                            #{usuario.perfil}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Status</f:facet>
-                            #{usuario.status}
-                        </p:column>
-                    </p:dataTable>
-                    <h:form id="deletarUsuario">
+                    <f:selectItem noSelectionOption="true" itemLabel="Selecione um usuário"/>
+                    <f:selectItems value="#{c_Usuario.realizaConsultaUsuariosAtivos()}" var="user"
+                                   itemLabel="Nome: #{user.nome} | E-mail: #{user.email} | Usuário: #{user.usuario} | CPF: #{user.cpf} | RG: #{user.rg} | Cidade: #{user.cidade} | Dt. Nasc.: #{user.datanasc}"
+                                   itemValue="#{user.codusuario}"/>
+                </p:selectOneMenu>
+                <div id="conf" class="conf">
+                    <p align="center">
+                        <h:outputLabel value="Deseja deletar o usuário selecionado?"/>
+                    </p>
+                    <h:form>
                         <div class="form-group">
-                            <h:outputLabel value="Id do Usuario"/><font color="red">*</font>
-                            <p:inputText value="#{c_Usuario.user.codusuario}" class="form-control"
-                                         required="true" placeholder="Insira o código Id do usuário"></p:inputText>
-                        </div>
-                        <div id="conf" class="conf">
-                            <p align="center">
-                                <h:outputLabel value="Deseja deletar o usuário selecionado?"/>
-                            </p>
-                            <h:form>
-                                <div class="form-group">
-                                    <h:commandButton value="Sim" class="btn btn-block btn-primary"
-                                                     action="#{c_Usuario.realizaDelecaoUsuario}"/>
-                                </div>
-                                <div class="form-group">
-                                    <h:commandButton value="Não" class="btn btn-block btn-primary"
-                                                     onclick="fecha()"></h:commandButton>
-                                </div>
-                            </h:form>
+                            <h:commandButton value="Sim" class="btn btn-block btn-primary"
+                                             action="#{c_Usuario.realizaDelecaoUsuario}"/>
                         </div>
                         <div class="form-group">
-                            <h:commandButton value="Deletar" class="btn btn-block btn-primary"
-                                             rendered="true" onclick="abri()"></h:commandButton>
+                            <h:commandButton value="Não" class="btn btn-block btn-primary"
+                                             onclick="fecha()"></h:commandButton>
                         </div>
                     </h:form>
                 </div>
-            </section>
+                <h:commandButton value="Deletar" class="btn btn-block btn-primary"
+                                 onclick="abri()"/>
+            </h:form>
         </div>
     </section>
 </h:body>

@@ -141,24 +141,7 @@
     </script>
 </h:head>
 <h:body>
-    <div id="popup" class="popup">
-        <p>Bem vindo ao Sistema BiblioTec!
-            <button class="fechar" onclick="fechar()">x</button>
-            <b></b>
-            <p>
-                Se você é um visitante, poderá clicar em Acervo para saber quais obras temos em nossa instituição.
-            </p>
-            <b></b>
-            <p>
-                Agora, se você desejar ter acesso as funcionalidades especiais, preencha seu usuário/senha e clique em Login.
-            </p>
-            <b></b>
-            <p>
-                Caso não tenha um cadastro, poderá fazê-lo clicando em Cadastre-se.
-            </p>
-        </p>
-
-    </div>
+    #{c_Login.usuario = ''}
     <i><h1 align="center"> BiblioTec </h1></i>
     <p:menubar>
         <p:menuitem value="ACERVO" url="consultarAcervo.xhtml"></p:menuitem>
@@ -171,12 +154,12 @@
                 <h5 align="center">Acesso</h5><br></br>
                 <div class="usuario" id="usuario">
                     <h:outputLabel value="Usuário"/><br></br>
-                    <p:inputText value="#{c_Login.user.usuario}" class="form-control"
+                    <p:inputText value="#{c_Login.usuario}" class="form-control"
                                  placeholder="Usuário, E-mail ou CPF" maxlength="100"/>
                 </div>
                 <div class="senha" id="senha">
                     <h:outputLabel value="Senha"/><br></br>
-                    <p:password value="#{c_Login.user.senha}" class="form-control" maxlength="30" placeholder="Senha"/>
+                    <p:password value="#{c_Login.senha}" class="form-control" maxlength="30" placeholder="Senha"/>
                 </div>
                 <div class="login" id="login">
                     <h:commandButton value="Login" class="btn btn-block btn-primary"
@@ -189,17 +172,48 @@
                 <div align="center" class="retorno" id="retorno">
                     <font color="red">
                         <i>
-                            <h:outputLabel value="#{c_Login.user.msg_autenticacao}"/>
+                            <h:outputLabel value="#{c_Login.login.msg_autenticacao}"/>
                             <h:outputLabel value="#{c_Usuario.user.msg_autenticacao}"/>
                         </i>
                     </font>
                 </div>
+                #{c_Login.login.msg_autenticacao = ''}
             </h:form>
         </div>
-
         <div id="imagem" class="imagem">
             <a href="http://www.bce.uem.br/" title="Novas aquisições da Biblioteca Central - UEM." target="_blank">
                 <img align="right" src="manchete.jpg" width="1070" height="475" alt="Banner UEM."/></a>
+        </div>
+        <div id="popup" class="popup">
+            <p>Bem vindo ao Sistema BiblioTec!
+                <button class="fechar" onclick="fechar()">x</button>
+                <b></b>
+                <p>
+                    Se você é um visitante, poderá clicar em Acervo para saber quais obras temos em nossa instituição.
+                </p>
+                <b></b>
+                <p>
+                    Agora, se você desejar ter acesso as funcionalidades especiais, preencha seu usuário/senha e clique em Login.
+                </p>
+                <b></b>
+                <p>
+                    Caso não tenha um cadastro, poderá fazê-lo clicando em Cadastre-se.
+                </p>
+            </p>
+        </div>
+        <div>
+            #{c_Usuario.user.msg_autenticacao = ''}
+            #{c_Usuario.user.nome = ''}
+            #{c_Usuario.user.usuario = ''}
+            #{c_Usuario.user.senha = ''}
+            #{c_Usuario.user.rg = ''}
+            #{c_Usuario.user.cpf = ''}
+            #{c_Usuario.user.email = ''}
+            #{c_Usuario.user.endereco = ''}
+            #{c_Usuario.user.cep = ''}
+            #{c_Usuario.user.cidade = ''}
+            #{c_Usuario.user.estado = ''}
+            #{c_Usuario.user.datanasc = ''}
         </div>
     </section>
 </h:body>

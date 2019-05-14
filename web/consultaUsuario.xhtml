@@ -18,7 +18,7 @@
         <style>
             .popup {
                 position: fixed;
-                top: -200px;
+                top: -150px;
                 bottom: 0;
                 left: 0;
                 right: -50px;
@@ -48,6 +48,15 @@
 
             .jumbotron{
                 background: lightgray;
+                width: 2000px;
+            }
+
+            #menu{
+                width: 2000px;
+            }
+            
+            #btn{
+                width: 1260px;
             }
         </style>
     </meta>
@@ -76,26 +85,26 @@
         </p>
     </div>
     <i><h1 align="center"> BiblioTec </h1></i>
-    <p:menubar style="align-items: center">
+    <p:menubar style="align-items: center" id="menu">
         <p:menuitem value="MENU INICIAL" url="acessoBalconista.xhtml"></p:menuitem>
         <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
     </p:menubar>
     <section alig="center" class="right">
         <div class="jumbotron">
             <h:form id="telaBalconista">
-                <div class="form-group">
-                    <h5 align="center">Controle de Usuários</h5><br/>
-                </div>
-                <div class="form-group">
-                    <div class="form-group">
+                <div class="form-group" id="btn">
+                    <div class="form-group" id="titulo" align="center">
+                        <h5 align="center">Controle de Usuários</h5><br/>
+                    </div>
+                    <div class="form-group" style="width: 1270px">
                         <h:commandButton value="Cadastrar Usuário" class="btn btn-block btn-primary"
                                          action="cadastrarUsuarioBalconista?faces-redirect=true"/>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="width: 1270px">
                         <h:commandButton value="Alterar Usuário" class="btn btn-block btn-primary"
                                          action="editarUsuario?faces-redirect=true"/>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="width: 1270px">
                         <h:commandButton value="Deletar Usuário" class="btn btn-block btn-primary"
                                          action="deletarUsuario?faces-redirect=true"/>
                     </div>
@@ -104,87 +113,114 @@
             <section alig="center" class="row">
                 <div class="form-group">
                     <h:form id="telaConsultaUsuarios">
-                        <div class="form-group">
+                        <div class="form-group" style="width: 1300px">
                             <h:outputLabel value="Nome do Usuário, Username, E-Mail ou CPF"/>
                             <p:inputText value="#{c_Usuario.user.nome}" class="form-control" required="false"
                                          maxlength="100" placeholder="Insira o nome do usuário, username, e-mail ou cpf"></p:inputText>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="width: 1300px">
                             <h:commandButton value="Buscar" class="btn btn-block btn-primary"
                                              action="#{c_Usuario.realizaConsultaUsuario}"></h:commandButton>
                         </div>
                     </h:form>
-                    <p:dataTable value="#{c_Usuario.realizaConsultaUsuario()}" var="usuario" border="9"
-                                 rendered="true"
-                                 title="Relação de Usuário.">
 
-                        <f:facet name="header">
-                            Relação de Usuários
-                        </f:facet>
+                    <h:form>
+                        <p:dataTable id="tbl" class="tbl" var="usuario"
+                                     value="#{c_Usuario.realizaConsultaUsuario()}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                     paginator="true" rows="5"
+                                     scrollWidth="900">
 
-                        <div align="center" class="form-group">
-                            <p:column>
-                                <f:facet name="header">Id</f:facet>
-                                #{usuario.codusuario}
+                            <f:facet name="header">Relação de Usuários</f:facet>
+
+                            <f:facet name="{Exporters}">
+                                <div style="float:left;padding-top: 5px;">
+                                    <h:commandLink>
+                                        <p:graphicImage url="/export/images/pdf.png" width="24"
+                                                        title="Exportar todas as páginas como PDF"/>
+                                        <p:dataExporter type="pdf" target="tbl" fileName="relaçãoUsuários"/>
+                                    </h:commandLink>
+                                </div>
+                                <div style="float:left;padding-top: 5px;">
+                                    <h:commandLink>
+                                        <p:graphicImage url="/export/images/xls.png" width="34"
+                                                        title="Exportar todas as páginas como planiha"/>
+                                        <p:dataExporter type="xls" target="tbl" fileName="relaçãoUsuários"/>
+                                    </h:commandLink>
+                                </div>
+                            </f:facet>
+
+                            <p:column headerText="Id" width="40">
+                                <h:outputText value="#{usuario.codusuario}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">Nome</f:facet>
-                                #{usuario.nome}
+
+                            <p:column headerText="Nome" width="100">
+                                <h:outputText value="#{usuario.nome}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">Usuario</f:facet>
-                                #{usuario.usuario}
+
+                            <p:column headerText="Usuário" width="100">
+                                <h:outputText value="#{usuario.usuario}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">E-Mail</f:facet>
-                                #{usuario.email}
+
+                            <p:column headerText="E-mail" width="170">
+                                <h:outputText value="#{usuario.email}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">RG</f:facet>
-                                #{usuario.rg}
+
+                            <p:column headerText="RG" width="80">
+                                <h:outputText value="#{usuario.rg}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">CPF</f:facet>
-                                #{usuario.cpf}
+
+                            <p:column headerText="CPF" width="115">
+                                <h:outputText value="#{usuario.cpf}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">Endereço</f:facet>
-                                #{usuario.endereco}
+
+                            <p:column headerText="Endereço" width="80">
+                                <h:outputText value="#{usuario.endereco}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">CEP</f:facet>
-                                #{usuario.cep}
+
+                            <p:column headerText="CEP" width="85">
+                                <h:outputText value="#{usuario.cep}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">Cidade</f:facet>
-                                #{usuario.cidade}
+
+                            <p:column headerText="Cidade" width="85">
+                                <h:outputText value="#{usuario.cidade}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">Estado</f:facet>
-                                #{usuario.estado}
+
+                            <p:column headerText="Estado" width="80">
+                                <h:outputText value="#{usuario.estado}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">Dt. Cad.</f:facet>
-                                #{usuario.datacad}
+
+                            <p:column headerText="Dt. Cad." width="90">
+                                <h:outputText value="#{usuario.datacad}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">Dt. Alt.</f:facet>
-                                #{usuario.dataalt}
+
+                            <p:column headerText="Dt. Alt." width="90">
+                                <h:outputText value="#{usuario.dataalt}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">Dt. Nasc.</f:facet>
-                                #{usuario.datanasc}
+
+                            <p:column headerText="Dt. Nasc." width="90">
+                                <h:outputText value="#{usuario.datanasc}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">Permissão</f:facet>
-                                #{usuario.perfil}
+
+                            <p:column headerText="Permissão" width="100">
+                                <h:outputText value="#{usuario.perfil}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">Status</f:facet>
-                                #{usuario.status}
+
+                            <p:column headerText="Status" width="70">
+                                <h:outputText value="#{usuario.status}"/>
                             </p:column>
-                        </div>
-                    </p:dataTable>
+
+                        </p:dataTable>
+                        <h5>Exportar somente a página atual</h5>
+                        <h:commandLink>
+                            <p:graphicImage url="/export/images/pdf.png" width="24" title="Exportar como PDF"/>
+                            <p:dataExporter type="pdf" target="tbl" fileName="relaçãoUsuários" pageOnly="true"/>
+                        </h:commandLink>
+                        <h:commandLink>
+                            <p:graphicImage url="/export/images/xls.png" width="40" title="Exportar como planilha"/>
+                            <p:dataExporter type="xls" target="tbl" fileName="relaçãoUsuários" pageOnly="true"/>
+                        </h:commandLink>
+                    </h:form>
                 </div>
             </section>
         </div>

@@ -17,10 +17,10 @@ public class M_Emprestimo {
     private String editora_book = "";
     private String anolancamento_book = "";
     private String status_emp = "";
+    private String rg_user = "";
+    private String cpf_user = "";
 
     //declaração dos contrutores e gets/sets
-
-
     public M_Emprestimo(int codemprestimo, int codusuario, int codlivro, String dataemp, String datadev, String dataalt, int ativo, String msg_retorno, String color_msg_retorno, String nome_user, String email_user, String titulo_book, String autor_book, String editora_book, String anolancamento_book, String status_emp) {
         this.codemprestimo = codemprestimo;
         this.codusuario = codusuario;
@@ -38,7 +38,46 @@ public class M_Emprestimo {
         this.editora_book = editora_book;
         this.anolancamento_book = anolancamento_book;
         this.status_emp = status_emp;
+        this.rg_user = rg_user;
+        this.cpf_user = cpf_user;
     }
+
+    public M_Emprestimo(String titulo_book, String autor_book, String editora_book,String dataemp, String datadev) {
+        this.titulo_book = titulo_book;
+        this.autor_book = autor_book;
+        this.editora_book = editora_book;
+        this.dataemp = dataemp;
+        this.datadev = datadev;
+    }
+
+    public M_Emprestimo(int codemprestimo, int codusuario, int codlivro, String dataemp, String datadev, String dataalt, int ativo, String msg_retorno, String color_msg_retorno, String nome_user, String email_user, String titulo_book, String autor_book, String editora_book, String anolancamento_book, String status_emp, String rg_user, String cpf_user) {
+        this.codemprestimo = codemprestimo;
+        this.codusuario = codusuario;
+        this.codlivro = codlivro;
+        this.dataemp = dataemp;
+        this.datadev = datadev;
+        this.dataalt = dataalt;
+        this.ativo = ativo;
+        this.msg_retorno = msg_retorno;
+        this.color_msg_retorno = color_msg_retorno;
+        this.nome_user = nome_user;
+        this.email_user = email_user;
+        this.titulo_book = titulo_book;
+        this.autor_book = autor_book;
+        this.editora_book = editora_book;
+        this.anolancamento_book = anolancamento_book;
+        this.status_emp = status_emp;
+        this.rg_user = rg_user;
+        this.cpf_user = cpf_user;
+    }
+
+    public String getRg_user() { return rg_user; }
+
+    public void setRg_user(String rg_user) { this.rg_user = rg_user; }
+
+    public String getCpf_user() { return cpf_user; }
+
+    public void setCpf_user(String cpf_user) { this.cpf_user = cpf_user; }
 
     public String getNome_user() { return nome_user; }
 

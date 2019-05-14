@@ -126,7 +126,7 @@
 
                         <f:selectItem noSelectionOption="true" itemLabel="Selecione um usuário"/>
                         <f:selectItems value="#{c_Emprestimo.consultaUsuariosEmprestimo()}" var="user"
-                                       itemLabel="Nome: #{user.nome} | CPF: #{user.cpf} | E-Mail: #{user.email}"
+                                       itemLabel="Nome: #{user.nome} | CPF: #{user.cpf} | E-Mail: #{user.email} | RG: #{user.rg} | Dt. Nasc.: #{user.datanasc}"
                                        itemValue="#{user.codusuario}"/>
                     </p:selectOneMenu>
 

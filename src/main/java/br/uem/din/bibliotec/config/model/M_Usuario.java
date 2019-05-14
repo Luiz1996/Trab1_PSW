@@ -1,8 +1,10 @@
 package br.uem.din.bibliotec.config.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class M_Usuario {
+public class M_Usuario implements Serializable {
+    public static final long serialVersionUID = 1L;
     //atributos dos usuarios
     private String email = "";
     private String usuario = "";
@@ -91,12 +93,16 @@ public class M_Usuario {
         this.datanasc = datanasc;
     }
 
-    public M_Usuario(String nome, int codusuario, String cpf, String email) {
+    public M_Usuario(String nome, int codusuario, String cpf, String email, String rg, String datanasc) {
         this.nome = nome;
         this.codusuario = codusuario;
         this.cpf = cpf;
         this.email = email;
+        this.rg = rg;
+        this.datanasc = datanasc;
     }
+
+    public M_Usuario(){}
 
     public M_Usuario(int codusuario) { this.codusuario = codusuario; }
 

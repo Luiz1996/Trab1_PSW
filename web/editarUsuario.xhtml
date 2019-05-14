@@ -63,6 +63,19 @@
 
             .jumbotron{
                 background: lightgray;
+                width: 2000px;
+            }
+
+            #menu{
+                width: 2000px;
+            }
+
+            #btn{
+                width: 1260px;
+            }
+
+            #menu{
+                width: 2000px;
             }
         </style>
     </meta>
@@ -88,7 +101,7 @@
     </script>
 </h:head>
 <h:body>
-
+    #{c_Usuario.user.nome = ''}
     <style type="text/css">
         .value {
             font-weight: bold;
@@ -108,167 +121,197 @@
         </p>
     </div>
     <i><h1 align="center"> BiblioTec </h1></i>
-    <p:menubar style="align-items: center">
+    <p:menubar style="align-items: center" id="menu">
         <p:menuitem value="MENU INICIAL" url="acessoBalconista.xhtml"></p:menuitem>
         <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
     </p:menubar>
     <section alig="center" class="right">
         <div class="jumbotron">
             <h:form id="telaBibliotecario">
-                <div class="form-group">
+                <div class="form-group" id="btn">
                     <h5 align="center">Controle de Usuários</h5><br/>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="width: 1270px">
                     <h:commandButton value="Cadastrar Usuário" class="btn btn-block btn-primary"
                                      action="cadastrarUsuarioBalconista?faces-redirect=true"/>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="width: 1270px">
                     <h:commandButton value="Deletar Usuário" class="btn btn-block btn-primary"
                                      action="deletarUsuario?faces-redirect=true"/>
                 </div>
             </h:form>
-            <h:form id="buscarUsuário">
-                <div class="form-group">
-                    <h:outputLabel value="Nome do Usuário, Username, E-Mail ou CPF"/>
-                    <p:inputText value="#{c_Usuario.user.nome}" class="form-control" required="false"
-                                 placeholder="Insira o nome do usuário, username, e-mail ou cpf" maxlength="100"></p:inputText>
-                </div>
-                <div class="form-group">
-                    <h:commandButton value="Buscar" class="btn btn-block btn-primary"
-                                     action="#{c_Usuario.realizaConsultaUsuario}"></h:commandButton>
-                </div>
-            </h:form>
+            <section alig="center" class="row">
+            <div class="form-group">
+                <h:form id="telaConsultaUsuarios">
+                    <div class="form-group" style="width: 1300px">
+                        <h:outputLabel value="Nome do Usuário, Username, E-Mail ou CPF"/>
+                        <p:inputText value="#{c_Usuario.user.nome}" class="form-control" required="false"
+                                     maxlength="100" placeholder="Insira o nome do usuário, username, e-mail ou cpf"></p:inputText>
+                    </div>
+                    <div class="form-group" style="width: 1300px">
+                        <h:commandButton value="Buscar" class="btn btn-block btn-primary"
+                                         action="#{c_Usuario.realizaConsultaUsuario}"></h:commandButton>
+                    </div>
+                </h:form>
 
-                <div class="form-group">
-                    <p:dataTable value="#{c_Usuario.realizaConsultaUsuario()}" var="usuario" border="9"
-                                 rendered="true" title="Relação de Usuários.">
+                <h:form>
+                    <p:dataTable id="tbl" class="tbl" var="usuario"
+                                 value="#{c_Usuario.realizaConsultaUsuario()}"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                 paginator="true" rows="5"
+                                 scrollWidth="2000">
 
-                        <f:facet name="header">
-                            Relação de Usuários
+                        <f:facet name="header">Relação de Usuários</f:facet>
+
+                        <f:facet name="{Exporters}">
+                            <div style="float:left;padding-top: 5px;">
+                                <h:commandLink>
+                                    <p:graphicImage url="/export/images/pdf.png" width="24"
+                                                    title="Exportar todas as páginas como PDF"/>
+                                    <p:dataExporter type="pdf" target="tbl" fileName="relaçãoUsuários"/>
+                                </h:commandLink>
+                            </div>
+                            <div style="float:left;padding-top: 5px;">
+                                <h:commandLink>
+                                    <p:graphicImage url="/export/images/xls.png" width="34"
+                                                    title="Exportar todas as páginas como planiha"/>
+                                    <p:dataExporter type="xls" target="tbl" fileName="relaçãoUsuários"/>
+                                </h:commandLink>
+                            </div>
                         </f:facet>
-                        <p:column>
-                            <f:facet name="header">Id</f:facet>
-                            #{usuario.codusuario}
+
+                        <p:column headerText="Id" width="40">
+                            <h:outputText value="#{usuario.codusuario}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Nome</f:facet>
-                            #{usuario.nome}
+
+                        <p:column headerText="Nome" width="100">
+                            <h:outputText value="#{usuario.nome}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Usuario</f:facet>
-                            #{usuario.usuario}
+
+                        <p:column headerText="Usuário" width="100">
+                            <h:outputText value="#{usuario.usuario}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">E-Mail</f:facet>
-                            #{usuario.email}
+
+                        <p:column headerText="E-mail" width="170">
+                            <h:outputText value="#{usuario.email}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">RG</f:facet>
-                            #{usuario.rg}
+
+                        <p:column headerText="RG" width="80">
+                            <h:outputText value="#{usuario.rg}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">CPF</f:facet>
-                            #{usuario.cpf}
+
+                        <p:column headerText="CPF" width="115">
+                            <h:outputText value="#{usuario.cpf}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Endereço</f:facet>
-                            #{usuario.endereco}
+
+                        <p:column headerText="Endereço" width="80">
+                            <h:outputText value="#{usuario.endereco}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">CEP</f:facet>
-                            #{usuario.cep}
+
+                        <p:column headerText="CEP" width="85">
+                            <h:outputText value="#{usuario.cep}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Cidade</f:facet>
-                            #{usuario.cidade}
+
+                        <p:column headerText="Cidade" width="85">
+                            <h:outputText value="#{usuario.cidade}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Estado</f:facet>
-                            #{usuario.estado}
+
+                        <p:column headerText="Estado" width="80">
+                            <h:outputText value="#{usuario.estado}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Dt.Cad.</f:facet>
-                            #{usuario.datacad}
+
+                        <p:column headerText="Dt. Cad." width="90">
+                            <h:outputText value="#{usuario.datacad}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Dt. Alt.</f:facet>
-                            #{usuario.dataalt}
+
+                        <p:column headerText="Dt. Alt." width="90">
+                            <h:outputText value="#{usuario.dataalt}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Dt.Nasc.</f:facet>
-                            #{usuario.datanasc}
+
+                        <p:column headerText="Dt. Nasc." width="90">
+                            <h:outputText value="#{usuario.datanasc}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Permissão</f:facet>
-                            #{usuario.perfil}
+
+                        <p:column headerText="Permissão" width="100">
+                            <h:outputText value="#{usuario.perfil}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Status</f:facet>
-                            #{usuario.status}
+
+                        <p:column headerText="Status" width="70">
+                            <h:outputText value="#{usuario.status}"/>
                         </p:column>
+
                     </p:dataTable>
-                    <p align="center">
-                        <font color="red">**Inserir as informações apenas nos campos que deseja alterar**</font>
-                    </p>
+                    <h5>Exportar somente a página atual</h5>
+                    <h:commandLink>
+                        <p:graphicImage url="/export/images/pdf.png" width="24" title="Exportar como PDF"/>
+                        <p:dataExporter type="pdf" target="tbl" fileName="relaçãoUsuários" pageOnly="true"/>
+                    </h:commandLink>
+                    <h:commandLink>
+                        <p:graphicImage url="/export/images/xls.png" width="40" title="Exportar como planilha"/>
+                        <p:dataExporter type="xls" target="tbl" fileName="relaçãoUsuários" pageOnly="true"/>
+                    </h:commandLink>
+                </h:form>
                     #{c_Usuario.user.nome = ""}
                     #{c_Usuario.user.usuario = ""}
                     #{c_Usuario.user.cpf = ""}
                     #{c_Usuario.user.email = ""}
-                    <h:form id="alterarUsuario">
-                        <div class="form-group">
-                            <h:outputLabel value="Nome"/>
-                            <p:inputText value="#{c_Usuario.user.nome}" class="form-control"
-                                         maxlength="60" required="false" placeholder="Insira o nome do usuário"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Usuário"/>
-                            <p:inputText value="#{c_Usuario.user.usuario}" class="form-control"
-                                         maxlength="30" required="false" placeholder="Insira o username"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="E-Mail"/>
-                            <p:inputText value="#{c_Usuario.user.email}" class="form-control"
-                                         maxlength="100" required="false" placeholder="Insira o novo e-mail"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="RG"/>
-                            <p:inputText value="#{c_Usuario.user.rg}" class="form-control"
-                                         maxlength="10" required="false" placeholder="Insira o RG(somente números)"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="CPF"/>
-                            <p:inputText value="#{c_Usuario.user.cpf}" class="form-control"
-                                         maxlength="15" required="false" placeholder="Insira o CPF(somente números)"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Endereço"/>
-                            <p:inputText value="#{c_Usuario.user.endereco}" class="form-control"
-                                         maxlength="100" required="false" placeholder="Insira o novo endereço do usuário"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="CEP"/>
-                            <p:inputText value="#{c_Usuario.user.cep}" class="form-control"
-                                         maxlength="9" required="false" placeholder="Insira o novo CEP(somente números)"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Cidade"/>
-                            <p:inputText value="#{c_Usuario.user.cidade}" class="form-control"
-                                         maxlength="60" required="false" placeholder="Insira a nova cidade do usuário"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Estado"/>
-                            <p:inputText value="#{c_Usuario.user.estado}" class="form-control"
-                                         maxlength="20" required="false" placeholder="Insira o novo estado do usuário"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Data Nascimento"/>
-                            <p:inputMask class="form-control" value="#{c_Usuario.user.datanasc}" mask="99/99/9999" placeholder="DD/MM/AAAA" maxlength="10"/>
-                        </div>
+                    <h:form id="alterarUsuario" style="width: 1315px">
+                        <p align="center">
+                            <font color="red">**Inserir as informações apenas nos campos que deseja alterar**</font>
+                        </p>
 
-                        <h:outputText value="Perfil de Usuário"/>
+                        <h:outputLabel value="Nome Completo"/>
+                        <p:inputMask class="form-control" value="#{c_Usuario.user.nome}" required="false"
+                                     placeholder="Insira o seu nome completo" maxlength="60"/>
+
+                        <h:outputLabel value="Username"/>
+                        <p:inputText value="#{c_Usuario.user.usuario}" class="form-control"
+                                     required="false" placeholder="Insira o username de acesso" maxlength="30"></p:inputText>
+
+                        <h:outputLabel value="Senha"/>
+                        <p:inputText value="#{c_Usuario.user.senha}" class="form-control"
+                                     required="false" placeholder="Insira a senha de acesso" maxlength="30"></p:inputText>
+
+                        <h:outputLabel value="RG"/>
+                        <p:inputMask class="form-control" value="#{c_Usuario.user.rg}" mask="9999999999" required="false"
+                                     placeholder="Insira o seu RG(somente números)" maxlength="10"/>
+
+                        <h:outputLabel value="CPF"/>
+                        <p:inputMask class="form-control" value="#{c_Usuario.user.cpf}" mask="999999999999999"
+                                     required="false" placeholder="Insira o seu CPF(somente números)" maxlength="15"/>
+
+                        <h:outputLabel value="Endereço"/>
+                        <p:inputText value="#{c_Usuario.user.endereco}" class="form-control"
+                                     required="false"
+                                     placeholder="Insira os dados do seu endereço(ex: rua, bairro, número, etc...)"
+                                     maxlength="100"></p:inputText>
+
+                        <h:outputLabel value="CEP"/>
+                        <p:inputMask class="form-control" value="#{c_Usuario.user.cep}" mask="99999-999" required="false"
+                                     placeholder="Insira o CEP da sua rua(somente números)" maxlength="8"/>
+
+                        <h:outputLabel value="Cidade"/>
+                        <p:inputText value="#{c_Usuario.user.cidade}" class="form-control"
+                                     required="false" placeholder="Insira a cidade onde mora" maxlength="60"></p:inputText>
+
+                        <h:outputLabel value="Estado"/>
+                        <p:inputMask class="form-control" value="#{c_Usuario.user.estado}" mask="aa" required="false"
+                                     placeholder="Insira a sigla do Estado onde mora" maxlength="2"/>
+
+                        <h:outputLabel value="E-mail"/>
+                        <p:inputText value="#{c_Usuario.user.email}" class="form-control"
+                                     required="false" placeholder="Insira seu endereço de e-mail"
+                                     maxlength="100"></p:inputText>
+
+                        <h:outputLabel value="Data Nascimento"/>
+                        <p:inputMask class="form-control" value="#{c_Usuario.user.datanasc}" mask="99/99/9999"
+                                     required="false" placeholder="DD/MM/AAAA" maxlength="10"/>
+
+
+                        <h:outputText value="Perfil de Usuário"/><font color="red">*</font>
                         <div align="left" class="form-group">
                             <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                                <p:selectOneButton value="#{c_Usuario.user.permissao}">
+                                <p:selectOneButton value="#{c_Usuario.user.permissao}" required="true">
                                     <f:selectItem itemLabel="Bibliotecário" itemValue='1'/>
                                     <f:selectItem itemLabel="Balconista" itemValue='2'/>
                                     <f:selectItem itemLabel="Aluno" itemValue='3'/>
@@ -310,12 +353,13 @@
                                 </h:form>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="width: 1315px">
                             <h:commandButton value="Alterar" class="btn btn-block btn-primary"
                                              rendered="true" onclick="abri()"></h:commandButton>
                         </div>
                     </h:form>
                 </div>
+            </section>
         </div>
     </section>
 </h:body>

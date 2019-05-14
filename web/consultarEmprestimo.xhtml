@@ -46,7 +46,7 @@
                 color: blue;
             }
 
-            .jumbotron{
+            .jumbotron {
                 background: lightgray;
             }
         </style>
@@ -102,84 +102,101 @@
                                          action="deletarEmprestimo?faces-redirect=true"/>
                     </div>
                 </div>
-                <h:form id="telaConsultaUsuarios">
-                    <div class="form-group"><br/>
-                        <h:outputLabel value="Nome do Usuário ou Título do Livro"/>
-                        <p:inputText value="#{c_Emprestimo.emp.nome_user}" class="form-control" required="false"
-                                     maxlength="60"
-                                     placeholder="Insira o nome do usuário ou o título do livro"></p:inputText>
+            </h:form>
+            <h:form id="telaConsultaUsuarios">
+                <div class="form-group"><br/>
+                    <h:outputLabel value="Nome do Usuário ou Título do Livro"/>
+                    <p:inputText value="#{c_Emprestimo.emp.nome_user}" class="form-control" required="false"
+                                 maxlength="60"
+                                 placeholder="Insira o nome do usuário ou o título do livro"></p:inputText>
+                </div>
+                <h:form>
+                    <div class="form-group">
+                        <h:commandButton value="Buscar" class="btn btn-block btn-primary"
+                                         action="#{c_Emprestimo.consultaEmprestimos}"></h:commandButton>
                     </div>
-                    <h:form>
-                        <div class="form-group">
-                            <h:commandButton value="Buscar" class="btn btn-block btn-primary"
-                                             action="#{c_Emprestimo.consultaEmprestimos}"></h:commandButton>
-                        </div>
-
-
-                        <p:dataTable value="#{c_Emprestimo.consultaEmprestimos()}" var="emp" border="9"
-                                     rendered="true"
-                                     title="Relação de Empréstimos.">
-
-                            <f:facet name="header">
-                                Relação de Empréstimo(s)
-                            </f:facet>
-                            <div align="center" class="form-group">
-                                <p:column>
-                                    <f:facet name="header">Id Emp</f:facet>
-                                    #{emp.codemprestimo}
-                                </p:column>
-                                <!--<p:column>
-                                    <f:facet name="header">Id User</f:facet>
-                                    #{emp.codusuario}
-                                </p:column>-->
-                                <p:column>
-                                    <f:facet name="header">Nome</f:facet>
-                                    #{emp.nome_user}
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">E-mail</f:facet>
-                                    #{emp.email_user}
-                                </p:column>
-                                <!--<p:column>
-                                    <f:facet name="header">Id Livro</f:facet>
-                                    #{emp.codlivro}
-                                </p:column>-->
-                                <p:column>
-                                    <f:facet name="header">Título</f:facet>
-                                    #{emp.titulo_book}
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">Autor</f:facet>
-                                    #{emp.autor_book}
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">Editora</f:facet>
-                                    #{emp.editora_book}
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">Ano Lanç.</f:facet>
-                                    #{emp.anolancamento_book}
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">Dt. Emp.</f:facet>
-                                    #{emp.dataemp}
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">Dt. Dev.</f:facet>
-                                    #{emp.datadev}
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">Dt. Alt.</f:facet>
-                                    #{emp.dataalt}
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">Status</f:facet>
-                                    #{emp.status_emp}
-                                </p:column>
-                            </div>
-                        </p:dataTable>
-                    </h:form>
                 </h:form>
+            </h:form>
+            <h:form>
+                <p:dataTable id="tbl" class="tbl" var="emp"
+                             value="#{c_Emprestimo.consultaEmprestimos()}"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                             paginator="true" rows="5"
+                             scrollWidth="1300">
+
+                    <f:facet name="header">Relação de Empréstimos</f:facet>
+
+                    <f:facet name="{Exporters}">
+                        <div style="float:left;padding-top: 5px;">
+                            <h:commandLink>
+                                <p:graphicImage url="/export/images/pdf.png" width="24"
+                                                title="Exportar todas as páginas como PDF"/>
+                                <p:dataExporter type="pdf" target="tbl" fileName="relaçãoEmpréstimos"/>
+                            </h:commandLink>
+                        </div>
+                        <div style="float:left;padding-top: 5px;">
+                            <h:commandLink>
+                                <p:graphicImage url="/export/images/xls.png" width="34"
+                                                title="Exportar todas as páginas como planiha"/>
+                                <p:dataExporter type="xls" target="tbl" fileName="relaçãoEmpréstimos"/>
+                            </h:commandLink>
+                        </div>
+                    </f:facet>
+
+                    <p:column headerText="Id Emp." width="70">
+                        <h:outputText value="#{emp.codemprestimo}"/>
+                    </p:column>
+
+                    <p:column headerText="Nome" width="170">
+                        <h:outputText value="#{emp.nome_user}"/>
+                    </p:column>
+
+                    <p:column headerText="E-mail" width="220">
+                        <h:outputText value="#{emp.email_user}"/>
+                    </p:column>
+
+                    <p:column headerText="Título" width="120">
+                        <h:outputText value="#{emp.titulo_book}"/>
+                    </p:column>
+
+                    <p:column headerText="Autor">
+                        <h:outputText value="#{emp.autor_book}"/>
+                    </p:column>
+
+                    <p:column headerText="Editora">
+                        <h:outputText value="#{emp.editora_book}"/>
+                    </p:column>
+
+                    <p:column headerText="Ano Lanç." width="70">
+                        <h:outputText value="#{emp.anolancamento_book}"/>
+                    </p:column>
+
+                    <p:column headerText="Dt. Emp.">
+                        <h:outputText value="#{emp.dataemp}"/>
+                    </p:column>
+
+                    <p:column headerText="Dt. Dev.">
+                        <h:outputText value="#{emp.datadev}"/>
+                    </p:column>
+
+                    <p:column headerText="Dt. Alt.">
+                        <h:outputText value="#{emp.dataalt}"/>
+                    </p:column>
+
+                    <p:column headerText="Status">
+                        <h:outputText value="#{emp.status_emp}"/>
+                    </p:column>
+
+                </p:dataTable>
+                <h5>Exportar somente a página atual</h5>
+                <h:commandLink>
+                    <p:graphicImage url="/export/images/pdf.png" width="24" title="Exportar como PDF"/>
+                    <p:dataExporter type="pdf" target="tbl" fileName="relaçãoEmpréstimos" pageOnly="true"/>
+                </h:commandLink>
+                <h:commandLink>
+                    <p:graphicImage url="/export/images/xls.png" width="40" title="Exportar como planilha"/>
+                    <p:dataExporter type="xls" target="tbl" fileName="relaçãoEmpréstimos" pageOnly="true"/>
+                </h:commandLink>
             </h:form>
         </section>
     </div>

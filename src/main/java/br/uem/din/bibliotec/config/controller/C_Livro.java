@@ -3,7 +3,7 @@ package br.uem.din.bibliotec.config.controller;
 import br.uem.din.bibliotec.config.model.M_Livro;
 import br.uem.din.bibliotec.config.model.M_Livro_DAO;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import java.util.List;
 
 //declaração do Bean
 @Named
-@RequestScoped
+@SessionScoped
 public class C_Livro implements Serializable {
     //Objetos para manipulação dos estados e trocas de dados
     M_Livro livro = new M_Livro(0, "", "", "", "", "", "", "", 0, -1);
@@ -49,7 +49,11 @@ public class C_Livro implements Serializable {
     }
 
     public List<M_Livro> realizarConsultaLivroBibliotecario() throws SQLException {
-        return livroDAO.consultarLivroBibliotecario(livro);
+        return livroDAO.consultarLivroBibliotecario(livro, 0);
+    }
+
+    public List<M_Livro> realizarConsultaLivroBibliotecarioSoAtivos() throws SQLException {
+        return livroDAO.consultarLivroBibliotecario(livro, 1);
     }
 
     //método para exclusão de livro (exclusão lógica, ativo = 0)
@@ -60,5 +64,17 @@ public class C_Livro implements Serializable {
     //método para editar as informações de um livro
     public String realizarEdicaoLivro(){
         return livroDAO.editarLivro(livro);
+    }
+
+    public String realizaReservaLivro(){
+        return livroDAO.cadastrarReserva(livro);
+    }
+
+    public List<M_Livro> realizaConsultaReservas() {
+        return livroDAO.consultaMinhasReservas(livro);
+    }
+
+    public String realizaCancelamentoReserva(){
+        return livroDAO.cancelarReserva(livro);
     }
 }

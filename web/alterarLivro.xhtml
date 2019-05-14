@@ -135,158 +135,183 @@
                                      action="#{c_Livro.realizarConsultaLivroBibliotecario}"></h:commandButton>
                 </div>
             </h:form>
-            <section alig="center" class="row">
+            <h:form>
+                <p:dataTable id="tbl" class="tbl" var="livro"
+                             value="#{c_Livro.realizarConsultaLivroBibliotecario()}"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                             paginator="true" rows="5"
+                             scrollWidth="1300">
+
+                    <f:facet name="header">Relação de Livros</f:facet>
+
+                    <f:facet name="{Exporters}">
+                        <div style="float:left;padding-top: 5px;">
+                            <h:commandLink>
+                                <p:graphicImage url="/export/images/pdf.png" width="24"
+                                                title="Exportar todas as páginas como PDF"/>
+                                <p:dataExporter type="pdf" target="tbl" fileName="relaçãoLivros"/>
+                            </h:commandLink>
+                        </div>
+                        <div style="float:left;padding-top: 5px;">
+                            <h:commandLink>
+                                <p:graphicImage url="/export/images/xls.png" width="34"
+                                                title="Exportar todas as páginas como planiha"/>
+                                <p:dataExporter type="xls" target="tbl" fileName="relaçãoLivros"/>
+                            </h:commandLink>
+                        </div>
+                    </f:facet>
+
+                    <p:column headerText="Id" width="70">
+                        <h:outputText value="#{livro.codlivro}"/>
+                    </p:column>
+
+                    <p:column headerText="Título" width="200">
+                        <h:outputText value="#{livro.titulo}"/>
+                    </p:column>
+
+                    <p:column headerText="Autor" width="100">
+                        <h:outputText value="#{livro.autor}"/>
+                    </p:column>
+
+                    <p:column headerText="Editora" width="100">
+                        <h:outputText value="#{livro.editora}"/>
+                    </p:column>
+                    <p:column headerText="Ano Lanç." width="70">
+                        <h:outputText value="#{livro.anolancamento}"/>
+                    </p:column>
+
+                    <p:column headerText="Cidade" width="100">
+                        <h:outputText value="#{livro.cidade}"/>
+                    </p:column>
+
+                    <p:column headerText="Vol." width="50">
+                        <h:outputText value="#{livro.volume}"/>
+                    </p:column>
+
+                    <p:column headerText="Cód. Catal.">
+                        <h:outputText value="#{livro.codcatalogacao}"/>
+                    </p:column>
+
+                    <p:column headerText="Num. Chamada" width="160">
+                        <h:outputText value="#{livro.numchamada}"/>
+                    </p:column>
+
+                    <p:column headerText="Dt. Cad." width="110">
+                        <h:outputText value="#{livro.datacad}"/>
+                    </p:column>
+
+                    <p:column headerText="Dt. Alt." width="110">
+                        <h:outputText value="#{livro.dataalt}"/>
+                    </p:column>
+
+                    <p:column headerText="Status">
+                        <h:outputText value="#{livro.status}"/>
+                    </p:column>
+
+                    <p:column headerText="Disp." width="70">
+                        <h:outputText value="#{livro.disponibilidade}"/>
+                    </p:column>
+                </p:dataTable>
+                <h5>Exportar somente a página atual</h5>
+                <h:commandLink>
+                    <p:graphicImage url="/export/images/pdf.png" width="24" title="Exportar como PDF"/>
+                    <p:dataExporter type="pdf" target="tbl" fileName="relaçãoLivros" pageOnly="true"/>
+                </h:commandLink>
+                <h:commandLink>
+                    <p:graphicImage url="/export/images/xls.png" width="40" title="Exportar como planilha"/>
+                    <p:dataExporter type="xls" target="tbl" fileName="relaçãoLivros" pageOnly="true"/>
+                </h:commandLink>
+            </h:form>
+            <p align="center">
+                <font color="red">**Inserir as informações apenas nos campos que deseja alterar**</font>
+            </p>
+            <h:form id="alterarLivro">
+                #{c_Livro.livro.titulo = ""}
+                #{c_Livro.livro.autor = ""}
+                #{c_Livro.livro.editora = ""}
                 <div class="form-group">
-                    <p:dataTable value="#{c_Livro.realizarConsultaLivroBibliotecario()}" var="livro" border="9"
-                                 rendered="true"
-                                 title="Relação de Livros.">
-                        <p:column>
-                            <f:facet name="header">Id</f:facet>
-                            #{livro.codlivro}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Título</f:facet>
-                            #{livro.titulo}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Autor(a)</f:facet>
-                            #{livro.autor}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Editora</f:facet>
-                            #{livro.editora}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Ano Lançamento</f:facet>
-                            #{livro.anolancamento}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Cidade</f:facet>
-                            #{livro.cidade}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Volume</f:facet>
-                            #{livro.volume}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Catalogação</f:facet>
-                            #{livro.codcatalogacao}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Núm. Chamada</f:facet>
-                            #{livro.numchamada}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Dt. Cad</f:facet>
-                            #{livro.datacad}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Dt. Alt</f:facet>
-                            #{livro.dataalt}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Status</f:facet>
-                            #{livro.status}
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">Dispon</f:facet>
-                            #{livro.disponibilidade}
-                        </p:column>
-                    </p:dataTable>
-                    <p align="center">
-                        <font color="red">**Inserir as informações apenas nos campos que deseja alterar**</font>
-                    </p>
-                    <h:form id="alterarLivro">
-                        #{c_Livro.livro.titulo = ""}
-                        #{c_Livro.livro.autor = ""}
-                        #{c_Livro.livro.editora = ""}
-                        <div class="form-group">
-                            <h:outputLabel value="Título"/>
-                            <p:inputText value="#{c_Livro.livro.titulo}" class="form-control"
-                                         maxlength="60" required="false" placeholder="Insira o título do livro"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Autor(a)"/>
-                            <p:inputText value="#{c_Livro.livro.autor}" class="form-control"
-                                         maxlength="60" required="false" placeholder="Insira o nome do autor do livro"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Edtora"/>
-                            <p:inputText value="#{c_Livro.livro.editora}" class="form-control"
-                                         maxlength="60" required="false" placeholder="Insira o nome da editora"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Ano lançamento"/>
-                            <p:inputText value="#{c_Livro.livro.anolancamento}" class="form-control"
-                                         maxlength="4" required="false" placeholder="Insira o ano de lançamento"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Cidade"/>
-                            <p:inputText value="#{c_Livro.livro.cidade}" class="form-control"
-                                         maxlength="60" required="false" placeholder="Insira a cidade"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Volume"/>
-                            <p:inputText value="#{c_Livro.livro.volume}" class="form-control"
-                                         maxlength="2" required="false" placeholder="Insira o volume do livro"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Código Catalogação"/>
-                            <p:inputText value="#{c_Livro.livro.codcatalogacao}" class="form-control"
-                                         maxlength="15" required="false" placeholder="Insira o código de catalogação"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Número Chamada"/>
-                            <p:inputText value="#{c_Livro.livro.numchamada}" class="form-control"
-                                         maxlength="15" required="false" placeholder="Insira o número de chamado"></p:inputText>
-                        </div>
-                        <div class="form-group">
-                            <h:outputText value="Status do Livro"/><font color="red">*</font>
-                            <div align="left" class="form-group">
-                                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                                    <p:selectOneButton value="#{c_Livro.livro.ativo}" required="true">
-                                        <f:selectItem itemLabel="Ativar" itemValue='1'/>
-                                        <f:selectItem itemLabel="Inativar" itemValue='0'/>
-                                    </p:selectOneButton>
-                                </h:panelGrid>
-                            </div>
-                            <h:outputText value="Torná-lo disponível para empréstimos?"/><font color="red">*</font>
-                            <div align="left" class="form-group">
-                                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                                    <p:selectOneButton value="#{c_Livro.livro.disponibilidade}" required="true">
-                                        <f:selectItem itemLabel="Sim" itemValue='1'/>
-                                        <f:selectItem itemLabel="Não" itemValue='0'/>
-                                    </p:selectOneButton>
-                                </h:panelGrid>
+                    <h:outputLabel value="Título"/>
+                    <p:inputText value="#{c_Livro.livro.titulo}" class="form-control"
+                                 maxlength="60" required="false" placeholder="Insira o título do livro"></p:inputText>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Autor(a)"/>
+                    <p:inputText value="#{c_Livro.livro.autor}" class="form-control"
+                                 maxlength="60" required="false" placeholder="Insira o nome do autor do livro"></p:inputText>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Edtora"/>
+                    <p:inputText value="#{c_Livro.livro.editora}" class="form-control"
+                                 maxlength="60" required="false" placeholder="Insira o nome da editora"></p:inputText>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Ano lançamento"/>
+                    <p:inputMask class="form-control" value="#{c_Livro.livro.anolancamento}" mask="9999" required="false" placeholder="Insira o ano de lançamento do livro" maxlength="4"/>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Cidade"/>
+                    <p:inputText value="#{c_Livro.livro.cidade}" class="form-control"
+                                 maxlength="60" required="false" placeholder="Insira a cidade"></p:inputText>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Volume"/>
+                    <p:inputMask class="form-control" value="#{c_Livro.livro.volume}" mask="99" required="false" placeholder="Insira o volume do livro" maxlength="2"/>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Código Catalogação"/>
+                    <p:inputText value="#{c_Livro.livro.codcatalogacao}" class="form-control"
+                                 maxlength="15" required="false" placeholder="Insira o código de catalogação"></p:inputText>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Número Chamada"/>
+                    <p:inputText value="#{c_Livro.livro.numchamada}" class="form-control"
+                                 maxlength="15" required="false" placeholder="Insira o número de chamado"></p:inputText>
+                </div>
+                <div class="form-group">
+                    <h:outputText value="Status do Livro"/><font color="red">*</font>
+                    <div align="left" class="form-group">
+                        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                            <p:selectOneButton value="#{c_Livro.livro.ativo}" required="true">
+                                <f:selectItem itemLabel="Ativar" itemValue='1'/>
+                                <f:selectItem itemLabel="Inativar" itemValue='0'/>
+                            </p:selectOneButton>
+                        </h:panelGrid>
+                    </div>
+                    <h:outputText value="Torná-lo disponível para empréstimos?"/><font color="red">*</font>
+                    <div align="left" class="form-group">
+                        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                            <p:selectOneButton value="#{c_Livro.livro.disponibilidade}" required="true">
+                                <f:selectItem itemLabel="Sim" itemValue='1'/>
+                                <f:selectItem itemLabel="Não" itemValue='0'/>
+                            </p:selectOneButton>
+                        </h:panelGrid>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Id do Livro"/><font color="red">*</font>
+                        <p:inputText value="#{c_Livro.livro.codlivro}" class="form-control"
+                                     required="true" placeholder="Insira o Id do livro"></p:inputText>
+                    </div>
+                    <div id="conf" class="conf">
+                        <p align="center">
+                            <h:outputLabel value="Deseja salvar as alterações?"/>
+                        </p>
+                        <h:form>
+                            <div class="form-group">
+                                <h:commandButton value="Sim" class="btn btn-block btn-primary"
+                                                 action="#{c_Livro.realizarEdicaoLivro}"/>
                             </div>
                             <div class="form-group">
-                                <h:outputLabel value="Id do Livro"/><font color="red">*</font>
-                                <p:inputText value="#{c_Livro.livro.codlivro}" class="form-control"
-                                             required="true" placeholder="Insira o Id do livro"></p:inputText>
+                                <h:commandButton value="Não" class="btn btn-block btn-primary"
+                                                 onclick="fecha()"></h:commandButton>
                             </div>
-                            <div id="conf" class="conf">
-                                <p align="center">
-                                    <h:outputLabel value="Deseja salvar as alterações?"/>
-                                </p>
-                                <h:form>
-                                    <div class="form-group">
-                                        <h:commandButton value="Sim" class="btn btn-block btn-primary"
-                                                         action="#{c_Livro.realizarEdicaoLivro}"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <h:commandButton value="Não" class="btn btn-block btn-primary"
-                                                         onclick="fecha()"></h:commandButton>
-                                    </div>
-                                </h:form>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <h:commandButton value="Alterar Livro" class="btn btn-block btn-primary"
-                                             rendered="true" onclick="abri()"></h:commandButton>
-                        </div>
-                    </h:form>
+                        </h:form>
+                    </div>
                 </div>
-            </section>
+                <div class="form-group">
+                    <h:commandButton value="Alterar Livro" class="btn btn-block btn-primary"
+                                     rendered="true" onclick="abri()"></h:commandButton>
+                </div>
+            </h:form>
         </div>
     </section>
 </h:body>

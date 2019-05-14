@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous"></link>
+
+    <title>Meus Dados | BiblioTec</title>
+
+    <link href="icone.png" rel="shortcut icon" type="image/x-png"></link>
+
+    <meta charset="utf-8">
+        <style>
+            #table {
+                left: 5px;
+                width: 672px;
+                height: 970px;
+                border: solid 1pX darkgray;
+                display: block;
+            }
+
+            #novosDados {
+                position: absolute;
+                left: 500px;
+                bottom: 0px;
+                top: 103px;
+                right: 0px;
+                left: 672px;
+                width: 670px;
+                height: 970px;
+                border: solid 1pX darkgray;
+                display: block;
+            }
+
+            .conf {
+                position: fixed;
+                top: 10px;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                width: 500px;
+                height: 200px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+                display: none;
+            }
+
+            #Salvar{
+                position: relative;
+                bottom: 10px;
+                left: 160px;
+            }
+        </style>
+    </meta>
+
+    <script type="text/javascript">
+        function abri() {
+            document.getElementById('conf').style.display = 'block';
+        }
+
+        function fecha() {
+            document.getElementById('conf').style.display = 'none';
+        }
+    </script>
+</h:head>
+<h:body>
+    <i><h1 align="center"> BiblioTec </h1></i>
+    <h:form>
+        <p:menubar style="align-items: center">
+            <p:menuitem value="MENU INICIAL" action="#{c_Usuario.chamaMenuInicial}"></p:menuitem>
+        </p:menubar>
+    </h:form>
+    <div class="jumbotron" id="table">
+        <section alig="center" class="right">
+            <h:form id="meusDados">
+                <h5 align="center">Dados Atuais</h5>
+                <table class="order-table">
+                    <tbody>
+                    <ui:repeat var="dados" value="#{c_Usuario.userDAO.meusDados()}" varStatus="status">
+                        <p:panelGrid rendered="#{status.first}">
+                            <tr>
+                                <h:outputLabel value="Nome"/>
+                                <p:outputLabel style="width: 550px" value="#{dados.nome}" class="form-control"/>
+                                <h:outputLabel value="Usuário"/>
+                                <p:outputLabel style="width: 550px" value="#{dados.usuario}" class="form-control"/>
+                                <h:outputLabel value="Senha"/>
+                                <p:outputLabel style="width: 550px" value="#{dados.senha}" class="form-control"/>
+                                <h:outputLabel value="RG"/>
+                                <p:outputLabel style="width: 550px" value="#{dados.rg}" class="form-control"/>
+                                <h:outputLabel value="CPF"/>
+                                <p:outputLabel style="width: 550px" value="#{dados.cpf}" class="form-control"/>
+                                <h:outputLabel value="E-mail"/>
+                                <p:outputLabel style="width: 550px" value="#{dados.email}" class="form-control"/>
+                                <h:outputLabel value="Endereço"/>
+                                <p:outputLabel style="width: 550px" value="#{dados.endereco}" class="form-control"/>
+                                <h:outputLabel value="CEP"/>
+                                <p:outputLabel style="width: 550px" value="#{dados.cep}" class="form-control"/>
+                                <h:outputLabel value="Cidade"/>
+                                <p:outputLabel style="width: 550px" value="#{dados.cidade}" class="form-control"/>
+                                <h:outputLabel value="Estado"/>
+                                <p:outputLabel style="width: 550px" value="#{dados.estado}" class="form-control"/>
+                                <h:outputLabel value="Data de Nascimento"/>
+                                <p:outputLabel style="width: 550px" class="form-control" value="#{dados.datanasc}" mask="99/99/9999" placeholder="DD/MM/AAAA" maxlength="10"/>
+                            </tr>
+                        </p:panelGrid>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+            </h:form>
+        </section>
+    </div>
+    <div class="jumbotron" id="novosDados">
+        <section alig="center" class="row">
+            <h:form id="NovosDados">
+                <h5 align="center">Novos Dados</h5>
+                <p align="center">
+                    <font color="red">**Inserir as informações apenas nos campos que deseja alterar**</font>
+                </p>
+
+                <h:outputLabel value="Nome"/>
+                <p:inputText maxlength="60" style="width: 550px" value="#{c_Usuario.user.nome}" class="form-control" placeholder="Insira seu nome"/>
+                <h:outputLabel value="Usuário"/>
+                <p:inputText maxlength="30" style="width: 550px" value="#{c_Usuario.user.usuario}" class="form-control" placeholder="Insira seu username de acesso"/>
+                <h:outputLabel value="Senha"/>
+                <p:inputText maxlength="30" style="width: 550px" value="#{c_Usuario.user.senha}" class="form-control" placeholder="Insira uma nova senha"/>
+                <h:outputLabel value="RG"/>
+                <p:inputText maxlength="10" style="width: 550px" value="#{c_Usuario.user.rg}" class="form-control" placeholder="Insira seu RG"/>
+                <h:outputLabel value="CPF"/>
+                <p:inputText maxlength="15" style="width: 550px" value="#{c_Usuario.user.cpf}" class="form-control" placeholder="Insira seu CPF"/>
+                <h:outputLabel value="E-mail"/>
+                <p:inputText maxlength="100" style="width: 550px" value="#{c_Usuario.user.email}" class="form-control" placeholder="Insira seu e-mail"/>
+                <h:outputLabel value="Endereço"/>
+                <p:inputText maxlength="100" style="width: 550px" value="#{c_Usuario.user.endereco}" class="form-control" placeholder="Insira seu endereço"/>
+                <h:outputLabel value="CEP"/>
+                <p:inputText maxlength="9" style="width: 550px" value="#{c_Usuario.user.cep}" class="form-control" placeholder="Insira seu CEP"/>
+                <h:outputLabel value="Cidade"/>
+                <p:inputText maxlength="60" style="width: 550px" value="#{c_Usuario.user.cidade}" class="form-control" placeholder="Insira sua cidade"/>
+                <h:outputLabel value="Estado"/>
+                <p:inputText maxlength="20" style="width: 550px" value="#{c_Usuario.user.estado}" class="form-control" placeholder="Insira seu Estado"/>
+                <h:outputLabel value="Data de Nascimento"/>
+                <p:inputMask maxlength="10" class="form-control" value="#{c_Usuario.user.datanasc}" mask="99/99/9999" placeholder="DD/MM/AAAA"/>
+                <br/>
+                <div id="conf" class="conf">
+                    <p align="center">
+                        <h:outputLabel value="Deseja salvar as alterações?"/>
+                        <br/>
+                        <font color="red">
+                            <h:outputLabel value="Sua sessão poderá ser encerrada."/>
+                        </font>
+                    </p>
+                    <h:form>
+                        <div class="form-group">
+                            <h:commandButton value="Sim" class="btn btn-block btn-primary"
+                                             action="#{c_Usuario.realizaAtualizacaoMeusDados}"/>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton value="Não" class="btn btn-block btn-primary"
+                                             onclick="fecha()"></h:commandButton>
+                        </div>
+                    </h:form>
+                </div>
+                <div align="right" class="form-group" id="Salvar">
+                    <h:commandButton style="width: 250px" value="Salvar" class="btn btn-block btn-primary" onclick="abri()"/>
+                </div>
+            </h:form>
+        </section>
+    </div>
+</h:body>
+</html>

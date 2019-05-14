@@ -101,34 +101,54 @@
                 </div>
             </h:form>
             <section alig="center" class="row">
-                <div class="form-group" id="dataTable">
-                    <p:dataTable value="#{c_Livro.realizarConsultaLivro()}" var="livro" border="9" rendered="true"
-                                 title="Relação de Livros.">
-                        <f:facet name="header">
-                            Relação de Livros
+                <h:form>
+                    <p:dataTable id="tbl" class="tbl" var="livro"
+                                 value="#{c_Livro.realizarConsultaLivro()}"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                 paginator="true" rows="5"
+                                 scrollWidth="1300">
+
+                        <f:facet name="header">Relação de Livros</f:facet>
+
+                        <f:facet name="{Exporters}">
+                            <div style="float:left;padding-top: 5px;">
+                                <h:commandLink>
+                                    <p:graphicImage url="/export/images/pdf.png" width="24"
+                                                    title="Exportar todas as páginas como PDF"/>
+                                    <p:dataExporter type="pdf" target="tbl" fileName="relaçãoLivros"/>
+                                </h:commandLink>
+                            </div>
+                            <div style="float:left;padding-top: 5px;">
+                                <h:commandLink>
+                                    <p:graphicImage url="/export/images/xls.png" width="34"
+                                                    title="Exportar todas as páginas como planiha"/>
+                                    <p:dataExporter type="xls" target="tbl" fileName="relaçãoLivros"/>
+                                </h:commandLink>
+                            </div>
                         </f:facet>
-                        <p:column>
-                            <f:facet name="header">Título</f:facet>
-                            #{livro.titulo}
+
+                        <p:column headerText="Título">
+                            <h:outputText value="#{livro.titulo}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Autor(a)</f:facet>
-                            #{livro.autor}
+
+                        <p:column headerText="Autor">
+                            <h:outputText value="#{livro.autor}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Editora</f:facet>
-                            #{livro.editora}
+
+                        <p:column headerText="Editora">
+                            <h:outputText value="#{livro.editora}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Ano Lançamento</f:facet>
-                            #{livro.anolancamento}
+
+                        <p:column headerText="Ano. Lanç.">
+                            <h:outputText value="#{livro.anolancamento}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">Volume</f:facet>
-                            #{livro.volume}
+
+                        <p:column headerText="Volume">
+                            <h:outputText value="#{livro.volume}"/>
                         </p:column>
+
                     </p:dataTable>
-                </div>
+                </h:form>
             </section>
         </div>
     </section>

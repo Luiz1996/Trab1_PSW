@@ -2,6 +2,8 @@ package br.uem.din.bibliotec.config.model;
 
 import br.uem.din.bibliotec.config.conexao.Conexao;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -83,7 +85,14 @@ public class M_Livro_DAO {
                     rs.getString("anolancamento"),
                     rs.getString("cidade"),
                     rs.getInt("volume"),
-                    rs.getInt("ativo"));
+                    rs.getInt("ativo"),
+                    "",
+                    "",
+                    "",
+                    rs.getString("datacad"),
+                    rs.getString("dataalt"),
+                    rs.getString("disponibilidade")
+                    );
 
             livros.add(livro_temporario);
         }
@@ -96,7 +105,7 @@ public class M_Livro_DAO {
         return livros;
     }
 
-    public List<M_Livro> consultarLivroBibliotecario(M_Livro livro) throws SQLException {
+    public List<M_Livro> consultarLivroBibliotecario(M_Livro livro, int ativo) throws SQLException {
         //realizando a conexão com banco de dados
         Conexao con = new Conexao();
         con.conexao.setAutoCommit(true);
@@ -107,7 +116,12 @@ public class M_Livro_DAO {
         livro.setAutor(livro.getTitulo());
 
         //buscando as informações no banco de dados de acordo com o titulo do livro informado pelo usupario, essa busca possui diferencial da coluna Status (Ativo/Inativo)
-        st.execute("select l.codlivro, l.codcatalogacao, l.numchamada, l.titulo, l.autor, l.editora, l.anolancamento, l.cidade, l.volume, l.ativo, case when l.ativo = 1 then \" Ativo \" else \" Inativo \" end as status, datacad, dataalt, case when disponibilidade = 1 then \" S \" when disponibilidade = 0 then \" N \" end as disponibilidade  from livro l where (l.titulo like \"%"+ livro.getTitulo() +"%\" or l.autor like \"%" + livro.getAutor() + "%\" or l.editora like \"%" + livro.getEditora() + "%\") order by 1 ;");
+        if(ativo == 0){
+            st.execute("select l.codlivro, l.codcatalogacao, l.numchamada, l.titulo, l.autor, l.editora, l.anolancamento, l.cidade, l.volume, l.ativo, case when l.ativo = 1 then \" Ativo \" else \" Inativo \" end as status, datacad, dataalt, case when disponibilidade = 1 then \" S \" when disponibilidade = 0 then \" N \" end as disponibilidade  from livro l where (l.titulo like \"%"+ livro.getTitulo() +"%\" or l.autor like \"%" + livro.getAutor() + "%\" or l.editora like \"%" + livro.getEditora() + "%\") order by 1 ;");
+        }else{
+            st.execute("select l.codlivro, l.codcatalogacao, l.numchamada, l.titulo, l.autor, l.editora, l.anolancamento, l.cidade, l.volume, l.ativo, case when l.ativo = 1 then \" Ativo \" else \" Inativo \" end as status, datacad, dataalt, case when disponibilidade = 1 then \" S \" when disponibilidade = 0 then \" N \" end as disponibilidade  from livro l where ativo = '1' order by 4 ;");
+        }
+
         ResultSet rs = st.getResultSet();
 
         //declara o arrayList que será usado no dataTable do Bibliotecário
@@ -203,6 +217,9 @@ public class M_Livro_DAO {
     }
 
     public String editarLivro(M_Livro livro){
+        System.out.println("volume:"+livro.getVolume());
+
+
         //declaração de varáveis locais que nos ajudará nas tratativas de erros
         String titulo_anterior = "";
         Integer codlivro_local = 0;
@@ -261,30 +278,30 @@ public class M_Livro_DAO {
                 st.executeUpdate("UPDATE `bibliotec`.`livro` SET cidade = '" + livro.getCidade() + "' WHERE codlivro = " + livro.getCodlivro() + ";");
             }
 
-            if(livro.getVolume() != 0 ){
+            if(livro.getVolume() != null ){
                 st.executeUpdate("UPDATE `bibliotec`.`livro` SET volume = '" + livro.getVolume() + "' WHERE codlivro = " + livro.getCodlivro() + ";");
             }
-
+            System.out.println("aqui");
             if(!livro.getCodcatalogacao().equals("")){
                 st.executeUpdate("UPDATE `bibliotec`.`livro` SET codcatalogacao = '" + livro.getCodcatalogacao() + "' WHERE codlivro = " + livro.getCodlivro() + ";");
             }
-
+            System.out.println("aqui");
             if(!livro.getNumchamada().equals("")){
                 st.executeUpdate("UPDATE `bibliotec`.`livro` SET numchamada = '" + livro.getNumchamada() + "' WHERE codlivro = " + livro.getCodlivro() + ";");
             }
-
+            System.out.println("aqui");
             if(livro.getAtivo() == 0){
                 st.executeUpdate("UPDATE `bibliotec`.`livro` SET ativo = '0' WHERE codlivro = " + livro.getCodlivro() + ";");
             }else{
                 st.executeUpdate("UPDATE `bibliotec`.`livro` SET ativo = '1' WHERE codlivro = " + livro.getCodlivro() + ";");
             }
-
+            System.out.println("aqui");
             if(livro.getDisponibilidade().equals("0")){
                 st.executeUpdate("UPDATE `bibliotec`.`livro` SET disponibilidade = '0' WHERE codlivro = " + livro.getCodlivro() + ";");
             }else{
                 st.executeUpdate("UPDATE `bibliotec`.`livro` SET disponibilidade = '1' WHERE codlivro = " + livro.getCodlivro() + ";");
             }
-
+            System.out.println("aqui");
             //dependendo se o titulo informado na tela for vazio/nulo ele imprime na mensagem de retorno com base no titulo buscado no banco de dados
             //caso contrário, ele imprimirá o novo título
             if(livro.getTitulo().equals("")){
@@ -306,5 +323,188 @@ public class M_Livro_DAO {
         }
 
         return "acessoBibliotecario";
+    }
+
+    public String cadastrarReserva(M_Livro livro){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String login = (String)session.getAttribute("usuario");
+        M_Usuario_DAO user = new M_Usuario_DAO();
+        String statusLivro = "";
+        int codUsuarioLocal = 0;
+
+        try {
+            //realiza conexão com banco de dados
+            Conexao con = new Conexao();
+            Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            con.conexao.setAutoCommit(true);
+            ResultSet rs = null;
+
+            st.execute("select codusuario from `bibliotec`.`usuarios` where usuario = '"+login+"';");
+            rs = st.getResultSet();
+
+            while(rs.next()){
+                codUsuarioLocal = rs.getInt("codusuario");
+            }
+
+            //consultar se livro já possui reserva
+            st.execute( "SELECT \n" +
+                            "    l.datares,\n" +
+                            "    l.usuariores,\n" +
+                            "    l.titulo,\n" +
+                            "    CASE\n" +
+                            "        WHEN current_date() <= l.datares \n" +
+                            "\t\t\tTHEN 'Reservado'\n" +
+                            "\t\t\tELSE 'Não Reservado'\n" +
+                            "    END AS status\n" +
+                            "FROM\n" +
+                            "    `bibliotec`.`livro` l\n" +
+                            "WHERE\n" +
+                            "    l.codlivro = '"+livro.getCodlivro()+"';");
+
+            rs = st.getResultSet();
+
+            while(rs.next()){
+                livro.setDatares(rs.getString("datares"));
+                livro.setUsuariores(rs.getInt("usuariores"));
+                livro.setTitulo(rs.getString("titulo"));
+                statusLivro = rs.getString("status");
+            }
+
+            //verificando se ja possui reserva deste livro para ele mesmo
+            if(livro.getUsuariores() == codUsuarioLocal){
+                livro.setMsg_retorno("Retorno: O livro '"+ livro.getTitulo() +"' já possui reserva em seu nome para retirada em "+formatadorDatasBrasil(livro.getDatares())+".");
+                livro.setColor_msg_retorno(FALHA);
+                return user.minhaHomePage();
+            }
+
+            //verificando se há reservas para outros usuários
+            if(statusLivro.equals("Reservado")){
+                livro.setMsg_retorno("Retorno: O livro '"+ livro.getTitulo() +"' já possui reserva em nome de outra pessoa.");
+                livro.setColor_msg_retorno(FALHA);
+                return user.minhaHomePage();
+            }
+
+            //criando nova reserva
+            if(livro.getDatares() == null && livro.getUsuariores() == 0){
+                st.execute( "select\n" +
+                                "    l.disponibilidade\n" +
+                                "from\n" +
+                                "\tlivro l\n" +
+                                "where\n" +
+                                "\tl.codlivro = '"+livro.getCodlivro()+"';");
+                rs = st.getResultSet();
+                while(rs.next()){
+                    livro.setDisponibilidade(rs.getString("disponibilidade"));
+                }
+
+                if(livro.getDisponibilidade().equals("1")){
+                    st.executeUpdate("update livro l set l.datares = current_date(), l.usuariores = '"+codUsuarioLocal+"' where l.codlivro = '"+livro.getCodlivro()+"';");
+                    livro.setMsg_retorno("Retorno: Reserva efetuada com sucesso, o livro estará disponível para retirada na data atual até o fechamento da biblioteca.");
+                    livro.setColor_msg_retorno(SUCESSO);
+                }else{
+                    //se o livro já estiver emprestado mas sem reserva, precisamos obter a data de devolção do emprestimo atual para poder criar nova reserva
+                    //trazendo data de devolução do emprestimo atual
+                    st.execute("SELECT \n" +
+                                    "    MAX(e.codemprestimo) AS codemprestimo, DATE_ADD(e.datadev ,INTERVAL 1 DAY) as datares\n" +
+                                    "FROM\n" +
+                                    "    emprestimo e\n" +
+                                    "WHERE\n" +
+                                    "    e.ativo = '1' AND e.codlivro = '"+livro.getCodlivro()+"';");
+
+                    rs = st.getResultSet();
+                    while(rs.next()){
+                        livro.setDatares(rs.getString("datares").trim());
+                    }
+
+                    System.out.println("AQUI");
+
+                    st.executeUpdate(   "update livro l set l.datares = '"+livro.getDatares()+"', l.usuariores = '"+codUsuarioLocal+"' where l.codlivro = '"+livro.getCodlivro()+"';");
+
+                    livro.setMsg_retorno("Retorno: Reserva efetuada com sucesso, o livro estará disponível para retirada no dia "+formatadorDatasBrasil(livro.getDatares())+" até o fechamento da biblioteca.");
+                    livro.setColor_msg_retorno(SUCESSO);
+                }
+                return user.minhaHomePage();
+            }
+
+            st.close();
+            con.conexao.close();
+        } catch (SQLException e) {
+            //em caso de erro no insert é retornado mensagem de falha na cor vermelha
+            System.out.println("Dados informados são inválidos!");
+            livro.setMsg_retorno("Retorno: A operação de cadastramento de reserva falhou.");
+            livro.setColor_msg_retorno(FALHA);
+        }
+        return user.minhaHomePage();
+    }
+
+    public List<M_Livro> consultaMinhasReservas(M_Livro livro){
+        List<M_Livro> livros = new ArrayList<M_Livro>();
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String login = (String)session.getAttribute("usuario");
+
+        try {
+            //realiza conexão com banco de dados
+            Conexao con = new Conexao();
+            Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            con.conexao.setAutoCommit(true);
+            ResultSet rs = null;
+
+            st.execute(  "select\n" +
+                            "\tl.titulo,\n" +
+                            "    l.autor,\n" +
+                            "    l.editora,\n" +
+                            "    l.anolancamento,\n" +
+                            "    l.volume,\n" +
+                            "    l.datares,\n" +
+                            "    l.codlivro\n" +
+                            "from\n" +
+                            "\tlivro    l\n" +
+                            "left join\n" +
+                            "\tusuarios u on u.codusuario = l.usuariores\n" +
+                            "where\n" +
+                            "\t  u.usuario = '"+login+"' and\n" +
+                            "    l.datares >= current_date();");
+
+            rs = st.getResultSet();
+
+            //carregando o arrayList com os valores obtidos no resultSet
+            while (rs.next()) {
+                M_Livro livro_temporario = new M_Livro(
+                        rs.getString("titulo"),
+                        rs.getString("autor"),
+                        rs.getString("editora"),
+                        rs.getString("anolancamento"),
+                        rs.getInt("volume"),
+                        formatadorDatasBrasil(rs.getString("datares")),
+                        rs.getInt("codlivro")
+                        );
+                livros.add(livro_temporario);
+            }
+        }catch (Exception e){
+            System.out.println("Dados informados são invalidos, falha na consulta!");
+        }
+
+        return livros;
+    }
+
+    public String cancelarReserva(M_Livro livro){
+        M_Usuario_DAO user = new M_Usuario_DAO();
+
+        try {
+            //realiza conexão com banco de dados
+            Conexao con = new Conexao();
+            Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            con.conexao.setAutoCommit(true);
+
+            st.executeUpdate("update `bibliotec`.`livro` l set l.datares = null, l.usuariores = null where l.codlivro = '"+livro.getCodlivro()+"';");
+
+            livro.setMsg_retorno("Retorno: Reserva cancelada com sucesso.");
+            livro.setColor_msg_retorno(SUCESSO);
+        }catch (Exception e){
+            System.out.println("Dados informados são invalidos, falha no cancelamento!");
+            livro.setMsg_retorno("Retorno: A operação de cancelamento de reserva falhou.");
+            livro.setColor_msg_retorno(FALHA);
+        }
+        return user.minhaHomePage();
     }
 }

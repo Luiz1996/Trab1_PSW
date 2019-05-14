@@ -20,8 +20,15 @@ public class M_Livro {
     private String datacad = "";
     private String dataalt = "";
     private String disponibilidade = "";
+    private String datares = "";
+    private int usuariores = 0;
 
     //contrutores e gets/sets
+    public M_Livro(String datares, int usuariores) {
+        this.datares = datares;
+        this.usuariores = usuariores;
+    }
+
     public M_Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo) {
         this.codlivro = codlivro;
         this.codcatalogacao = codcatalogacao;
@@ -35,6 +42,16 @@ public class M_Livro {
         this.ativo = ativo;
         this.color_msg_retorno = color_msg_retorno;
         this.msg_retorno = msg_retorno;
+    }
+
+    public M_Livro(String titulo, String autor, String editora, String anolancamento, Integer volume, String datares, int codlivro) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.editora = editora;
+        this.anolancamento = anolancamento;
+        this.volume = volume;
+        this.datares = datares;
+        this.codlivro = codlivro;
     }
 
     public M_Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo, String status) {
@@ -80,6 +97,14 @@ public class M_Livro {
         this.anolancamento = anolancamento;
         this.codcatalogacao = codcatalogacao;
     }
+
+    public String getDatares() { return datares; }
+
+    public void setDatares(String datares) { this.datares = datares; }
+
+    public int getUsuariores() { return usuariores; }
+
+    public void setUsuariores(int usuariores) { this.usuariores = usuariores; }
 
     public String getDisponibilidade() { return disponibilidade; }
 

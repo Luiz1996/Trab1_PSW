@@ -3,7 +3,7 @@ package br.uem.din.bibliotec.config.controller;
 import br.uem.din.bibliotec.config.model.M_Usuario;
 import br.uem.din.bibliotec.config.model.M_Usuario_DAO;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.awt.*;
 import java.io.Serializable;
@@ -12,13 +12,16 @@ import java.util.List;
 
 //declaração do Bean
 @Named
-@RequestScoped
+@SessionScoped
 public class C_Usuario implements Serializable {
     //atributos do controller
     M_Usuario user = new M_Usuario("","","","","","","","","","",0,-1,"","");
     M_Usuario_DAO userDAO = new M_Usuario_DAO();
 
-    public C_Usuario() throws SQLException {
+    public C_Usuario() {}
+
+    public C_Usuario(String login){
+        login = new String();
     }
 
     //gets e sets
@@ -49,7 +52,11 @@ public class C_Usuario implements Serializable {
 
     //chama método de consulta de usuários no model
     public List<M_Usuario> realizaConsultaUsuario() throws SQLException {
-        return userDAO.consultarUsuarioBalconista(user);
+        return userDAO.consultarUsuarioBalconista(user, 0);
+    }
+
+    public List<M_Usuario> realizaConsultaUsuariosAtivos () throws SQLException {
+        return userDAO.consultarUsuarioBalconista(user, 1);
     }
 
     //chama método de deleção de usuários no model
@@ -59,5 +66,13 @@ public class C_Usuario implements Serializable {
 
     public String realizaEdicaoUsuario() throws SQLException{
         return userDAO.editarUsuario(user);
+    }
+
+    public String chamaMenuInicial(){
+        return userDAO.minhaHomePage();
+    }
+
+    public String realizaAtualizacaoMeusDados(){
+        return userDAO.atualizaMeusDados(user);
     }
 }
