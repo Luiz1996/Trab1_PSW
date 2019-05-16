@@ -7,10 +7,10 @@ import java.util.Properties;
 
 
 public class SendEmail {
-    private String emailDestinatario = "ra91706@uem.br";
+    private String emailDestinatario;
 
-    private String assunto = "Teste";
-    private String msg = "Uhull deu certo";
+    private String assunto;
+    private String msg;
 
     public String getEmailDestinatario() {
         return emailDestinatario;
