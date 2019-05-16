@@ -1,6 +1,7 @@
 package br.uem.din.bibliotec.config.model;
 
 import br.uem.din.bibliotec.config.conexao.Conexao;
+import br.uem.din.bibliotec.config.services.SendEmail;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -99,8 +100,7 @@ public class M_Emprestimo_DAO {
     }
 
     public String cadastrarEmprestimo(M_Emprestimo emp) throws SQLException {
-        String nome_user_emp = "";
-        String titulo_book_emp = "";
+        String datadev = "", dataemp = "", email_user_emp = "", titulo_book_emp = "", nome_user_emp = "";
 
         try {
             //realiza conexão com banco de dados
@@ -108,6 +108,20 @@ public class M_Emprestimo_DAO {
             con.conexao.setAutoCommit(true);
             Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = null;
+
+            //obtendo dados para imprimir na mensagem de retorno
+            st.execute("SELECT u.nome, u.email FROM `bibliotec`.`usuarios` u WHERE u.codusuario = '"+emp.getCodusuario()+"'");
+            rs = st.getResultSet();
+            while (rs.next()){
+                nome_user_emp = rs.getString("nome").trim();
+                email_user_emp = rs.getString("email").trim();
+            }
+
+            st.execute("SELECT l.titulo FROM `bibliotec`.`livro` l WHERE l.codlivro = '"+emp.getCodlivro()+"'");
+            rs = st.getResultSet();
+            while (rs.next()){
+                titulo_book_emp = rs.getString("titulo");
+            }
 
             //obter usuário da reserva
             st.execute("select coalesce(l.usuariores,0) as usuariores from `bibliotec`.`livro` l where l.codlivro = '"+emp.getCodlivro()+"';");
@@ -127,6 +141,20 @@ public class M_Emprestimo_DAO {
                 //Inserindo um novo emprestimo e auterando a disponibilidade do livro
                 st.executeUpdate("INSERT INTO `bibliotec`.`emprestimo` (`codusuario`, `codlivro`, `dataemp`, `datadev`, `ativo`) VALUES ('"+emp.getCodusuario()+"', '"+emp.getCodlivro()+"', current_date(), DATE_ADD(current_date(), INTERVAL 7 DAY) , '1');");
                 st.executeUpdate("UPDATE `bibliotec`.`livro` l set l.disponibilidade = '0' where l.codlivro = '"+emp.getCodlivro()+"';");
+
+                //Envio de e-mail ao cadastrar empréstimo
+                st.execute("SELECT max(datadev) as datadev, current_date() as dataemp from `bibliotec`.`emprestimo` e where e.codusuario = '"+emp.getCodusuario()+"';");
+                rs = st.getResultSet();
+                while(rs.next()){
+                    datadev = formatadorDatasBrasil(rs.getString("datadev"));
+                    dataemp = formatadorDatasBrasil(rs.getString("dataemp"));
+                }
+
+                SendEmail email = new SendEmail();
+                email.setAssunto("Empréstimo de Livro - Biblioteca X");
+                email.setEmailDestinatario(email_user_emp);
+                email.setMsg("Olá "+nome_user_emp+", <br><br>O empréstimo do livro <b>'"+titulo_book_emp+"'</b> foi realizado com sucesso! <br><br> Data do Empréstimo: <b>"+dataemp+"</b>. <br> Data da Devolução: <b>"+datadev+"</b>. <br><br>Fique atento à data de devolução.");
+                email.enviarGmail();
             }else{
                 //atualizando mensageria de retorno
                 emp.setColor_msg_retorno(FALHA);
@@ -134,18 +162,7 @@ public class M_Emprestimo_DAO {
                 return "/acessoBalconista?faces-redirect=true";
             }
 
-            //obtendo dados para imprimir na mensagem de retorno
-            st.execute("SELECT u.nome FROM `bibliotec`.`usuarios` u WHERE u.codusuario = '"+emp.getCodusuario()+"'");
-            rs = st.getResultSet();
-            while (rs.next()){
-                nome_user_emp = rs.getString("nome");
-            }
-
-            st.execute("SELECT l.titulo FROM `bibliotec`.`livro` l WHERE l.codlivro = '"+emp.getCodlivro()+"'");
-            rs = st.getResultSet();
-            while (rs.next()){
-                titulo_book_emp = rs.getString("titulo");
-            }
+            //
 
             //atualizando mensageria de retorno
             emp.setColor_msg_retorno(SUCESSO);
@@ -369,6 +386,8 @@ public class M_Emprestimo_DAO {
     }
 
     public String finalizarEmprestimo(M_Emprestimo emp){
+        String data_res = "";
+
         try{
             //realiza conexão com banco de dados bibliotec
             Conexao con = new Conexao();
@@ -376,29 +395,74 @@ public class M_Emprestimo_DAO {
             Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
             //obtendo codlivro para torná-lo disponível de novo
-            st.execute("SELECT codlivro FROM `bibliotec`.`emprestimo` e WHERE e.codemprestimo = '"+emp.getCodemprestimo()+"';");
+            st.execute( "select\n" +
+                            "\te.codlivro, \n" +
+                            "    u.email,\n" +
+                            "    u.nome,\n" +
+                            "    l.titulo,\n" +
+                            "    coalesce(l.datares,'') as datares\n" +
+                            "from\n" +
+                            "\temprestimo e\n" +
+                            "left join\n" +
+                            "\tusuarios   u on u.codusuario = e.codusuario\n" +
+                            "left join\n" +
+                            "\tlivro      l on l.codlivro = e.codlivro\t\n" +
+                            "where\n" +
+                            "\te.codemprestimo\t= '" +
+                            ""+emp.getCodemprestimo()+"';");
+
             ResultSet rs = st.getResultSet();
 
             while(rs.next()){
                 emp.setCodlivro(rs.getInt("codlivro"));
-            }
-
-            //obtendo data_reserva no livro se houver
-            st.execute("SELECT coalesce(datares,'') as datares FROM `bibliotec`.`livro` l WHERE l.codlivro = '"+emp.getCodlivro()+"';");
-            rs = st.getResultSet();
-
-            String data_res = "";
-            while(rs.next()){
+                emp.setEmail_user(rs.getString("email").trim());
+                emp.setNome_user(rs.getString("nome").trim());
+                emp.setTitulo_book(rs.getString("titulo").trim());
                 data_res = rs.getString("datares").trim();
-            }
-
-            if(!data_res.trim().equals("")){
-                st.executeUpdate("UPDATE `bibliotec`.`livro` l SET l.datares = DATE_ADD(current_date(), INTERVAL 1 DAY) WHERE l.codlivro = '"+emp.getCodlivro()+"';");
             }
 
             //realizando updates de modo a deixar livro disponível para emprestimo e marcar o emprestimo em questão como finalizado
             st.executeUpdate("UPDATE `bibliotec`.`livro` l SET l.disponibilidade = '1' WHERE l.codlivro = '"+emp.getCodlivro()+"';");
             st.executeUpdate("UPDATE `bibliotec`.`emprestimo` e SET e.ativo = '0', e.dataalt = current_date() WHERE e.codemprestimo = '"+emp.getCodemprestimo()+"';");
+
+            if(!data_res.trim().equals("")){
+                st.executeUpdate("UPDATE `bibliotec`.`livro` l SET l.datares = DATE_ADD(current_date(), INTERVAL 1 DAY) WHERE l.codlivro = '"+emp.getCodlivro()+"';");
+                String nome_res = "", email_res = "", datares = "";
+
+                st.execute( "SELECT \n" +
+                                "    u.nome as nome, " +
+                                "    u.email as email, " +
+                                "    l.datares as datares\n" +
+                                "FROM\n" +
+                                "    livro l\n" +
+                                "        LEFT JOIN\n" +
+                                "    usuarios u ON u.codusuario = l.usuariores\n" +
+                                "WHERE\n" +
+                                "    l.codlivro = '"+emp.getCodlivro()+"';");
+
+                rs = st.getResultSet();
+
+                while(rs.next()){
+                    nome_res = rs.getString("nome");
+                    email_res = rs.getString("email");
+                    datares = formatadorDatasBrasil(rs.getString("datares"));
+                }
+
+                //Enviando e-mail de confirmação de alteração na data de reserva criada por outro usuário
+                //Se o livro for devolvido antes da data de devolução, enntão a reserva do próximo usuário é adiantada também e é disparado e-mail
+                SendEmail email = new SendEmail();
+                email.setAssunto("Adiantamento de Reserva - Biblioteca X");
+                email.setEmailDestinatario(email_res);
+                email.setMsg("Olá "+nome_res+", <br><br>A sua reserva para o livro <b>'"+emp.getTitulo_book()+"'</b> foi adiantada para <b>"+datares+"</b>.");
+                email.enviarGmail();
+            }
+
+            //Enviando e-mail de confirmação ao devolver livro à biblioteca
+            SendEmail email = new SendEmail();
+            email.setAssunto("Devolução de Livro - Biblioteca X");
+            email.setEmailDestinatario(emp.getEmail_user());
+            email.setMsg("Olá "+emp.getNome_user()+", <br><br>A devolução do livro <b>'"+emp.getTitulo_book()+"'</b> foi realizado com sucesso.");
+            email.enviarGmail();
 
             //atualizando mensageria de retorno
             emp.setColor_msg_retorno(SUCESSO);

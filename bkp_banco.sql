@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `bibliotec` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
 USE `bibliotec`;
--- MySQL dump 10.13  Distrib 8.0.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
--- Host: localhost    Database: bibliotec
+-- Host: 127.0.0.1    Database: bibliotec
 -- ------------------------------------------------------
--- Server version	8.0.12
+-- Server version	8.0.15
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -88,7 +88,7 @@ CREATE TABLE `livro` (
 
 LOCK TABLES `livro` WRITE;
 /*!40000 ALTER TABLE `livro` DISABLE KEYS */;
-INSERT INTO `livro` VALUES (1,'452K','978853800365-8','Dom Casmurro','Machado de Assis','Giranda Cultural','2008','São Paulo',1,1,'2019-05-01',NULL,1,NULL,NULL),(2,'A568m','857175057-2','Macunaíma','Mário de Andrade','Venha Ler','2001','Belo Horizonte',1,1,'2019-05-01',NULL,1,NULL,NULL),(3,'A353i','859861010-0','Iracema','José de Alencar','Editora Avenida','2005','Jaraguá do Sul',1,1,'2019-05-01',NULL,1,NULL,NULL),(4,'Y71c','978854310468-3','A Cabana','William P. Young','Sextante','2016','Rio de Janeiro',1,0,'2019-05-01',NULL,1,NULL,NULL),(5,'L732t','978852541278-2','Triste Fim de Policarpo Quaresma','Lima Barreto','L&PM','2009','Porto Alegre',1,1,'2019-05-01',NULL,1,NULL,NULL),(6,'M121m','859855906-7','A Moreninha','Joaquim Manoel de Macedo','Clássicos da Literatura','1998','Maringá',1,1,'2019-05-01',NULL,1,NULL,NULL),(7,'L7531','853250813-8','Laços de Família','Clarice Lispector','Rocco','1998','Rio de Janeiro',1,1,'2019-05-01',NULL,1,NULL,NULL),(8,'NC','857054033-7','Algoritmos e Estruturas de Dados','Niklaus Wirth','PHB','1989','Rio de Janeiro',1,1,'2019-05-01',NULL,1,NULL,NULL),(9,'R143m','850100916-4','Memórias do Cárcere','Graciliano Ramos','Record','2005','São Paulo',2,1,'2019-05-01',NULL,1,NULL,NULL),(10,'M453l','85497813-5','Lucíola','José de Alencar ','Ática','1987','São Paulo',1,1,'2019-05-05',NULL,1,NULL,NULL);
+INSERT INTO `livro` VALUES (1,'452K','978853800365-8','Dom Casmurro','Machado de Assis','Giranda Cultural','2008','São Paulo',1,1,'2019-05-01',NULL,1,NULL,NULL),(2,'A568m','857175057-2','Macunaíma','Mário de Andrade','Venha Ler','2001','Belo Horizonte',1,1,'2019-05-01',NULL,1,NULL,NULL),(3,'A353i','859861010-0','Iracema','José de Alencar','Editora Avenida','2005','Jaraguá do Sul',1,1,'2019-05-01',NULL,1,NULL,NULL),(4,'Y71c','978854310468-3','A Cabana','William P. Young','Sextante','2016','Rio de Janeiro',1,1,'2019-05-01',NULL,1,NULL,NULL),(5,'L732t','978852541278-2','Triste Fim de Policarpo Quaresma','Lima Barreto','L&PM','2009','Porto Alegre',1,1,'2019-05-01',NULL,1,NULL,NULL),(6,'M121m','859855906-7','A Moreninha','Joaquim Manoel de Macedo','Clássicos da Literatura','1998','Maringá',1,1,'2019-05-01',NULL,1,NULL,NULL),(7,'L7531','853250813-8','Laços de Família','Clarice Lispector','Rocco','1998','Rio de Janeiro',1,1,'2019-05-01',NULL,1,NULL,NULL),(8,'NC','857054033-7','Algoritmos e Estruturas de Dados','Niklaus Wirth','PHB','1989','Rio de Janeiro',1,1,'2019-05-01',NULL,1,NULL,NULL),(9,'R143m','850100916-4','Memórias do Cárcere','Graciliano Ramos','Record','2005','São Paulo',1,1,'2019-05-01',NULL,1,NULL,NULL),(10,'M453l','85497813-5','Lucíola','José de Alencar ','Ática','1987','São Paulo',1,1,'2019-05-05',NULL,1,NULL,NULL);
 /*!40000 ALTER TABLE `livro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +131,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'balconista@uem.br','2','2','Balconista','222222222','22222222222','Rua B','87000000','Maringá','PR',2,1,'2019-05-01',NULL,'2019-01-01'),(2,'bibliotecario@uem.br','1','1','Bibliotecário','111111111','11111111111','Rua A','87000000','Maringá','PR',1,1,'2019-05-01',NULL,'2019-01-01'),(3,'raAluno@uem.br','3','3','Aluno','333333333','33333333333','Rua C','87000000','Maringá','PR',3,1,'2019-05-01',NULL,'2019-01-01');
+INSERT INTO `usuarios` VALUES (1,'luiz.pereira@agfertipol.com.br','2','2','Balconista','222222222','22222222222','Rua B','87000000','Maringá','PR',2,1,'2019-05-01',NULL,'2019-01-01'),(2,'luiz_flavio_p@hotmail.com','1','1','Bibliotecário','111111111','11111111111','Rua A','87000000','Maringá','PR',1,1,'2019-05-01',NULL,'2019-01-01'),(3,'ra91706@uem.br','3','3','Luiz Flávio Pereira','333333333','33333333333','Rua C','87000000','Maringá','PR',3,1,'2019-05-01',NULL,'2019-01-01');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,4 +152,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-13 21:30:43
+-- Dump completed on 2019-05-16 16:26:30

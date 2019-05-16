@@ -1,6 +1,7 @@
 package br.uem.din.bibliotec.config.model;
 
 import br.uem.din.bibliotec.config.conexao.Conexao;
+import br.uem.din.bibliotec.config.services.SendEmail;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -329,7 +330,7 @@ public class M_Livro_DAO {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String login = (String)session.getAttribute("usuario");
         M_Usuario_DAO user = new M_Usuario_DAO();
-        String statusLivro = "";
+        String statusLivro = "", emailres = "", usuariores = "", titulores = "", datares = "";
         int codUsuarioLocal = 0;
 
         try {
@@ -416,18 +417,43 @@ public class M_Livro_DAO {
                         livro.setDatares(rs.getString("datares").trim());
                     }
 
-                    System.out.println("AQUI");
-
                     st.executeUpdate(   "update livro l set l.datares = '"+livro.getDatares()+"', l.usuariores = '"+codUsuarioLocal+"' where l.codlivro = '"+livro.getCodlivro()+"';");
 
                     livro.setMsg_retorno("Retorno: Reserva efetuada com sucesso, o livro estará disponível para retirada no dia "+formatadorDatasBrasil(livro.getDatares())+" até o fechamento da biblioteca.");
                     livro.setColor_msg_retorno(SUCESSO);
                 }
+
+                st.execute( "select\n" +
+                                "\tu.email,\n" +
+                                "    u.nome,\n" +
+                                "    l.titulo,\n" +
+                                "    l.datares\n" +
+                                "from\n" +
+                                "\tusuarios u\n" +
+                                "left join\n" +
+                                "\tlivro    l on l.usuariores = u.codusuario\n" +
+                                "where\n" +
+                                "\tl.codlivro = '"+livro.getCodlivro()+"';\t");
+
+                rs = st.getResultSet();
+
+                while(rs.next()){
+                    emailres = rs.getString("email");
+                    usuariores = rs.getString("nome");
+                    titulores = rs.getString("titulo");
+                    datares = formatadorDatasBrasil(rs.getString("datares"));
+                }
+
+                SendEmail email = new SendEmail();
+                email.setAssunto("Reserva de Livro - Biblioteca X");
+                email.setEmailDestinatario(emailres.trim());
+                email.setMsg("Olá "+usuariores+", <br><br> A sua reserva para o livro <b>'"+titulores+"'</b> foi efetuada com sucesso.<br><br>Data de Retirada: <b>"+datares+"</b>.");
+                email.enviarGmail();
+
+                st.close();
+                con.conexao.close();
                 return user.minhaHomePage();
             }
-
-            st.close();
-            con.conexao.close();
         } catch (SQLException e) {
             //em caso de erro no insert é retornado mensagem de falha na cor vermelha
             System.out.println("Dados informados são inválidos!");
@@ -488,6 +514,7 @@ public class M_Livro_DAO {
     }
 
     public String cancelarReserva(M_Livro livro){
+        String emailres = "", usuariores = "", titulores = "";
         M_Usuario_DAO user = new M_Usuario_DAO();
 
         try {
@@ -496,8 +523,34 @@ public class M_Livro_DAO {
             Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             con.conexao.setAutoCommit(true);
 
+            st.execute("SELECT \n" +
+                            "    u.email, u.nome, l.titulo\n" +
+                            "FROM\n" +
+                            "    usuarios u\n" +
+                            "        LEFT JOIN\n" +
+                            "    livro l ON l.usuariores = u.codusuario\n" +
+                            "WHERE\n" +
+                            "    l.codlivro = '"+livro.getCodlivro()+"';");
+
+            ResultSet rs = st.getResultSet();
+
+            while(rs.next()){
+                emailres = rs.getString("email");
+                usuariores = rs.getString("nome");
+                titulores = rs.getString("titulo");
+            }
+
+            //cancelando
             st.executeUpdate("update `bibliotec`.`livro` l set l.datares = null, l.usuariores = null where l.codlivro = '"+livro.getCodlivro()+"';");
 
+            //Enviando e-mail de confirmação de cancelamento de reserva
+            SendEmail email = new SendEmail();
+            email.setAssunto("Cancelamento de Reserva - Biblioteca X");
+            email.setEmailDestinatario(emailres);
+            email.setMsg("Olá "+usuariores+", <br><br> A reserva do livro <b>'"+titulores+"'</b> foi cancelada com sucesso.");
+            email.enviarGmail();
+
+            //Atualizando mensagem de retorno da operação de cancelamento de reserva
             livro.setMsg_retorno("Retorno: Reserva cancelada com sucesso.");
             livro.setColor_msg_retorno(SUCESSO);
         }catch (Exception e){
