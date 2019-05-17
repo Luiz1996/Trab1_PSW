@@ -162,8 +162,6 @@ public class M_Emprestimo_DAO {
                 return "/acessoBalconista?faces-redirect=true";
             }
 
-            //
-
             //atualizando mensageria de retorno
             emp.setColor_msg_retorno(SUCESSO);
             emp.setMsg_retorno("Retorno: O empréstimo do livro '"+titulo_book_emp+"' para '"+nome_user_emp+"' foi realizado com sucesso.");

@@ -1,6 +1,7 @@
 package br.uem.din.bibliotec.config.model;
 
 import br.uem.din.bibliotec.config.conexao.Conexao;
+import br.uem.din.bibliotec.config.services.SendEmail;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -117,8 +118,25 @@ public class M_Usuario_DAO {
             Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             con.conexao.setAutoCommit(true);
 
+            //setando sigla dos estados com letras maiusculas
+            user.setEstado(user.getEstado().toUpperCase());
+
+            //corrigindo CPF e RG
+            user.setCpf(user.getCpf().replace(".",""));
+            user.setCpf(user.getCpf().replace("-",""));
+            user.setRg(user.getRg().replace(".",""));
+            user.setRg(user.getRg().replace("-",""));
+            user.setCep(user.getCep().replace("-",""));
+
             //realizando a inserção do novo cadastro no banco de dados
             st.executeUpdate("INSERT INTO `bibliotec`.`usuarios` (`email`, `usuario`, `senha`, `nome`, `rg`, `cpf`, `endereco`, `cep`, `cidade`, `estado`, `permissao`, `ativo`, `datacad`, `datanasc`) VALUES ('" + user.getEmail() + "', '" + user.getUsuario() + "', '" + user.getSenha() + "', '" + user.getNome() + "', '" + user.getRg() + "', '" + user.getCpf() + "', '" + user.getEndereco() + "', '" + user.getCep() + "', '" + user.getCidade() + "', '" + user.getEstado() + "', '" + user.getPermissao() + "', '" + user.getAtivo() + "', current_date(), '" + user.getDatanasc() + "');");
+
+            //enviando e-mail para comunicar que recebemos os dados do usuário e em breve analisaremos suas informações e ativaremos seu cadastro
+            SendEmail email = new SendEmail();
+            email.setAssunto("Recebemos seus Dados - Biblioteca X");
+            email.setEmailDestinatario(user.getEmail().trim());
+            email.setMsg("Olá "+user.getNome()+", <br><br>Recebemos seus dados em nosso sistema.<br><br>Eles serão analisados e caso não exista inconsistência(s) nos dados fornecidos seu cadastro será ativado.");
+            email.enviarGmail();
 
             //setando mensagem de retorno
             user.setMsg_autenticacao("Cadastrado com sucesso.");
@@ -144,8 +162,25 @@ public class M_Usuario_DAO {
             Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             con.conexao.setAutoCommit(true);
 
+            //corrigindo CPF e RG
+            user.setCpf(user.getCpf().replace(".",""));
+            user.setCpf(user.getCpf().replace("-",""));
+            user.setRg(user.getRg().replace(".",""));
+            user.setRg(user.getRg().replace("-",""));
+            user.setCep(user.getCep().replace("-",""));
+
+            //setando sigla dos estados com letras maiusculas
+            user.setEstado(user.getEstado().toUpperCase());
+
             //realizando a inserção do novo cadastro no banco de dados
-            st.executeUpdate("insert into `bibliotec`.`usuarios` (`email`, `usuario`, `senha`, `nome`, `rg`, `cpf`, `endereco`, `cep`, `cidade`, `estado`, `permissao`, `ativo`, `datacad`, `datanasc`) values ('" + user.getEmail() + "', '" + user.getUsuario() + "', '" + user.getSenha() + "', '" + user.getNome() + "', '" + user.getRg() + "', '" + user.getCpf() + "', '" + user.getEndereco() + "', '" + user.getCep() + "', '" + user.getCidade() + "', '" + user.getEstado() + "', '" + user.getPermissao() + "', '" + user.getAtivo() + "', current_date(), '" + user.getDatanasc() + "');");
+            st.executeUpdate("insert into `bibliotec`.`usuarios` (`email`, `usuario`, `senha`, `nome`, `rg`, `cpf`, `endereco`, `cep`, `cidade`, `estado`, `permissao`, `ativo`, `datacad`, `datanasc`) values ('" + user.getEmail() + "', '" + user.getUsuario() + "', '" + user.getSenha() + "', '" + user.getNome() + "', '" + user.getRg() + "', '" + user.getCpf() + "', '" + user.getEndereco() + "', '" + user.getCep() + "', '" + user.getCidade() + "', '" + user.getEstado().toUpperCase() + "', '" + user.getPermissao() + "', '" + user.getAtivo() + "', current_date(), '" + user.getDatanasc() + "');");
+
+            //enviando e-mail para confirma cadastramento de novo usuário.
+            SendEmail email = new SendEmail();
+            email.setAssunto("Confirmação de Cadastro - Biblioteca X");
+            email.setEmailDestinatario(user.getEmail().trim());
+            email.setMsg("Olá "+user.getNome()+", <br><br>Seu cadastro foi realizado com sucesso.");
+            email.enviarGmail();
 
             //setando mensagem de retorno
             user.setMsg_autenticacao("Retorno: O usuário '" + user.getUsuario() + "' foi cadastrado com sucesso!");

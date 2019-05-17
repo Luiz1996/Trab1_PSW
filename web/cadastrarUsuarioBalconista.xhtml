@@ -114,12 +114,12 @@
                                  required="true" placeholder="Insira a senha de acesso" maxlength="30"></p:inputText>
 
                     <h:outputLabel value="RG"/><font color="red">*</font>
-                    <p:inputMask class="form-control" value="#{c_Usuario.user.rg}" mask="9999999999" required="true"
-                                 placeholder="Insira o seu RG(somente números)" maxlength="10"/>
+                    <p:inputMask class="form-control" value="#{c_Usuario.user.rg}" mask="99.999.999-9" required="true"
+                                 placeholder="Insira o seu RG(somente números)" maxlength="12"/>
 
                     <h:outputLabel value="CPF"/><font color="red">*</font>
-                    <p:inputMask class="form-control" value="#{c_Usuario.user.cpf}" mask="999999999999999"
-                                 required="true" placeholder="Insira o seu CPF(somente números)" maxlength="15"/>
+                    <p:inputMask class="form-control" value="#{c_Usuario.user.cpf}" mask="999.999.999-99"
+                                 required="true" placeholder="Insira o seu CPF(somente números)" maxlength="14"/>
 
                     <h:outputLabel value="Endereço"/><font color="red">*</font>
                     <p:inputText value="#{c_Usuario.user.endereco}" class="form-control"

@@ -49,11 +49,9 @@ public class SendEmail {
         Session s = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-
-                        return new PasswordAuthentication("bibliotecsgb@gmail.com", "*");
+                        return new PasswordAuthentication("bibliotecsgb@gmail.com", "Efz4641O");
                     }
                 });
-
 
         try {
             MimeMessage message = new MimeMessage(s);
@@ -67,7 +65,6 @@ public class SendEmail {
             Transport.send(message);
 
             retorno = true;
-
         } catch (MessagingException e) {
             retorno = false;
             e.printStackTrace();
