@@ -158,7 +158,7 @@ public class M_Emprestimo_DAO {
             }else{
                 //atualizando mensageria de retorno
                 emp.setColor_msg_retorno(FALHA);
-                emp.setMsg_retorno("Retorno: O livro encontra-se reservado para outra pessoa. Falhar ao criar nova reserva!");
+                emp.setMsg_retorno("Retorno: O livro encontra-se reservado para outra pessoa. Falhar ao criar novo empréstimo!");
                 return "/acessoBalconista?faces-redirect=true";
             }
 

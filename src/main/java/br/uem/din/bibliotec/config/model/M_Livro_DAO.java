@@ -347,6 +347,34 @@ public class M_Livro_DAO {
                 codUsuarioLocal = rs.getInt("codusuario");
             }
 
+            //se tentar cadastrar reserva e o livro já estiver emprestado pelo mesmo usuário, então o sistema barra
+            //se aluno desevar prorrogar, deverá ir ate a biblioteca e pedir para o balconista editar o emprestimo(prorrogar data devolução)
+            //ao fazer isso, balconista tem acesso se livro já possui reserva para outro usuário ou não...Evita erros de processo
+            st.execute( "select\n" +
+                            "\tcoalesce(u.nome,'semp') as emp\n" +
+                            "from\n" +
+                            "\temprestimo e\n" +
+                            "left join\n" +
+                            "\tusuarios   u on u.codusuario = e.codusuario\n" +
+                            "where\n" +
+                            "\te.codusuario = '"+codUsuarioLocal+"' and\n" +
+                            "    e.codlivro = '"+livro.getCodlivro()+"' and\n" +
+                            "    e.ativo = '1';");
+            rs = st.getResultSet();
+
+            String haEmprestimo = "";
+            while(rs.next()){
+                haEmprestimo = rs.getString("emp");
+            }
+
+            System.out.println("ha emp: "+haEmprestimo);
+
+            if(!haEmprestimo.equals("")){
+                livro.setMsg_retorno("Retorno: O livro já encontra-se com empréstimo em seu nome!");
+                livro.setColor_msg_retorno(FALHA);
+                return user.minhaHomePage();
+            }
+
             //consultar se livro já possui reserva
             st.execute( "SELECT \n" +
                             "    l.datares,\n" +

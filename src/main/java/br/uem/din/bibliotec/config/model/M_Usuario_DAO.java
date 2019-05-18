@@ -51,7 +51,6 @@ public class M_Usuario_DAO {
             con.conexao.setAutoCommit(true);
 
 
-
             //consultando se usuário está ativo e sua devida permissão
             st.execute("select ativo, permissao from `bibliotec`.`usuarios` where (email = '" + usuario + "' or usuario = '" + usuario + "' or cpf = '" + usuario + "') and senha = '" + senha + "';");
             //user.setUsuario("");
@@ -122,20 +121,20 @@ public class M_Usuario_DAO {
             user.setEstado(user.getEstado().toUpperCase());
 
             //corrigindo CPF e RG
-            user.setCpf(user.getCpf().replace(".",""));
-            user.setCpf(user.getCpf().replace("-",""));
-            user.setRg(user.getRg().replace(".",""));
-            user.setRg(user.getRg().replace("-",""));
-            user.setCep(user.getCep().replace("-",""));
+            user.setCpf(user.getCpf().replace(".", ""));
+            user.setCpf(user.getCpf().replace("-", ""));
+            user.setRg(user.getRg().replace(".", ""));
+            user.setRg(user.getRg().replace("-", ""));
+            user.setCep(user.getCep().replace("-", ""));
 
             //realizando a inserção do novo cadastro no banco de dados
-            st.executeUpdate("INSERT INTO `bibliotec`.`usuarios` (`email`, `usuario`, `senha`, `nome`, `rg`, `cpf`, `endereco`, `cep`, `cidade`, `estado`, `permissao`, `ativo`, `datacad`, `datanasc`) VALUES ('" + user.getEmail() + "', '" + user.getUsuario() + "', '" + user.getSenha() + "', '" + user.getNome() + "', '" + user.getRg() + "', '" + user.getCpf() + "', '" + user.getEndereco() + "', '" + user.getCep() + "', '" + user.getCidade() + "', '" + user.getEstado() + "', '" + user.getPermissao() + "', '" + user.getAtivo() + "', current_date(), '" + user.getDatanasc() + "');");
+            st.executeUpdate("INSERT INTO `bibliotec`.`usuarios` (`email`, `usuario`, `senha`, `nome`, `rg`, `cpf`, `endereco`, `cep`, `cidade`, `estado`, `permissao`, `ativo`, `datacad`, `datanasc`, `jaativado`) VALUES ('" + user.getEmail() + "', '" + user.getUsuario() + "', '" + user.getSenha() + "', '" + user.getNome() + "', '" + user.getRg() + "', '" + user.getCpf() + "', '" + user.getEndereco() + "', '" + user.getCep() + "', '" + user.getCidade() + "', '" + user.getEstado() + "', '" + user.getPermissao() + "', '" + user.getAtivo() + "', current_date(), '" + user.getDatanasc() + "', '0');");
 
             //enviando e-mail para comunicar que recebemos os dados do usuário e em breve analisaremos suas informações e ativaremos seu cadastro
             SendEmail email = new SendEmail();
             email.setAssunto("Recebemos seus Dados - Biblioteca X");
             email.setEmailDestinatario(user.getEmail().trim());
-            email.setMsg("Olá "+user.getNome()+", <br><br>Recebemos seus dados em nosso sistema.<br><br>Eles serão analisados e caso não exista inconsistência(s) nos dados fornecidos seu cadastro será ativado.");
+            email.setMsg("Olá " + user.getNome() + ", <br><br>Recebemos seus dados em nosso sistema.<br><br>Eles serão analisados e caso não exista inconsistência(s) nos dados fornecidos seu cadastro será ativado.");
             email.enviarGmail();
 
             //setando mensagem de retorno
@@ -162,24 +161,24 @@ public class M_Usuario_DAO {
             Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             con.conexao.setAutoCommit(true);
 
-            //corrigindo CPF e RG
-            user.setCpf(user.getCpf().replace(".",""));
-            user.setCpf(user.getCpf().replace("-",""));
-            user.setRg(user.getRg().replace(".",""));
-            user.setRg(user.getRg().replace("-",""));
-            user.setCep(user.getCep().replace("-",""));
+            //corrigindo CPF, RG e Cep
+            user.setCpf(user.getCpf().replace(".", ""));
+            user.setCpf(user.getCpf().replace("-", ""));
+            user.setRg(user.getRg().replace(".", ""));
+            user.setRg(user.getRg().replace("-", ""));
+            user.setCep(user.getCep().replace("-", ""));
 
             //setando sigla dos estados com letras maiusculas
             user.setEstado(user.getEstado().toUpperCase());
 
             //realizando a inserção do novo cadastro no banco de dados
-            st.executeUpdate("insert into `bibliotec`.`usuarios` (`email`, `usuario`, `senha`, `nome`, `rg`, `cpf`, `endereco`, `cep`, `cidade`, `estado`, `permissao`, `ativo`, `datacad`, `datanasc`) values ('" + user.getEmail() + "', '" + user.getUsuario() + "', '" + user.getSenha() + "', '" + user.getNome() + "', '" + user.getRg() + "', '" + user.getCpf() + "', '" + user.getEndereco() + "', '" + user.getCep() + "', '" + user.getCidade() + "', '" + user.getEstado().toUpperCase() + "', '" + user.getPermissao() + "', '" + user.getAtivo() + "', current_date(), '" + user.getDatanasc() + "');");
+            st.executeUpdate("insert into `bibliotec`.`usuarios` (`email`, `usuario`, `senha`, `nome`, `rg`, `cpf`, `endereco`, `cep`, `cidade`, `estado`, `permissao`, `ativo`, `datacad`, `datanasc`, `jaativado`) values ('" + user.getEmail() + "', '" + user.getUsuario() + "', '" + user.getSenha() + "', '" + user.getNome() + "', '" + user.getRg() + "', '" + user.getCpf() + "', '" + user.getEndereco() + "', '" + user.getCep() + "', '" + user.getCidade() + "', '" + user.getEstado().toUpperCase() + "', '" + user.getPermissao() + "', '" + user.getAtivo() + "', current_date(), '" + user.getDatanasc() + "', '1');");
 
             //enviando e-mail para confirma cadastramento de novo usuário.
             SendEmail email = new SendEmail();
             email.setAssunto("Confirmação de Cadastro - Biblioteca X");
             email.setEmailDestinatario(user.getEmail().trim());
-            email.setMsg("Olá "+user.getNome()+", <br><br>Seu cadastro foi realizado com sucesso.");
+            email.setMsg("Olá " + user.getNome() + ", <br><br>Seu cadastro foi realizado com sucesso.");
             email.enviarGmail();
 
             //setando mensagem de retorno
@@ -207,9 +206,9 @@ public class M_Usuario_DAO {
         user.setCpf(user.getNome());
 
         //busca todas as informações de acordo com os dados fornecidos
-        if(ativo == 0){
+        if (ativo == 0) {
             st.execute("SELECT u.email, u.usuario, u.nome, u.rg, u.cpf, u.endereco, u.cep, u.cidade, u.estado, CASE WHEN u.permissao = 1 THEN 'Bibliotecário' WHEN u.permissao = 2 THEN 'Balconista' WHEN u.permissao = 3 THEN 'Aluno' WHEN u.permissao = 0 THEN 'Sem Permissões' END AS perfil, CASE WHEN u.ativo = 1 THEN 'Ativo' ELSE 'Inativo' END AS status, u.codusuario, u.datacad, u.dataalt, u.datanasc FROM `bibliotec`.`usuarios` u WHERE u.nome LIKE '%" + user.getNome() + "%' or u.email LIKE '%" + user.getEmail() + "%' or u.cpf LIKE '" + user.getCpf() + "' or u.usuario LIKE '" + user.getUsuario() + "';");
-        }else{
+        } else {
             st.execute("SELECT u.email, u.usuario, u.nome, u.rg, u.cpf, u.endereco, u.cep, u.cidade, u.estado, CASE WHEN u.permissao = 1 THEN 'Bibliotecário' WHEN u.permissao = 2 THEN 'Balconista' WHEN u.permissao = 3 THEN 'Aluno' WHEN u.permissao = 0 THEN 'Sem Permissões' END AS perfil, CASE WHEN u.ativo = 1 THEN 'Ativo' ELSE 'Inativo' END AS status, u.codusuario, u.datacad, u.dataalt, u.datanasc FROM `bibliotec`.`usuarios` u WHERE u.ativo = '1' order by 3;");
         }
 
@@ -353,10 +352,18 @@ public class M_Usuario_DAO {
             }
 
             if (!user.getRg().equals("")) {
+                //corrigindo RG
+                user.setRg(user.getRg().replace(".", ""));
+                user.setRg(user.getRg().replace("-", ""));
+
                 st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET rg = '" + user.getRg() + "' WHERE codusuario = " + user.getCodusuario() + ";");
             }
 
             if (!user.getCpf().equals("")) {
+                //corrigindo CPF
+                user.setCpf(user.getCpf().replace(".", ""));
+                user.setCpf(user.getCpf().replace("-", ""));
+
                 st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET cpf = '" + user.getCpf() + "' WHERE codusuario = " + user.getCodusuario() + ";");
             }
 
@@ -365,6 +372,9 @@ public class M_Usuario_DAO {
             }
 
             if (!user.getCep().equals("")) {
+                //corrigindo Cep
+                user.setCep(user.getCep().replace("-", ""));
+
                 st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET cep = '" + user.getCep() + "' WHERE codusuario = " + user.getCodusuario() + ";");
             }
 
@@ -373,6 +383,9 @@ public class M_Usuario_DAO {
             }
 
             if (!user.getEstado().equals("")) {
+                //setando sigla dos estados com letras maiusculas
+                user.setEstado(user.getEstado().toUpperCase());
+
                 st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET estado = '" + user.getEstado() + "' WHERE codusuario = " + user.getCodusuario() + ";");
             }
 
@@ -383,7 +396,30 @@ public class M_Usuario_DAO {
             if (user.getAtivo() == 0) {
                 st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET ativo = '0', permissao = '0' WHERE codusuario = " + user.getCodusuario() + ";");
             } else {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET ativo = '1' WHERE codusuario = " + user.getCodusuario() + ";");
+                if (user.getAtivo() == 1 && user.getPermissao() != 0) {
+                    st.execute("select u.jaativado, u.email, u.nome from `bibliotec`.`usuarios` u where u.codusuario = '" + user.getCodusuario() + "';");
+                    rs = st.getResultSet();
+
+                    int jaativado = 1;
+                    String email_user = "", nome_user = "";
+
+                    while (rs.next()) {
+                        jaativado = rs.getInt("jaativado");
+                        email_user = rs.getString("email");
+                        nome_user = rs.getString("nome");
+                    }
+
+                    //se jaativado == 0, então é porque o usuárioe stá sendo ativado pela primeira vez(se usuário for inativado e depois reativado a intenção é que não mande e-mail de novo avisando que foi ativado novamente seu cadastro)
+                    if (jaativado == 0) {
+                        //enviando e-mail comunicando ativação do cadastro do usuário(este e-mail só será enviado no máxima uma vez)
+                        SendEmail email = new SendEmail();
+                        email.setAssunto("Confirmação de Cadastro - Biblioteca X");
+                        email.setEmailDestinatario(email_user.trim());
+                        email.setMsg("Olá " + nome_user + ", <br><br>Seu cadastro foi ativado com sucesso.<br>Agora você tem acesso ao nosso acervo de livros e demais funcionalidades, aproveite!");
+                        email.enviarGmail();
+                    }
+                    st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET ativo = '1', jaativado = '1' WHERE codusuario = " + user.getCodusuario() + ";");
+                }
             }
 
             //dependendo se o nome informado na tela for vazio/nulo ele imprime na mensagem de retorno com base no nome buscado no banco de dados
@@ -504,7 +540,7 @@ public class M_Usuario_DAO {
         return "/gestaoBibliotecas?faces-redirect=true";
     }
 
-    public String atualizaMeusDados(M_Usuario user){
+    public String atualizaMeusDados(M_Usuario user) {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String login = (String) session.getAttribute("usuario");
 
@@ -515,49 +551,85 @@ public class M_Usuario_DAO {
             Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
             if (!user.getNome().equals("")) {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET nome = '"+user.getNome()+"' WHERE usuario = '" + login + "';");
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET nome = '" + user.getNome() + "' WHERE usuario = '" + login + "';");
             }
 
             if (!user.getSenha().equals("")) {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET senha = '"+user.getSenha()+"' WHERE usuario = '" + login + "';");
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET senha = '" + user.getSenha() + "' WHERE usuario = '" + login + "';");
             }
 
             if (!user.getRg().equals("")) {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET rg = '"+user.getRg()+"' WHERE usuario = '" + login + "';");
+                //corrigindo RG
+                user.setRg(user.getRg().replace(".", ""));
+                user.setRg(user.getRg().replace("-", ""));
+
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET rg = '" + user.getRg() + "' WHERE usuario = '" + login + "';");
             }
 
             if (!user.getCpf().equals("")) {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET cpf = '"+user.getCpf()+"' WHERE usuario = '" + login + "';");
+                //corrigindo CPF
+                user.setCpf(user.getCpf().replace(".", ""));
+                user.setCpf(user.getCpf().replace("-", ""));
+
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET cpf = '" + user.getCpf() + "' WHERE usuario = '" + login + "';");
             }
 
             if (!user.getEmail().equals("")) {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET email = '"+user.getEmail()+"' WHERE usuario = '" + login + "';");
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET email = '" + user.getEmail() + "' WHERE usuario = '" + login + "';");
             }
 
             if (!user.getEndereco().equals("")) {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET endereco = '"+user.getEndereco()+"' WHERE usuario = '" + login + "';");
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET endereco = '" + user.getEndereco() + "' WHERE usuario = '" + login + "';");
             }
 
             if (!user.getCep().equals("")) {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET cep = '"+user.getCep()+"' WHERE usuario = '" + login + "';");
+                //corrigindo Cep
+                user.setCep(user.getCep().replace("-", ""));
+
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET cep = '" + user.getCep() + "' WHERE usuario = '" + login + "';");
             }
 
             if (!user.getCidade().equals("")) {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET cidade = '"+user.getCidade()+"' WHERE usuario = '" + login + "';");
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET cidade = '" + user.getCidade() + "' WHERE usuario = '" + login + "';");
             }
 
             if (!user.getEstado().equals("")) {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET estado = '"+user.getEstado()+"' WHERE usuario = '" + login + "';");
+                //setando sigla dos estados com letras maiusculas
+                user.setEstado(user.getEstado().toUpperCase());
+
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET estado = '" + user.getEstado() + "' WHERE usuario = '" + login + "';");
             }
 
             if (!user.getDatanasc().equals("")) {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET datanasc = '"+formatadorDatasMySQL(user.getDatanasc())+"' WHERE usuario = '" + login + "';");
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET datanasc = '" + formatadorDatasMySQL(user.getDatanasc()) + "' WHERE usuario = '" + login + "';");
             }
 
-            st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET dataalt = current_date() WHERE usuario = '" + login + "';");
+            //se houver ao menos 1 alteração atualiza dataalt e manda e-mail
+            if (!user.getNome().equals("") || !user.getSenha().equals("") || !user.getCpf().equals("") || !user.getEmail().equals("") || !user.getEndereco().equals("") || !user.getCep().equals("") || !user.getCidade().equals("") || !user.getEstado().equals("") || !user.getDatanasc().equals("") || !user.getUsuario().equals("")) {
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET dataalt = current_date() WHERE usuario = '" + login + "';");
 
+                //Enviando e-mail de alteração cadastral
+                st.execute("SELECT nome, email FROM `bibliotec`.`usuarios` WHERE usuario = '" + login + "';");
+                ResultSet rs = st.getResultSet();
+                while (rs.next()) {
+                    user.setNome(rs.getString("nome").trim());
+                    user.setEmail(rs.getString("email").trim());
+                }
+                SendEmail email = new SendEmail();
+                email.setAssunto("Atualização Cadastral - Biblioteca X");
+                email.setEmailDestinatario(user.getEmail().trim());
+                email.setMsg("Olá " + user.getNome() + ", <br><br>Seus dados foram atualizados com sucesso!");
+                email.enviarGmail();
+            } else {
+                //setando mensagem de retorno
+                user.setMsg_autenticacao("Nenhuma alteração identificada!");
+                user.setColor_msg(FALHA);
+                return minhaHomePage();
+            }
+
+            //Se alterar o usuário logo a sessão será quebrada e será necessário refazer o login
             if (!user.getUsuario().equals("")) {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET usuario = '"+user.getUsuario()+"' WHERE usuario = '" + login + "';");
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET usuario = '" + user.getUsuario() + "' WHERE usuario = '" + login + "';");
             }
 
             //fechando as conexões em aberto para evitar locks infinitos no banco de dados
