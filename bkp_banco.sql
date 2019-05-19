@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `bibliotec` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
 USE `bibliotec`;
--- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.12, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: bibliotec
+-- Host: localhost    Database: bibliotec
 -- ------------------------------------------------------
--- Server version	8.0.15
+-- Server version	8.0.12
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -79,7 +79,7 @@ CREATE TABLE `livro` (
   UNIQUE KEY `numchamada_UNIQUE` (`numchamada`),
   KEY `livro-res_idx` (`usuariores`),
   CONSTRAINT `livro-res` FOREIGN KEY (`usuariores`) REFERENCES `usuarios` (`codusuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -116,13 +116,14 @@ CREATE TABLE `usuarios` (
   `datacad` date NOT NULL,
   `dataalt` date DEFAULT NULL,
   `datanasc` date NOT NULL,
+  `jaativado` int(11) NOT NULL,
   PRIMARY KEY (`codusuario`,`email`,`usuario`),
   UNIQUE KEY `codusuario_UNIQUE` (`codusuario`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `usuario_UNIQUE` (`usuario`),
   UNIQUE KEY `rg_UNIQUE` (`rg`),
   UNIQUE KEY `cpf_UNIQUE` (`cpf`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +132,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'luiz.pereira@agfertipol.com.br','2','2','Balconista','222222222','22222222222','Rua B','87000000','Maringá','PR',2,1,'2019-05-01',NULL,'2019-01-01'),(2,'luiz_flavio_p@hotmail.com','1','1','Bibliotecário','111111111','11111111111','Rua A','87000000','Maringá','PR',1,1,'2019-05-01',NULL,'2019-01-01'),(3,'ra91706@uem.br','3','3','Luiz Flávio Pereira','333333333','33333333333','Rua C','87000000','Maringá','PR',3,1,'2019-05-01',NULL,'2019-01-01');
+INSERT INTO `usuarios` VALUES (1,'luiz.pereira@agfertipol.com.br','2','2','Balconista','222222222','22222222222','Rua B','87000000','Maringá','PR',2,1,'2019-05-01',NULL,'2019-01-01',1),(2,'luiz_flavio_p@hotmail.com','1','1','Bibliotecário','111111111','11111111111','Rua A','87000000','Maringá','PR',1,1,'2019-05-01',NULL,'2019-01-01',1),(3,'ra91706@uem.br','3','3','Luiz Flávio Pereira','333333333','33333333333','Rua C','87000000','Maringá','PR',3,1,'2019-05-01',NULL,'2019-01-01',1);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,4 +153,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-16 16:26:30
+-- Dump completed on 2019-05-18 18:16:26

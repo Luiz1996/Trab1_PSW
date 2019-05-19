@@ -8,7 +8,6 @@ import java.util.Properties;
 
 public class SendEmail {
     private String emailDestinatario;
-
     private String assunto;
     private String msg;
 
