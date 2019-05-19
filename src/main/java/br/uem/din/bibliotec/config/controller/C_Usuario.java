@@ -15,16 +15,16 @@ import java.util.List;
 @SessionScoped
 public class C_Usuario implements Serializable {
     //atributos do controller
-    M_Usuario user = new M_Usuario("","","","","","","","","","",0,-1,"","");
-    M_Usuario_DAO userDAO = new M_Usuario_DAO();
+    private M_Usuario user = new M_Usuario("","","","","","","","","","",0,-1,"","");
+    private M_Usuario_DAO userDAO = new M_Usuario_DAO();
 
+    //contrutores  gets/sets
     public C_Usuario() {}
 
     public C_Usuario(String login){
         login = new String();
     }
 
-    //gets e sets
     public M_Usuario getUser() {
         return user;
     }
@@ -42,32 +42,22 @@ public class C_Usuario implements Serializable {
     }
 
     //chama método de cadastramento de usuários no model
-    public String realizarCadastroUsuario() throws SQLException, AWTException {
-        return userDAO.cadastrarUsuario(user);
-    }
+    public String realizarCadastroUsuario() throws SQLException, AWTException { return userDAO.cadastrarUsuario(user); }
 
-    public String realizarCadastroUsuarioBalconista() throws SQLException, AWTException {
-        return userDAO.cadastrarUsuarioBalconista(user);
-    }
+    public String realizarCadastroUsuarioBalconista() throws SQLException, AWTException { return userDAO.cadastrarUsuarioBalconista(user); }
 
     //chama método de consulta de usuários no model
-    public List<M_Usuario> realizaConsultaUsuario() throws SQLException {
-        return userDAO.consultarUsuarioBalconista(user, 0);
-    }
+    public List<M_Usuario> realizaConsultaUsuario() throws SQLException { return userDAO.consultarUsuarioBalconista(user, 0); }
 
-    public List<M_Usuario> realizaConsultaUsuariosAtivos () throws SQLException {
-        return userDAO.consultarUsuarioBalconista(user, 1);
-    }
+    public List<M_Usuario> realizaConsultaUsuariosAtivos () throws SQLException { return userDAO.consultarUsuarioBalconista(user, 1); }
 
     //chama método de deleção de usuários no model
-    public String realizaDelecaoUsuario() throws SQLException{
-        return userDAO.deletarUsuario(user);
-    }
+    public String realizaDelecaoUsuario() throws SQLException{ return userDAO.deletarUsuario(user); }
 
-    public String realizaEdicaoUsuario() throws SQLException{
-        return userDAO.editarUsuario(user);
-    }
+    //chama método para editar usuário
+    public String realizaEdicaoUsuario() throws SQLException{ return userDAO.editarUsuario(user); }
 
+    //chama métodos para manipulação dos dados cadastrais do próprio usuário
     public String chamaMenuInicial(){
         return userDAO.minhaHomePage();
     }

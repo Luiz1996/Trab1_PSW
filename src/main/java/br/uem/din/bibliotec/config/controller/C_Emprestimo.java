@@ -14,14 +14,12 @@ import java.util.List;
 @Named
 @SessionScoped
 public class C_Emprestimo implements Serializable {
-    M_Emprestimo emp = new M_Emprestimo(0,0,0,"","","",0, "", "","","","","","","","");
-    M_Emprestimo_DAO empDAO = new M_Emprestimo_DAO();
-    String login;
+    private M_Emprestimo emp = new M_Emprestimo(0,0,0,"","","",0, "", "","","","","","","","");
+    private M_Emprestimo_DAO empDAO = new M_Emprestimo_DAO();
+    private String login;
 
-    //declaracao de gets/sets
-    public C_Emprestimo(){
-
-    }
+    //contrutores e gets/sets
+    public C_Emprestimo(){ }
 
     public C_Emprestimo(String login){
         login = new String();
@@ -31,7 +29,15 @@ public class C_Emprestimo implements Serializable {
 
     public void setEmp(M_Emprestimo emp) { this.emp = emp; }
 
-    //métodos de consultas
+    public M_Emprestimo_DAO getEmpDAO() { return empDAO; }
+
+    public void setEmpDAO(M_Emprestimo_DAO empDAO) { this.empDAO = empDAO; }
+
+    public String getLogin() { return login; }
+
+    public void setLogin(String login) { this.login = login; }
+
+    //chama métodos de consultas referente aos empréstimos
     public List<M_Emprestimo> consultarMeusEmprestimos() throws SQLException { return empDAO.meusEmprestimos();}
 
     public List<M_Usuario> consultaUsuariosEmprestimo() throws SQLException { return empDAO.consultaUsuariosEmp(); }

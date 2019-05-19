@@ -14,8 +14,7 @@ import java.sql.SQLException;
 @SessionScoped
 public class C_Login implements Serializable {
     //declaração de objetos para manipulação dos estados e troca de dados
-    M_Usuario_DAO userDAO = new M_Usuario_DAO();
-    M_Usuario user = new M_Usuario();
+    private M_Usuario_DAO userDAO = new M_Usuario_DAO();
     private M_Usuario login;
     private String usuario;
     private String senha;
@@ -23,17 +22,9 @@ public class C_Login implements Serializable {
     //contrutores e gets/sets
     public C_Login(){ login = new M_Usuario(); }
 
-    public M_Usuario getUser() { return user; }
+    public M_Usuario_DAO getUserDAO() { return userDAO; }
 
-    public void setUser(M_Usuario user) { this.user = user; }
-
-    public M_Usuario_DAO getUserDAO() {
-        return userDAO;
-    }
-
-    public void setUserDAO(M_Usuario_DAO userDAO) {
-        this.userDAO = userDAO;
-    }
+    public void setUserDAO(M_Usuario_DAO userDAO) { this.userDAO = userDAO; }
 
     public String getSenha() {
         return senha;
@@ -64,11 +55,13 @@ public class C_Login implements Serializable {
         return userDAO.buscaPermissao(login, usuario, senha);
     }
 
+    //encerrando sessão do usuário
     public String logoutSession(){
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/gestaoBibliotecas?faces-redirect=true";
     }
 
+    //metodo que retorna página de acesso restrito
     public String acessoRestrito(){
         return "/acessoRestrito?faces-redirect=true";
     }
