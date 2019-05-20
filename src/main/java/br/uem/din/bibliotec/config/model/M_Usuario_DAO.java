@@ -39,10 +39,7 @@ public class M_Usuario_DAO {
     public String buscaPermissao(M_Usuario user, String usuario, String senha) throws SQLException {
         user.setPermissao(0);
         user.setAtivo(0);
-
-        //atribuindo o valor passado no front-end para o atributo e-mail
-        user.setEmail(user.getUsuario());
-        user.setCpf(user.getUsuario());
+        user.setUsuario("");
 
         try {
             //realizando conexão com banco de dados
@@ -52,14 +49,22 @@ public class M_Usuario_DAO {
 
 
             //consultando se usuário está ativo e sua devida permissão
-            st.execute("select ativo, permissao from `bibliotec`.`usuarios` where (email = '" + usuario + "' or usuario = '" + usuario + "' or cpf = '" + usuario + "') and senha = '" + senha + "';");
-            //user.setUsuario("");
+            st.execute("SELECT \n" +
+                            "    ativo, permissao, usuario\n" +
+                            "FROM\n" +
+                            "    `bibliotec`.`usuarios`\n" +
+                            "WHERE\n" +
+                            "    (email like '"+usuario.trim()+"'\n" +
+                            "\tOR usuario like '"+usuario.trim()+"'\n" +
+                            "        OR cpf like '"+usuario.trim()+"')\n" +
+                            "        AND senha = '"+senha.trim()+"';");
 
             //obtendo dados
             ResultSet rs = st.getResultSet();
             while (rs.next()) {
                 user.setAtivo(rs.getInt("ativo"));
                 user.setPermissao(rs.getInt("permissao"));
+                user.setUsuario(rs.getString("usuario").trim());
             }
 
             //limpando reservas antigas em aberto ou geradas incorretamente...
@@ -78,7 +83,10 @@ public class M_Usuario_DAO {
 
             if (user.getPermissao() != 0) {
                 HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-                session.setAttribute("usuario", usuario);
+                session.setAttribute("usuario", user.getUsuario().trim());
+                senha = "";
+                usuario = "";
+                user.setUsuario("");
 
                 //casos possíveis de usuários e retorno correspondente dependendo da permissão
                 if (user.getPermissao() == 1) {
