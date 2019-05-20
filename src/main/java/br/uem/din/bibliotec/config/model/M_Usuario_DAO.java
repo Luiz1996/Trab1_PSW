@@ -170,11 +170,12 @@ public class M_Usuario_DAO {
             con.conexao.setAutoCommit(true);
 
             //corrigindo CPF, RG e Cep
-            user.setCpf(user.getCpf().replace(".", ""));
-            user.setCpf(user.getCpf().replace("-", ""));
             user.setRg(user.getRg().replace(".", ""));
             user.setRg(user.getRg().replace("-", ""));
             user.setCep(user.getCep().replace("-", ""));
+            user.setCpf(user.getCpf().replace(".", ""));
+            user.setCpf(user.getCpf().replace("-", ""));
+
 
             //setando sigla dos estados com letras maiusculas
             user.setEstado(user.getEstado().toUpperCase());
