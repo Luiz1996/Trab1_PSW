@@ -10,7 +10,7 @@ public class Conexao {
     String servername = "localhost";
     String mydb = "bibliotec";
     String usuario = "root";
-    String senha = "";
+    String senha = "root";
 
     public Connection conexao;
     public Conexao() throws SQLException{

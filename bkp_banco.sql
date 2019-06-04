@@ -154,3 +154,17 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2019-05-18 18:16:26
+
+
+ALTER TABLE `bibliotec`.`emprestimo` AUTO_INCREMENT = 1;
+ALTER TABLE `bibliotec`.`usuarios` AUTO_INCREMENT = 4;
+ALTER TABLE `bibliotec`.`livro` AUTO_INCREMENT = 11;
+commit;
+
+DROP EVENT IF EXISTS `RESETA_RESERVAS`;
+CREATE EVENT RESETA_RESERVAS
+ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 5 MINUTE
+ON COMPLETION PRESERVE
+DO
+   update `bibliotec`.`livro` l set l.datares = null, l.usuariores = null where (l.datares < current_date());
+commit;   	
