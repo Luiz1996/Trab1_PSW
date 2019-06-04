@@ -10,7 +10,7 @@ public class Email {
     private String emailDestinatario;
     private String assunto;
     private String msg;
-
+//getEmail
     public String getEmailDestinatario() {
         return emailDestinatario;
     }
