@@ -6,7 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d5d98b0c-abd1-4b3b-b3e9-b19c9358c343" name="Default Changelist" comment="" />
+    <list default="true" id="d5d98b0c-abd1-4b3b-b3e9-b19c9358c343" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/bkp_banco.sql" beforeDir="false" afterPath="$PROJECT_DIR$/bkp_banco.sql" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,17 +40,7 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/br/uem/din/bibliotec/config/dao/UsuarioDao.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="907">
-              <caret line="578" column="13" lean-forward="true" selection-start-line="578" selection-start-column="13" selection-end-line="578" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -83,7 +75,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/web/WEB-INF/cadastrarReserva.xhtml" />
         <option value="$PROJECT_DIR$/src/main/java/br/uem/din/bibliotec/config/model/M_Emprestimo_DAO.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/uem/din/bibliotec/config/model/M_Livro_DAO.java" />
         <option value="$PROJECT_DIR$/src/main/java/br/uem/din/bibliotec/config/services/SendEmail.java" />
@@ -134,6 +125,7 @@
         <option value="$PROJECT_DIR$/src/main/java/br/uem/din/bibliotec/config/controller/UsuarioController.java" />
         <option value="$PROJECT_DIR$/web/gestaoBibliotecas.xhtml" />
         <option value="$PROJECT_DIR$/src/main/java/br/uem/din/bibliotec/config/dao/UsuarioDao.java" />
+        <option value="$PROJECT_DIR$/bkp_banco.sql" />
       </list>
     </option>
   </component>
@@ -160,7 +152,7 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="160" />
     <option name="y" value="123" />
     <option name="width" value="960" />
@@ -504,7 +496,7 @@
       <workItem from="1559691596773" duration="1274000" />
       <workItem from="1559771422158" duration="2433000" />
       <workItem from="1559777892049" duration="558000" />
-      <workItem from="1559820166009" duration="503000" />
+      <workItem from="1559820166009" duration="1070000" />
     </task>
     <task id="LOCAL-00001" summary="Segundo commit:&#10;-CRUD 100%&#10;-Mensagens de Retorno OK&#10;-Botões de fechar o ajuda OK&#10;-Adicionado segunda verificação ao deletar e alterar os registros...">
       <created>1555875240215</created>
@@ -713,7 +705,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="525448000" />
+    <option name="totallyTimeSpent" value="525945000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -726,7 +718,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8" visible="true" weight="0.22653721" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -739,7 +730,7 @@
       <window_info id="Web" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49919093" visible="true" weight="0.048387095" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49919093" weight="0.048387095" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39934534" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1341,13 +1332,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bkp_banco.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="167" column="2" lean-forward="true" selection-start-line="167" selection-start-column="2" selection-end-line="167" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/gestaoBibliotecas.xhtml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="248">
@@ -1355,10 +1339,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/bkp_banco.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="611">
+          <caret line="169" column="3" selection-start-line="169" selection-start-column="3" selection-end-line="169" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/br/uem/din/bibliotec/config/dao/UsuarioDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="907">
-          <caret line="578" column="13" lean-forward="true" selection-start-line="578" selection-start-column="13" selection-end-line="578" selection-end-column="13" />
+        <state relative-caret-position="995">
+          <caret line="546" lean-forward="true" selection-start-line="546" selection-end-line="546" />
         </state>
       </provider>
     </entry>
