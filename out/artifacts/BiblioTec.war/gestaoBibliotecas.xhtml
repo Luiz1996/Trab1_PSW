@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous"/>
+
+    <title>BiblioTec - Gestão de Bibliotecas</title>
+
+    <link href="export/images/icone.png" rel="shortcut icon" type="image/x-png"></link>
+
+    <meta charset="utf-8">
+        <style>
+            .popup {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                width: 500px;
+                height: 240px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+                display: none;
+            }
+
+            .fechar {
+                 position: absolute;
+                 top: -200px;
+                 bottom: 0;
+                 left: 0;
+                 right: -460px;
+                 margin: auto;
+                 width: 25px;
+                 height: 25px;
+                 border: black 1px solid;
+                 border-radius: 3px;
+                 background: gray;
+                 color: blue;
+             }
+
+            .parteLogin {
+                position: absolute;
+                top: -80px;
+                bottom: 0;
+                left: -1077px;
+                right: 0px;
+                margin: auto;
+                width: 280px;
+                height: 330px;
+                border: darkgray 1px solid;
+                border-radius: 5px;
+                background: lightgray;
+                color: black;
+            }
+
+            .usuario {
+                position: absolute;
+                top: -230px;
+                bottom: 0;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                width: 250px;
+                height: 30px;
+            }
+
+            .senha {
+                position: absolute;
+                top: -90px;
+                bottom: 0;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                width: 250px;
+                height: 30px;
+            }
+
+            .login {
+                position: absolute;
+                top: 58px;
+                bottom: 0;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                width: 247px;
+                height: 30px;
+            }
+
+            .cadastro {
+                position: absolute;
+                top: 150px;
+                bottom: 0;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                width: 247px;
+                height: 30px;
+            }
+
+            .retorno {
+                position: absolute;
+                top: 245px;
+                bottom: 0;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+                border: 1px;
+                width: 250px;
+                height: 30px;
+            }
+
+            .imagem {
+                position: absolute;
+                top: -380px;
+                bottom: 0;
+                left: 0px;
+                right: -1104px;
+                margin: auto;
+                border: 1px;
+                width: 250px;
+                height: 30px;
+            }
+        </style>
+    </meta>
+
+    <script type="text/javascript">
+        function abrir() {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function fechar() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+</h:head>
+<h:body>
+    #{loginController.usuario = ''}
+    <i><h1 align="center"> BiblioTec </h1></i>
+    <p:menubar>
+        <p:menuitem value="ACERVO" url="consultarAcervo.xhtml"></p:menuitem>
+        <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
+    </p:menubar>
+    <section  class="row">
+        <div class="parteLogin" id="parteLogin">
+            <h:form id="telaLogin">
+                <h5 align="center">Acesso</h5><br></br>
+                <div class="usuario" id="usuario">
+
+
+                    <h:outputLabel value="Usuário"/><br></br>
+                    <p:inputText value="#{loginController.usuario}" class="form-control"
+                                 placeholder="Username, CPF ou E-mail" maxlength="30"/>
+                </div>
+                <div class="senha" id="senha">
+                    <h:outputLabel value="Senha"/><br></br>
+                    <p:password value="#{loginController.senha}" class="form-control" maxlength="30" placeholder="Senha"/>
+                </div>
+                <div class="login" id="login">
+                    <h:commandButton value="Login" class="btn btn-block btn-primary"
+                                     action="#{loginController.realizarAcesso}"></h:commandButton>
+                </div>
+                <div class="cadastro" id="cadastro">
+                    <h:commandButton value="Cadastrar-se" class="btn btn-block btn-primary"
+                                     action="cadastroUsuario?faces-redirect=true" url="cadastroUsuario.xhtml"></h:commandButton>
+                </div>
+                <div align="center" class="retorno" id="retorno">
+                    <font color="red">
+                       <i>
+                            <h:outputLabel value="#{loginController.login.msg_autenticacao}"/>
+                            <h:outputLabel value="#{usuarioController.user.msg_autenticacao}"/>
+                        </i>
+                    </font>
+                </div>
+                #{loginController.login.msg_autenticacao = ''}
+            </h:form>
+        </div>
+        <div id="imagem" class="imagem">
+            <a href="http://www.bce.uem.br/" title="Novas aquisições da Biblioteca Central - UEM." target="_blank">
+                <img align="right" src="export/images/manchete.jpg" width="1070" height="475" alt="Banner UEM."/></a>
+        </div>
+        <div id="popup" class="popup">
+            <p>Bem vindo ao Sistema BiblioTec!
+                <button class="fechar" onclick="fechar()">x</button>
+                <b></b>
+                <p>
+                    Se você é um visitante, poderá clicar em Acervo para saber quais obras temos em nossa instituição.
+                </p>
+                <b></b>
+                <p>
+                    Agora, se você desejar ter acesso as funcionalidades especiais, preencha seu usuário/senha e clique em Login.
+                </p>
+                <b></b>
+                <p>
+                    Caso não tenha um cadastro, poderá fazê-lo clicando em Cadastre-se.
+                </p>
+            </p>
+        </div>
+        <div>
+            #{usuarioController.user.msg_autenticacao = ''}
+            #{usuarioController.user.nome = ''}
+            #{usuarioController.user.usuario = ''}
+            #{usuarioController.user.senha = ''}
+            #{usuarioController.user.rg = ''}
+            #{usuarioController.user.cpf = ''}
+            #{usuarioController.user.email = ''}
+            #{usuarioController.user.endereco = ''}
+            #{usuarioController.user.cep = ''}
+            #{usuarioController.user.cidade = ''}
+            #{usuarioController.user.estado = ''}
+            #{usuarioController.user.datanasc = ''}
+        </div>
+    </section>
+</h:body>
+</html>

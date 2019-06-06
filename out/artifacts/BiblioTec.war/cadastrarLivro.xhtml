@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous"></link>
+
+    <title> Cadastrar Livro | BiblioTec</title>
+
+    <link href="export/images/icone.png" rel="shortcut icon" type="image/x-png"></link>
+
+    <meta charset="utf-8">
+        <style>
+            .popup {
+                position: fixed;
+                top: -200px;
+                bottom: 0;
+                left: 0;
+                right: -50px;
+                margin: auto;
+                width: 500px;
+                height: 160px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+                display: none;
+            }
+
+            .fechaAjuda {
+                position: absolute;
+                top: -120px;
+                bottom: 0;
+                left: 0;
+                right: -460px;
+                margin: auto;
+                width: 25px;
+                height: 25px;
+                border: black 1px solid;
+                border-radius: 3px;
+                background: gray;
+                color: blue;
+            }
+        </style>
+    </meta>
+
+    <script type="text/javascript">
+        function abrir() {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function fechar() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+</h:head>
+<h:body>
+    <div id="popup" class="popup">
+        <p>Olá,
+            <button class="fechaAjuda" onclick="fechar()" >x</button>
+            <b></b>
+            <p>
+                Para realizar o cadastro de um novo livro,<b> é obrigatório o preenchimento de todos os campos. </b>
+            </p>
+            <b></b><b></b>
+            <p>
+                Em seguida, clique no botão <b>Salvar</b>.
+            </p>
+        </p>
+
+    </div>
+    <i><h1 align="center"> BiblioTec </h1></i>
+    <p:menubar style="align-items: center">
+        <p:menuitem value="MENU INICIAL" url="acessoBibliotecario.xhtml"></p:menuitem>
+        <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
+    </p:menubar>
+    <section alig="center" class="right">
+        <div class="jumbotron">
+            <h:form id="cadastroLivro">
+                <div class="form-group">
+                    <h5 align="center">Acervo de Livros</h5><br/>
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <h:commandButton value="Consultar Livro" class="btn btn-block btn-primary"
+                                         action="consultarLivro?faces-redirect=true"></h:commandButton>
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton value="Alterar Livro" class="btn btn-block btn-primary"
+                                         action="alterarLivro?faces-redirect=true"></h:commandButton>
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton value="Deletar Livro" class="btn btn-block btn-primary"
+                                         action="deletarLivro?faces-redirect=true"></h:commandButton>
+                    </div>
+                </div>
+            </h:form>
+            <h:form id="dadosLivro">
+                <div class="form-group">
+                    <h:outputLabel value="Título"  /><font color="red">*</font>
+                    <p:inputText value="#{livroController.livro.titulo}" class="form-control"
+                                 maxlength="60" required="true" placeholder="Insira o título do livro"></p:inputText>
+
+
+                    <h:outputLabel value="Autor"/><font color="red">*</font>
+                    <p:inputText value="#{livroController.livro.autor}" class="form-control"
+                                 maxlength="60" required="true" placeholder="Insira o nome do autor"></p:inputText>
+
+                    <h:outputLabel value="Editora"/><font color="red">*</font>
+                    <p:inputText value="#{livroController.livro.editora}" class="form-control"
+                                 maxlength="60" required="true" placeholder="Insira o nome da editora"></p:inputText>
+
+                    <h:outputLabel value="Ano Lançamento"/><font color="red">*</font>
+                    <p:inputMask class="form-control" value="#{livroController.livro.anolancamento}" mask="9999" required="true" placeholder="Insira o ano de lançamento do livro" maxlength="4"/>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel value="Cidade"/><font color="red">*</font>
+                    <p:inputText value="#{livroController.livro.cidade}" class="form-control"
+                                 maxlength="60" required="true" placeholder="Insira a cidade"></p:inputText>
+
+                    <h:outputLabel value="Volume"/><font color="red">*</font>
+                    <p:inputMask class="form-control" value="#{livroController.livro.volume}" mask="99" required="true" placeholder="Insira o volume do livro" maxlength="2"/>
+
+                    <h:outputLabel value="Código de Catalogação"/><font color="red">*</font>
+                    <p:inputText value="#{livroController.livro.codcatalogacao}" class="form-control"
+                                 maxlength="15" required="true" placeholder="Insira o código de catalogação"></p:inputText>
+
+                    <h:outputLabel value="Número Chamada"/><font color="red">*</font>
+                    <p:inputText value="#{livroController.livro.numchamada}" class="form-control"
+                                 maxlength="15" required="true" placeholder="Insira o número de chamada"></p:inputText>
+                </div>
+                <div class="form-group">
+                    <h:commandButton value="Cadastrar Livro" class="btn btn-block btn-primary"
+                                     action="#{livroController.realizarCadastroLivro}"/>
+                </div>
+            </h:form>
+        </div>
+    </section>
+</h:body>
+</html>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous"></link>
+
+    <title> Finalizar Empréstimo | BiblioTec</title>
+
+    <link href="export/images/icone.png" rel="shortcut icon" type="image/x-png"></link>
+
+    <meta charset="utf-8">
+        <style>
+            .popup {
+                position: fixed;
+                top: -200px;
+                bottom: 0;
+                left: 0;
+                right: 0px;
+                margin: auto;
+                width: 650px;
+                height: 150px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+                display: none;
+            }
+
+            .fechaAjuda {
+                position: absolute;
+                top: -105px;
+                bottom: 0;
+                left: 0;
+                right: -605px;
+                margin: auto;
+                width: 25px;
+                height: 25px;
+                border: black 1px solid;
+                border-radius: 3px;
+                background: gray;
+                color: blue;
+            }
+
+            .conf {
+                position: fixed;
+                top: 10px;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                width: 500px;
+                height: 170px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+                display: none;
+            }
+
+            .jumbotron {
+                background: lightgray;
+            }
+        </style>
+    </meta>
+
+    <script type="text/javascript">
+        function abrir() {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function fechar() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+
+    <script type="text/javascript">
+        function abri() {
+            document.getElementById('conf').style.display = 'block';
+        }
+
+        function fecha() {
+            document.getElementById('conf').style.display = 'none';
+        }
+    </script>
+</h:head>
+<h:body>
+    <div id="popup" class="popup">
+        <p>Olá,
+            <button class="fechaAjuda" onclick="fechar()">x</button>
+            <b></b>
+            <p>
+                Para finalizar um empréstimo, siga os passos abaixo:<br/>
+                1º) Selecione o Empréstimo desejado.<br/>
+                2º) Clique em <b>Finalizar</b>.<br/>
+            </p>
+        </p>
+    </div>
+
+    <i><h1 align="center"> BiblioTec </h1></i>
+    <p:menubar style="align-items: center">
+        <p:menuitem value="MENU INICIAL" url="acessoBalconista.xhtml"></p:menuitem>
+        <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
+    </p:menubar>
+    <div class="jumbotron">
+        <section alig="center" class="right">
+            <h:form id="telaFinalEmp">
+                <div class="menu">
+                    <h5 align="center">Controle de Empréstimos</h5><br/>
+                    <div class="form-group">
+                        <h:commandButton value="Cadastrar Empréstimo" class="btn btn-block btn-primary"
+                                         action="cadastrarEmprestimo?faces-redirect=true"/>
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton value="Consultar Empréstimo" class="btn btn-block btn-primary"
+                                         action="consultarEmprestimo?faces-redirect=true"/>
+                    </div>
+                    <div class="form-group">
+
+                        <h:commandButton value="Alterar Empréstimo" class="btn btn-block btn-primary"
+                                         action="alterarEmprestimo?faces-redirect=true"/>
+                    </div>
+                </div>
+            </h:form>
+
+            <h:form>
+
+                <p:outputLabel value="Empréstimos"/><font color="red">*</font>
+                <h:form id="Empréstimo">
+                    <p:selectOneMenu filter="true" value="#{emprestimoController.emp.codemprestimo}" filterMatchMode="contains"
+                                     required="true" style="width:1290px" panelStyle="width:1330px">
+
+                        <f:selectItem noSelectionOption="true" itemLabel="Selecione um empréstimo"/>
+                        <f:selectItems value="#{emprestimoController.consultaEmprestimosEmVigor()}" var="emp"
+                                       itemLabel="Nome: #{emp.nome_user} | E-mail: #{emp.email_user} | Título: #{emp.titulo_book} | Autor: #{emp.autor_book} | Editora: #{emp.editora_book} | Ano Lanç.: #{emp.anolancamento_book}"
+                                       itemValue="#{emp.codemprestimo}"/>
+                    </p:selectOneMenu>
+                    <div id="conf" class="conf">
+                        <p align="center">
+                            <h:outputLabel value="Deseja finalizar o empréstimo selecionado?"/>
+                        </p>
+                        <h:form>
+                            <div class="form-group">
+                                <h:commandButton value="Sim" class="btn btn-block btn-primary"
+                                                 action="#{emprestimoController.realizaFinalizarEmprestimo}"/>
+                            </div>
+                            <div class="form-group">
+                                <h:commandButton value="Não" class="btn btn-block btn-primary"
+                                                 onclick="fecha()"></h:commandButton>
+                            </div>
+                        </h:form>
+                    </div>
+                    <h:commandButton value="Finalizar" class="btn btn-block btn-primary"
+                                     onclick="abri()"/>
+                </h:form>
+            </h:form>
+        </section>
+    </div>
+</h:body>
+</html>

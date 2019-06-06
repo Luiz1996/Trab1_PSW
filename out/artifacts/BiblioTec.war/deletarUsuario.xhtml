@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous"></link>
+
+    <title>Deletar Usuário | BiblioTec</title>
+
+    <link href="export/images/icone.png" rel="shortcut icon" type="image/x-png"></link>
+
+    <meta charset="utf-8">
+        <style>
+            .popup {
+                position: fixed;
+                top: 10px;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                width: 500px;
+                height: 180px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+                display: none;
+            }
+
+            .conf {
+                position: fixed;
+                top: 10px;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                width: 500px;
+                height: 170px;
+                padding: 15px;
+                border: solid 1pX black;
+                background: white;
+                display: none;
+            }
+
+            .fechaAjuda {
+                position: absolute;
+                top: -137px;
+                bottom: 0;
+                left: 0;
+                right: -460px;
+                margin: auto;
+                width: 25px;
+                height: 25px;
+                border: black 1px solid;
+                border-radius: 3px;
+                background: gray;
+                color: blue;
+            }
+
+            .jumbotron {
+                background: lightgray;
+            }
+        </style>
+    </meta>
+
+    <script type="text/javascript">
+        function abrir() {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function fechar() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+
+    <script type="text/javascript">
+        function abri() {
+            document.getElementById('conf').style.display = 'block';
+        }
+
+        function fecha() {
+            document.getElementById('conf').style.display = 'none';
+        }
+    </script>
+</h:head>
+<h:body>
+    <style type="text/css">
+        .value {
+            font-weight: bold;
+        }
+    </style>
+
+    <div id="popup" class="popup">
+        <p>Olá,
+            <button class="fechaAjuda" onclick="fechar()">x</button>
+            <b></b>
+            <p>
+                Para deletar um usuário em nosso sistema, siga os passos abaixo:<br/>
+                1º) Fornecer o nome do usuário desejado;<br/>
+                2º) Após preencher o nome, clique em <b>Buscar</b> para filtrar o usuário desejado;<br/>
+                3º) Preencher o <b>Id</b> do usuário e clique em <b>Deletar</b>.
+            </p>
+        </p>
+    </div>
+
+    <i><h1 align="center"> BiblioTec </h1></i>
+    <p:menubar style="align-items: center">
+        <p:menuitem value="MENU INICIAL" url="acessoBalconista.xhtml"></p:menuitem>
+        <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
+    </p:menubar>
+    <section alig="center" class="right">
+        <div class="jumbotron">
+            <h:form id="telaBalconista">
+                <div class="form-group">
+                    <h5 align="center">Controle de Usuários</h5><br/>
+                </div>
+                <div class="form-group">
+                    <h:commandButton value="Cadastrar Usuário" class="btn btn-block btn-primary"
+                                     action="cadastrarUsuarioBalconista?faces-redirect=true"/>
+                </div>
+                <div class="form-group">
+                    <h:commandButton value="Consultar Usuário" class="btn btn-block btn-primary"
+                                     action="consultaUsuario?faces-redirect=true"/>
+                </div>
+                <div class="form-group">
+                    <h:commandButton value="Alterar Usuário" class="btn btn-block btn-primary"
+                                     action="editarUsuario?faces-redirect=true"/>
+                </div>
+            </h:form>
+            <p:outputLabel value="Usuários"/><font color="red">*</font>
+            <h:form id="Usuario">
+                <p:selectOneMenu filter="true" value="#{usuarioController.user.codusuario}" filterMatchMode="contains"
+                                 required="true" style="width:1290px" panelStyle="width:1330px">
+
+                    <f:selectItem noSelectionOption="true" itemLabel="Selecione um usuário"/>
+                    <f:selectItems value="#{usuarioController.realizaConsultaUsuariosAtivos()}" var="user"
+                                   itemLabel="Nome: #{user.nome} | E-mail: #{user.email} | Usuário: #{user.usuario} | CPF: #{user.cpf} | RG: #{user.rg} | Cidade: #{user.cidade} | Dt. Nasc.: #{user.datanasc}"
+                                   itemValue="#{user.codusuario}"/>
+                </p:selectOneMenu>
+                <div id="conf" class="conf">
+                    <p align="center">
+                        <h:outputLabel value="Deseja deletar o usuário selecionado?"/>
+                    </p>
+                    <h:form>
+                        <div class="form-group">
+                            <h:commandButton value="Sim" class="btn btn-block btn-primary"
+                                             action="#{usuarioController.realizaDelecaoUsuario}"/>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton value="Não" class="btn btn-block btn-primary"
+                                             onclick="fecha()"></h:commandButton>
+                        </div>
+                    </h:form>
+                </div>
+                <h:commandButton value="Deletar" class="btn btn-block btn-primary"
+                                 onclick="abri()"/>
+            </h:form>
+        </div>
+    </section>
+</h:body>
+</html>
