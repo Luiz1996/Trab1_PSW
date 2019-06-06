@@ -130,11 +130,12 @@
             <h:form>
                 <p:outputLabel value="Empréstimos"/><font color="red">*</font>
                 <h:form id="Empréstimo">
-                    <p:selectOneMenu filter="true" value="#{c_Emprestimo.emp.codemprestimo}" filterMatchMode="contains"
+                    <p:selectOneMenu filter="true" value="#{emprestimoController.emp.codemprestimo}"
+                                     filterMatchMode="contains"
                                      required="true" style="width:1279px" panelStyle="width:1279px">
 
                         <f:selectItem noSelectionOption="true" itemLabel="Selecione o empréstimo que deseja alterar"/>
-                        <f:selectItems value="#{c_Emprestimo.consultaEmprestimosEmVigor()}" var="emp"
+                        <f:selectItems value="#{emprestimoController.consultaEmprestimosEmVigor()}" var="emp"
                                        itemLabel="Nome: #{emp.nome_user} | E-mail: #{emp.email_user} | CPF: #{emp.cpf_user} | RG: #{emp.rg_user} | Título: #{emp.titulo_book} | Autor: #{emp.autor_book} | Editora: #{emp.editora_book} | Ano lanç.: #{emp.anolancamento_book}"
                                        itemValue="#{emp.codemprestimo}"/>
                     </p:selectOneMenu>
@@ -142,27 +143,30 @@
 
                     <p:outputLabel value="Usuários"/>
 
-                    <p:selectOneMenu filter="true" value="#{c_Emprestimo.emp.codusuario}" filterMatchMode="contains"
+                    <p:selectOneMenu filter="true" value="#{emprestimoController.emp.codusuario}"
+                                     filterMatchMode="contains"
                                      required="false" style="width:1279px" panelStyle="width:1279px">
 
                         <f:selectItem noSelectionOption="true" itemLabel="Selecione um novo usuário"/>
-                        <f:selectItems value="#{c_Emprestimo.consultaUsuariosEmprestimo()}" var="user"
+                        <f:selectItems value="#{emprestimoController.consultaUsuariosEmprestimo()}" var="user"
                                        itemLabel="Nome: #{user.nome} | CPF: #{user.cpf} | E-Mail: #{user.email}"
                                        itemValue="#{user.codusuario}"/>
                     </p:selectOneMenu>
 
                     <p:outputLabel value="Livros"/>
-                    <p:selectOneMenu filter="true" value="#{c_Emprestimo.emp.codlivro}" filterMatchMode="contains"
+                    <p:selectOneMenu filter="true" value="#{emprestimoController.emp.codlivro}"
+                                     filterMatchMode="contains"
                                      required="false" style="width:1279px" panelStyle="width:1279px">
                         <f:selectItem noSelectionOption="true" itemLabel="Selecione um novo livro"/>
-                        <f:selectItems value="#{c_Emprestimo.consultaLivrosEmprestimo()}" var="book"
+                        <f:selectItems value="#{emprestimoController.consultaLivrosEmprestimo()}" var="book"
                                        itemLabel="Título: #{book.titulo} | Autor: #{book.autor} | Editora: #{book.editora} | Ano Lanç.: #{book.anolancamento} | Cód. Catal: #{book.codcatalogacao}"
                                        itemValue="#{book.codlivro}"/>
 
                     </p:selectOneMenu>
 
                     <p:outputLabel value="Data Devolução"/>
-                    <p:inputMask class="form-control" value="#{c_Emprestimo.emp.datadev}" mask="99/99/9999" required="false" placeholder="DD/MM/AAAA" maxlength="10"/>
+                    <p:inputMask class="form-control" value="#{emprestimoController.emp.datadev}" mask="99/99/9999"
+                                 required="false" placeholder="DD/MM/AAAA" maxlength="10"/>
                     <br/>
 
                     <div id="conf" class="conf">
@@ -172,7 +176,7 @@
                         <h:form>
                             <div class="form-group">
                                 <h:commandButton value="Sim" class="btn btn-block btn-primary"
-                                                 action="#{c_Emprestimo.realizaEdicaoEmprestimo}"/>
+                                                 action="#{emprestimoController.realizaEdicaoEmprestimo}"/>
                             </div>
                             <div class="form-group">
                                 <h:commandButton value="Não" class="btn btn-block btn-primary"

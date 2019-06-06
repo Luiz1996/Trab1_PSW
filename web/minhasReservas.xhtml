@@ -18,14 +18,14 @@
     <i><h1 align="center"> BiblioTec </h1></i>
     <h:form>
         <p:menubar style="align-items: center">
-            <p:menuitem value="MENU INICIAL" action="#{c_Usuario.chamaMenuInicial}"></p:menuitem>
+            <p:menuitem value="MENU INICIAL" action="#{usuarioController.chamaMenuInicial}"></p:menuitem>
         </p:menubar>
     </h:form>
     <div class="jumbotron">
         <section alig="center" class="right">
             <h:form>
                 <p:dataTable id="tbl" class="tbl" var="reserva"
-                             value="#{c_Livro.realizaConsultaReservas()}"
+                             value="#{livroController.realizaConsultaReservas()}"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                              paginator="true" rows="5"
                              scrollWidth="1300">

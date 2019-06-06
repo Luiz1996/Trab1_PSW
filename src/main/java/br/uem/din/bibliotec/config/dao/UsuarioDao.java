@@ -1,42 +1,30 @@
-package br.uem.din.bibliotec.config.model;
+package br.uem.din.bibliotec.config.dao;
 
 import br.uem.din.bibliotec.config.conexao.Conexao;
-import br.uem.din.bibliotec.config.services.SendEmail;
+import br.uem.din.bibliotec.config.model.Usuario;
+import br.uem.din.bibliotec.config.services.DataFormat;
+import br.uem.din.bibliotec.config.services.Email;
+import br.uem.din.bibliotec.config.services.EncryptionMd5;
+import br.uem.din.bibliotec.config.services.ValidData;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class M_Usuario_DAO {
-    final String SUCESSO = "green";
-    final String FALHA = "red";
-
-    //como o dado é informado como DD/MM/AAAA precisamos convertê-la para o formato do banco de dados
-    public String formatadorDatasMySQL(String data) {
-        String[] dataSeparada = data.split("/");
-        LocalDate data_formatada = LocalDate.of(Integer.parseInt(dataSeparada[2]), Integer.parseInt(dataSeparada[1]), Integer.parseInt(dataSeparada[0]));
-
-        return data_formatada.toString().trim();
-    }
-
-    //como o dado é informado como AAAA-MM-DD precisamos convertê-la para o formato do brasileiro ao imprimir no front-end ao usuário
-    public String formatadorDatasBrasil(String data) {
-        if (data == null) {
-            return " ";
-        } else {
-            String[] dataSeparada = data.split("-");
-            String dataPadraoBrasil = dataSeparada[2] + "/" + dataSeparada[1] + "/" + dataSeparada[0];
-            return dataPadraoBrasil.trim();
-        }
-    }
+public class UsuarioDao {
+    private Email email = new Email();
+    private DataFormat dtFormat = new DataFormat();
+    private EncryptionMd5 cript = new EncryptionMd5();
+    private ValidData validaDados = new ValidData();
+    private boolean validaCpf = false;
 
     //método que realiza a autenticação do usuário retornando a permissão correta do usuário
-    public String buscaPermissao(M_Usuario user, String usuario, String senha) throws SQLException {
+    public int buscaPermissao(Usuario user, String usuario, String senha) throws SQLException {
         user.setPermissao(0);
         user.setAtivo(0);
         user.setUsuario("");
@@ -47,6 +35,7 @@ public class M_Usuario_DAO {
             Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             con.conexao.setAutoCommit(true);
 
+            senha = cript.makeEncryptionMd5(senha.trim());
 
             //consultando se usuário está ativo e sua devida permissão
             st.execute("SELECT \n" +
@@ -67,18 +56,13 @@ public class M_Usuario_DAO {
                 user.setUsuario(rs.getString("usuario").trim());
             }
 
-            //limpando reservas antigas em aberto ou geradas incorretamente...
-            st.executeUpdate("update `bibliotec`.`livro` l set l.datares = null, l.usuariores = null where (l.datares < current_date());");
-
             //tratando possíveis falhas de autenticações
-            if (user.getAtivo() == 0) {
-                user.setMsg_autenticacao("Usuário inválido ou inativo.");
-                return "/gestaoBibliotecas?faces-redirect=true";
+            if (user.getAtivo() == 0 && !user.getUsuario().equals("".trim())) {
+                return -1;
             }
 
-            if (user.getPermissao() == 0) {
-                user.setMsg_autenticacao("Usuário sem permissão.");
-                return "/gestaoBibliotecas?faces-redirect=true";
+            if (user.getPermissao() == 0 && !user.getUsuario().equals("".trim())) {
+                return 0;
             }
 
             if (user.getPermissao() != 0) {
@@ -88,36 +72,23 @@ public class M_Usuario_DAO {
                 usuario = "";
                 user.setUsuario("");
 
-                //casos possíveis de usuários e retorno correspondente dependendo da permissão
-                if (user.getPermissao() == 1) {
-                    return "/acessoBibliotecario?faces-redirect=true";
-                }
-                if (user.getPermissao() == 2) {
-                    return "/acessoBalconista?faces-redirect=true";
-                }
-                if (user.getPermissao() == 3) {
-                    return "/acessoAluno?faces-redirect=true";
-                }
+                return 1;
             }
-
-            //se chegar a executação até aqui é porque autenticação falhou
-            user.setMsg_autenticacao("Usuário inválido ou inativo.");
-            return "/gestaoBibliotecas?faces-redirect=true";
         } catch (SQLException e) {
-            //falha na autenticação
-            System.out.println("Usuario/Senha inválidos.");
-            user.setMsg_autenticacao("Usuário/Senha inválidos.");
-            return "/gestaoBibliotecas?faces-redirect=true";
+            return -2;
+        } catch (NoSuchAlgorithmException e) {
+            return -2;
         }
+        return -2;
     }
 
-    public String cadastrarUsuario(M_Usuario user) {
+    public int cadastrarUsuario(Usuario user) {
         //ao realizar o cadastro, entende-se que o usuário ainda não está efetivamente ativo e com a devida permissão, o balconista que dirá qual a permissão do novo usuário
         user.setAtivo(0);
         user.setPermissao(0);
 
         //convertendo a data para padrão do banco de dados
-        user.setDatanasc(formatadorDatasMySQL(user.getDatanasc()));
+        user.setDatanasc(dtFormat.formatadorDatasMySQL(user.getDatanasc()));
 
         try {
             //realizando conexão com banco de dados
@@ -135,33 +106,37 @@ public class M_Usuario_DAO {
             user.setRg(user.getRg().replace("-", ""));
             user.setCep(user.getCep().replace("-", ""));
 
+            //validando se CPF fornecido é válido
+            validaCpf = validaDados.validCpf(user.getCpf().trim());
+            if (!validaCpf) {
+                return -1;
+            }
+
             //realizando a inserção do novo cadastro no banco de dados
-            st.executeUpdate("INSERT INTO `bibliotec`.`usuarios` (`email`, `usuario`, `senha`, `nome`, `rg`, `cpf`, `endereco`, `cep`, `cidade`, `estado`, `permissao`, `ativo`, `datacad`, `datanasc`, `jaativado`) VALUES ('" + user.getEmail() + "', '" + user.getUsuario() + "', '" + user.getSenha() + "', '" + user.getNome() + "', '" + user.getRg() + "', '" + user.getCpf() + "', '" + user.getEndereco() + "', '" + user.getCep() + "', '" + user.getCidade() + "', '" + user.getEstado() + "', '" + user.getPermissao() + "', '" + user.getAtivo() + "', current_date(), '" + user.getDatanasc() + "', '0');");
+            st.executeUpdate("INSERT INTO `bibliotec`.`usuarios` (`email`, `usuario`, `senha`, `nome`, `rg`, `cpf`, `endereco`, `cep`, `cidade`, `estado`, `permissao`, `ativo`, `datacad`, `datanasc`, `jaativado`) VALUES ('" + user.getEmail() + "', '" + user.getUsuario() + "', '" + cript.makeEncryptionMd5(user.getSenha().trim()) + "', '" + user.getNome() + "', '" + user.getRg() + "', '" + user.getCpf() + "', '" + user.getEndereco() + "', '" + user.getCep() + "', '" + user.getCidade() + "', '" + user.getEstado() + "', '" + user.getPermissao() + "', '" + user.getAtivo() + "', current_date(), '" + user.getDatanasc() + "', '0');");
 
             //enviando e-mail para comunicar que recebemos os dados do usuário e em breve analisaremos suas informações e ativaremos seu cadastro
-            SendEmail email = new SendEmail();
             email.setAssunto("Recebemos seus Dados - Biblioteca X");
             email.setEmailDestinatario(user.getEmail().trim());
-            email.setMsg("Olá " + user.getNome() + ", <br><br>Recebemos seus dados em nosso sistema.<br><br>Eles serão analisados e caso não exista inconsistência(s) nos dados fornecidos seu cadastro será ativado.");
+            email.setMsg("Olá " + user.getNome().trim() + ", <br><br>Recebemos seus dados em nosso sistema.<br><br>Eles serão analisados e caso não exista inconsistência(s) nos dados fornecidos seu cadastro será ativado.<br><br>Username: <i>" + user.getUsuario().trim() + "</i>.<br>Senha: <i>" + user.getSenha().trim() + "</i>.");
             email.enviarGmail();
 
-            //setando mensagem de retorno
-            user.setMsg_autenticacao("Cadastrado com sucesso.");
             st.close();
             con.conexao.close();
         } catch (SQLException e) {
-            System.out.println("Falha no cadastramento de usuário");
-            user.setMsg_autenticacao("Cadastro falhou.");
+            return 0;
+        } catch (NoSuchAlgorithmException e) {
+            return 0;
         }
-        return "/gestaoBibliotecas?faces-redirect=true";
+        return 1;
     }
 
-    public String cadastrarUsuarioBalconista(M_Usuario user) {
+    public int cadastrarUsuarioBalconista(Usuario user) {
         //ao realizar o cadastro, entende-se que o usuário ainda não está efetivamente ativo e com a devida permissão, o balconista que dirá qual a permissão do novo usuário
         user.setAtivo(1);
 
         //convertendo a data para padrão do banco de dados
-        user.setDatanasc(formatadorDatasMySQL(user.getDatanasc()));
+        user.setDatanasc(dtFormat.formatadorDatasMySQL(user.getDatanasc()));
 
         try {
             //realizando conexão com banco de dados
@@ -176,34 +151,36 @@ public class M_Usuario_DAO {
             user.setCpf(user.getCpf().replace(".", ""));
             user.setCpf(user.getCpf().replace("-", ""));
 
+            //validando se CPF fornecido é válido
+            validaCpf = validaDados.validCpf(user.getCpf().trim());
+            if (!validaCpf) {
+                return -1;
+            }
 
             //setando sigla dos estados com letras maiusculas
             user.setEstado(user.getEstado().toUpperCase());
 
             //realizando a inserção do novo cadastro no banco de dados
-            st.executeUpdate("insert into `bibliotec`.`usuarios` (`email`, `usuario`, `senha`, `nome`, `rg`, `cpf`, `endereco`, `cep`, `cidade`, `estado`, `permissao`, `ativo`, `datacad`, `datanasc`, `jaativado`) values ('" + user.getEmail() + "', '" + user.getUsuario() + "', '" + user.getSenha() + "', '" + user.getNome() + "', '" + user.getRg() + "', '" + user.getCpf() + "', '" + user.getEndereco() + "', '" + user.getCep() + "', '" + user.getCidade() + "', '" + user.getEstado().toUpperCase() + "', '" + user.getPermissao() + "', '" + user.getAtivo() + "', current_date(), '" + user.getDatanasc() + "', '1');");
+            st.executeUpdate("insert into `bibliotec`.`usuarios` (`email`, `usuario`, `senha`, `nome`, `rg`, `cpf`, `endereco`, `cep`, `cidade`, `estado`, `permissao`, `ativo`, `datacad`, `datanasc`, `jaativado`) values ('" + user.getEmail() + "', '" + user.getUsuario() + "', '" + cript.makeEncryptionMd5(user.getSenha().trim()) + "', '" + user.getNome() + "', '" + user.getRg() + "', '" + user.getCpf() + "', '" + user.getEndereco() + "', '" + user.getCep() + "', '" + user.getCidade() + "', '" + user.getEstado().toUpperCase() + "', '" + user.getPermissao() + "', '" + user.getAtivo() + "', current_date(), '" + user.getDatanasc() + "', '1');");
 
             //enviando e-mail para confirma cadastramento de novo usuário.
-            SendEmail email = new SendEmail();
             email.setAssunto("Confirmação de Cadastro - Biblioteca X");
             email.setEmailDestinatario(user.getEmail().trim());
-            email.setMsg("Olá " + user.getNome() + ", <br><br>Seu cadastro foi realizado com sucesso.");
+            email.setMsg("Olá " + user.getNome().trim() + ", <br><br>Seu cadastro foi realizado com sucesso.<br><br>Username: <i>" + user.getUsuario().trim() + "</i>.<br>Senha: <i>" + user.getSenha().trim() + "</i>.");
             email.enviarGmail();
 
-            //setando mensagem de retorno
-            user.setMsg_autenticacao("Retorno: O usuário '" + user.getUsuario() + "' foi cadastrado com sucesso!");
-            user.setColor_msg(SUCESSO);
+            st.close();
         } catch (SQLException e) {
-            System.out.println("Falha no cadastramento de usuário");
-            user.setMsg_autenticacao("Retorno: Não foi possível cadastrar o usuário '" + user.getUsuario() + "', tente novamente mais tarde.");
-            user.setColor_msg(FALHA);
+            return 0;
+        } catch (NoSuchAlgorithmException e) {
+            return 0;
         }
-        return "/acessoBalconista?faces-redirect=true";
+        return 1;
     }
 
-    public List<M_Usuario> consultarUsuarioBalconista(M_Usuario user, int ativo) throws SQLException {
+    public List<Usuario> consultarUsuarioBalconista(Usuario user, int ativo) throws SQLException {
         //declaração do arrayList para auxiliar na impressão da dataTable do consultar usuarios
-        List<M_Usuario> usuarios = new ArrayList<>();
+        List<Usuario> usuarios = new ArrayList<>();
 
         //realiza conexão com banco de dados
         Conexao con = new Conexao();
@@ -225,7 +202,7 @@ public class M_Usuario_DAO {
 
         //obtendo os valores carregados no result set e carregado no arrayList
         while (rs.next()) {
-            M_Usuario usuario_temp = new M_Usuario(
+            Usuario usuario_temp = new Usuario(
                     rs.getString("email"),
                     rs.getString("usuario"),
                     "",
@@ -243,9 +220,9 @@ public class M_Usuario_DAO {
                     rs.getString("status"),
                     rs.getString("perfil"),
                     rs.getInt("codusuario"),
-                    formatadorDatasBrasil(rs.getString("datacad")),
-                    formatadorDatasBrasil(rs.getString("dataalt")),
-                    formatadorDatasBrasil(rs.getString("datanasc"))
+                    dtFormat.formatadorDatasBrasil(rs.getString("datacad")),
+                    dtFormat.formatadorDatasBrasil(rs.getString("dataalt")),
+                    dtFormat.formatadorDatasBrasil(rs.getString("datanasc"))
             );
 
             usuarios.add(usuario_temp);
@@ -259,7 +236,7 @@ public class M_Usuario_DAO {
         return usuarios;
     }
 
-    public String deletarUsuario(M_Usuario user) {
+    public int deletarUsuario(Usuario user) {
         int codusuario = 0;
 
         try {
@@ -278,41 +255,27 @@ public class M_Usuario_DAO {
             }
 
             if (codusuario == 0) {
-                user.setMsg_autenticacao("Retorno: Não existe usuário com Id informado em nosso sistema, deleção falhou.");
-                user.setColor_msg(FALHA);
-                return "/acessoBalconista?faces-redirect=true";
+                return -1;
             }
 
             //executa a EXCLUSÃO LÓGICA do usuário no banco de dados, ou seja, ativo recebe 0 e permissao recebe 0 (isso impossibilitará o usuário de efetuar login)
             st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET `ativo` = '0', `permissao` = '0', dataalt = current_date() WHERE (`codusuario` =" + user.getCodusuario() + ");");
 
-            user.setMsg_autenticacao("Retorno: O usuário '" + user.getNome() + "' foi deletado com sucesso.");
-            user.setColor_msg(SUCESSO);
-
             //fecha conexões para evitar lock nas tabelas do banco de dados
             st.close();
             rs.close();
             con.conexao.close();
-        } catch (SQLException e) {
-            System.out.println("Dados informados são inválidos!");
-            user.setMsg_autenticacao("Retorno: A deleção do usuário falhou, contacte o administrador do sistema.");
-            user.setColor_msg(FALHA);
-        }
 
-        return "/acessoBalconista?faces-redirect=true";
+            return 1;
+        } catch (SQLException e) {
+            return 0;
+        }
     }
 
-    public String editarUsuario(M_Usuario user) {
+    public int editarUsuario(Usuario user) {
         //declaração de varáveis locais que nos ajudará nas tratativas de erros
         String nome_anterior = "";
         Integer codusuario = 0;
-
-        //valida se o código do livro não foi fornecido, caso contrário retorna msg de erro na cor vermelha
-        if (user.getCodusuario() == 0) {
-            user.setMsg_autenticacao("Retorno: O código Id do usuário é inválido, edição falhou.");
-            user.setColor_msg(FALHA);
-            return "/acessoBalconista?faces-redirect=true";
-        }
 
         try {
             //realiza conexão com banco de dados
@@ -333,9 +296,7 @@ public class M_Usuario_DAO {
 
             //valida se o código do usuário foi fornecido de forma incorreta, ou seja, usuário inexistente na base de dados
             if (codusuario == 0) {
-                user.setMsg_autenticacao("Retorno: O usuário com Id informado não existe, edição falhou.");
-                user.setColor_msg(FALHA);
-                return "/acessoBalconista?faces-redirect=true";
+                return -1;
             }
 
             //este bloco realiza os updates apenas nos campos que foram preenchidos pelo balconista(campos deixados em branco não serão atualizados)
@@ -343,7 +304,7 @@ public class M_Usuario_DAO {
 
             if (!user.getDatanasc().equals("")) {
                 //convertendo a data para padrão do banco de dados
-                user.setDatanasc(formatadorDatasMySQL(user.getDatanasc()));
+                user.setDatanasc(dtFormat.formatadorDatasMySQL(user.getDatanasc()));
 
                 st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET datanasc = '" + user.getDatanasc() + "' WHERE codusuario = " + user.getCodusuario() + ";");
             }
@@ -354,6 +315,10 @@ public class M_Usuario_DAO {
 
             if (!user.getUsuario().equals("")) {
                 st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET usuario = '" + user.getUsuario() + "' WHERE codusuario = " + user.getCodusuario() + ";");
+            }
+
+            if (!user.getSenha().equals("")) {
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET senha = '" + cript.makeEncryptionMd5(user.getSenha().trim()) + "' WHERE codusuario = " + user.getCodusuario() + ";");
             }
 
             if (!user.getEmail().equals("")) {
@@ -372,6 +337,12 @@ public class M_Usuario_DAO {
                 //corrigindo CPF
                 user.setCpf(user.getCpf().replace(".", ""));
                 user.setCpf(user.getCpf().replace("-", ""));
+
+                //validando se CPF fornecido é válido
+                validaCpf = validaDados.validCpf(user.getCpf().trim());
+                if (!validaCpf) {
+                    return -2;
+                }
 
                 st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET cpf = '" + user.getCpf() + "' WHERE codusuario = " + user.getCodusuario() + ";");
             }
@@ -406,58 +377,57 @@ public class M_Usuario_DAO {
                 st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET ativo = '0', permissao = '0' WHERE codusuario = " + user.getCodusuario() + ";");
             } else {
                 if (user.getAtivo() == 1 && user.getPermissao() != 0) {
-                    st.execute("select u.jaativado, u.email, u.nome from `bibliotec`.`usuarios` u where u.codusuario = '" + user.getCodusuario() + "';");
+                    st.execute("select u.jaativado, u.email, u.nome, u.usuario, u.senha from `bibliotec`.`usuarios` u where u.codusuario = '" + user.getCodusuario() + "';");
                     rs = st.getResultSet();
 
-                    int jaativado = 1;
-                    String email_user = "", nome_user = "";
-
+                    int jaativado = 0;
+                    String usuario = "", senha = "";
                     while (rs.next()) {
                         jaativado = rs.getInt("jaativado");
-                        email_user = rs.getString("email");
-                        nome_user = rs.getString("nome");
+                        user.setEmail(rs.getString("email"));
+                        user.setNome((rs.getString("nome")));
+                        usuario = rs.getString("usuario");
+                        senha = rs.getString("senha");
                     }
 
-                    //se jaativado == 0, então é porque o usuárioe stá sendo ativado pela primeira vez(se usuário for inativado e depois reativado a intenção é que não mande e-mail de novo avisando que foi ativado novamente seu cadastro)
+                    //se jaativado == 0, então é porque o usuário está sendo ativado pela primeira vez(se usuário for inativado e depois reativado a intenção é que não mande e-mail de novo avisando que foi ativado novamente seu cadastro)
                     if (jaativado == 0) {
                         //enviando e-mail comunicando ativação do cadastro do usuário(este e-mail só será enviado no máxima uma vez)
-                        SendEmail email = new SendEmail();
                         email.setAssunto("Confirmação de Cadastro - Biblioteca X");
-                        email.setEmailDestinatario(email_user.trim());
-                        email.setMsg("Olá " + nome_user + ", <br><br>Seu cadastro foi ativado com sucesso.<br>Agora você tem acesso ao nosso acervo de livros e demais funcionalidades, aproveite!");
+                        email.setEmailDestinatario(user.getEmail().trim());
+                        email.setMsg("Olá " + user.getNome().trim() + ", <br><br>Seu cadastro foi ativado com sucesso.<br>Agora você tem acesso ao nosso acervo de livros e demais funcionalidades, aproveite!");
                         email.enviarGmail();
                     }
                     st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET ativo = '1', jaativado = '1' WHERE codusuario = " + user.getCodusuario() + ";");
+
+                    if ((!user.getUsuario().equals("") || !user.getSenha().equals(""))) {
+                        //enviando e-mail com novos dados de acesso
+                        email.setAssunto("Alteração de Acessos - Biblioteca X");
+                        email.setEmailDestinatario(user.getEmail().trim());
+                        email.setMsg("Olá " + user.getNome().trim() + ", <br><br>Seus dados de acesso foram alterados com sucesso.<br><br>Username: <i>" + usuario.trim() + "</i>.<br>Senha: <i>" + senha.trim() + "</i>.");
+                        email.enviarGmail();
+                    }
                 }
             }
-
-            //dependendo se o nome informado na tela for vazio/nulo ele imprime na mensagem de retorno com base no nome buscado no banco de dados
-            //caso contrário, ele imprimirá o novo nome
-            if (user.getNome().equals("")) {
-                user.setMsg_autenticacao("Retorno: As informações do usuário '" + nome_anterior + "' foram atualizadas com sucesso.");
-            } else {
-                user.setMsg_autenticacao("Retorno: As informações do usuário '" + user.getNome() + "' foram atualizadas com sucesso.");
-            }
-            user.setColor_msg(SUCESSO);
 
             //fechando as conexões para evitar lock
             st.close();
             rs.close();
             con.conexao.close();
+
+            return 1;
         } catch (SQLException e) {
-            //caso algum update ou buscas em base de dados falhe, ele retornará mensagem de erro na cor vermelha
-            System.out.println("Dados informados são inválidos!");
-            user.setMsg_autenticacao("Retorno: A operação de alteração do usuário '" + nome_anterior + "' falhou, contacte o administrador.");
-            user.setColor_msg(FALHA);
+            return 0;
+        } catch (NoSuchAlgorithmException e) {
+            return 0;
         }
-        return "/acessoBalconista?faces-redirect=true";
     }
 
-    public List<M_Usuario> meusDados() {
+    public List<Usuario> meusDados() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String login = (String) session.getAttribute("usuario");
 
-        List<M_Usuario> dados = new ArrayList<M_Usuario>();
+        List<Usuario> dados = new ArrayList<Usuario>();
 
         try {
             //realiza conexão com banco de dados
@@ -471,7 +441,7 @@ public class M_Usuario_DAO {
             rs = st.getResultSet();
 
             while (rs.next()) {
-                M_Usuario user = new M_Usuario(
+                Usuario user = new Usuario(
                         rs.getString("email"),
                         rs.getString("usuario"),
                         rs.getString("senha"),
@@ -491,7 +461,7 @@ public class M_Usuario_DAO {
                         0,
                         "",
                         "",
-                        formatadorDatasBrasil(rs.getString("datanasc")));
+                        dtFormat.formatadorDatasBrasil(rs.getString("datanasc")));
                 dados.add(user);
             }
 
@@ -506,7 +476,7 @@ public class M_Usuario_DAO {
         return dados;
     }
 
-    public String minhaHomePage() {
+    public String homePage() {
         try {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             String login = (String) session.getAttribute("usuario");
@@ -530,7 +500,7 @@ public class M_Usuario_DAO {
             rs.close();
             con.conexao.close();
 
-            //redirecionando para HomePage
+            //redirecionando para HomePage correta
             if (minhaPermissao == 1) {
                 return "/acessoBibliotecario?faces-redirect=true";
             }
@@ -549,7 +519,7 @@ public class M_Usuario_DAO {
         return "/gestaoBibliotecas?faces-redirect=true";
     }
 
-    public String atualizaMeusDados(M_Usuario user) {
+    public int atualizaMeusDados(Usuario user) {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String login = (String) session.getAttribute("usuario");
 
@@ -564,7 +534,7 @@ public class M_Usuario_DAO {
             }
 
             if (!user.getSenha().equals("")) {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET senha = '" + user.getSenha() + "' WHERE usuario = '" + login + "';");
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET senha = '" + cript.makeEncryptionMd5(user.getSenha()) + "' WHERE usuario = '" + login + "';");
             }
 
             if (!user.getRg().equals("")) {
@@ -579,6 +549,12 @@ public class M_Usuario_DAO {
                 //corrigindo CPF
                 user.setCpf(user.getCpf().replace(".", ""));
                 user.setCpf(user.getCpf().replace("-", ""));
+
+                //validando se CPF fornecido é válido
+                validaCpf = validaDados.validCpf(user.getCpf().trim());
+                if (!validaCpf) {
+                    return -2;
+                }
 
                 st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET cpf = '" + user.getCpf() + "' WHERE usuario = '" + login + "';");
             }
@@ -610,30 +586,41 @@ public class M_Usuario_DAO {
             }
 
             if (!user.getDatanasc().equals("")) {
-                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET datanasc = '" + formatadorDatasMySQL(user.getDatanasc()) + "' WHERE usuario = '" + login + "';");
+                st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET datanasc = '" + dtFormat.formatadorDatasMySQL(user.getDatanasc()) + "' WHERE usuario = '" + login + "';");
             }
 
             //se houver ao menos 1 alteração atualiza dataalt e manda e-mail
-            if (!user.getNome().equals("") || !user.getSenha().equals("") || !user.getCpf().equals("") || !user.getEmail().equals("") || !user.getEndereco().equals("") || !user.getCep().equals("") || !user.getCidade().equals("") || !user.getEstado().equals("") || !user.getDatanasc().equals("") || !user.getUsuario().equals("")) {
+            if (!user.getNome().equals("") || !user.getUsuario().equals("") || !user.getSenha().equals("") || !user.getRg().equals("") || !user.getCpf().equals("") || !user.getEmail().equals("") || !user.getEndereco().equals("") || !user.getCep().equals("") || !user.getCidade().equals("") || !user.getEstado().equals("") || !user.getDatanasc().equals("")) {
                 st.executeUpdate("UPDATE `bibliotec`.`usuarios` SET dataalt = current_date() WHERE usuario = '" + login + "';");
 
                 //Enviando e-mail de alteração cadastral
-                st.execute("SELECT nome, email FROM `bibliotec`.`usuarios` WHERE usuario = '" + login + "';");
+                st.execute("SELECT nome, email, usuario, senha FROM `bibliotec`.`usuarios` WHERE usuario = '" + login + "';");
                 ResultSet rs = st.getResultSet();
+
+                String usuario = "";
                 while (rs.next()) {
                     user.setNome(rs.getString("nome").trim());
                     user.setEmail(rs.getString("email").trim());
+                    usuario = rs.getString("usuario").trim();
+                    user.setSenha(rs.getString("senha").trim());
                 }
-                SendEmail email = new SendEmail();
-                email.setAssunto("Atualização Cadastral - Biblioteca X");
-                email.setEmailDestinatario(user.getEmail().trim());
-                email.setMsg("Olá " + user.getNome() + ", <br><br>Seus dados foram atualizados com sucesso!");
-                email.enviarGmail();
+
+                //dependendo se foi alterado o username, é enviado um email diferente antes que a sessão do sistema seja invalidada
+                if (!user.getUsuario().equals("")) {
+                    //Enviando e-mail de confirmação de atualização cadastral
+                    email.setAssunto("Atualização Cadastral - Biblioteca X");
+                    email.setEmailDestinatario(user.getEmail().trim());
+                    email.setMsg("Olá " + user.getNome() + ", <br><br>Seus dados foram atualizados com sucesso!<br><br>Username: <i>" + user.getUsuario().trim() + "</i>.<br>Senha: <i>" + user.getSenha().trim() + "</i>.");
+                    email.enviarGmail();
+                } else {
+                    //Enviando e-mail de confirmação de atualização cadastral
+                    email.setAssunto("Atualização Cadastral - Biblioteca X");
+                    email.setEmailDestinatario(user.getEmail().trim());
+                    email.setMsg("Olá " + user.getNome() + ", <br><br>Seus dados foram atualizados com sucesso!<br><br>Username: <i>" + usuario.trim() + "</i>.<br>Senha: <i>" + user.getSenha().trim() + "</i>.");
+                    email.enviarGmail();
+                }
             } else {
-                //setando mensagem de retorno
-                user.setMsg_autenticacao("Nenhuma alteração identificada!");
-                user.setColor_msg(FALHA);
-                return minhaHomePage();
+                return 0;
             }
 
             //Se alterar o usuário logo a sessão será quebrada e será necessário refazer o login
@@ -644,15 +631,11 @@ public class M_Usuario_DAO {
             //fechando as conexões em aberto para evitar locks infinitos no banco de dados
             st.close();
             con.conexao.close();
-
-            //setando mensagem de retorno
-            user.setMsg_autenticacao("Dados atualizados com sucesso!");
-            user.setColor_msg(SUCESSO);
         } catch (SQLException e) {
-            System.out.println("Dados informados são inválidos!");
-            user.setMsg_autenticacao("Falha ao atualizar dados.");
-            user.setColor_msg(FALHA);
+            return -1;
+        } catch (NoSuchAlgorithmException e) {
+            return -1;
         }
-        return minhaHomePage();
+        return 1;
     }
 }

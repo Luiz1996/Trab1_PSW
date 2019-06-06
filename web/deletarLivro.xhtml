@@ -137,11 +137,11 @@
             </h:form>
             <p:outputLabel value="Livros"/><font color="red">*</font>
             <h:form id="Livro">
-                <p:selectOneMenu filter="true" value="#{c_Livro.livro.codlivro}" filterMatchMode="contains"
+                <p:selectOneMenu filter="true" value="#{livroController.livro.codlivro}" filterMatchMode="contains"
                                  required="true" style="width:1290px" panelStyle="width:1330px">
 
                     <f:selectItem noSelectionOption="true" itemLabel="Selecione um livro"/>
-                    <f:selectItems value="#{c_Livro.realizarConsultaLivroBibliotecarioSoAtivos()}" var="book"
+                    <f:selectItems value="#{livroController.realizarConsultaLivroBibliotecarioSoAtivos()}" var="book"
                                    itemLabel="Título: #{book.titulo} | Autor: #{book.autor} | Editora: #{book.editora} | Ano Lanç.: #{book.anolancamento} | Volume: #{book.volume} | Catalogação: #{book.codcatalogacao} | Num. Chamada: #{book.numchamada}"
                                    itemValue="#{book.codlivro}"/>
                 </p:selectOneMenu>
@@ -152,7 +152,7 @@
                     <h:form>
                         <div class="form-group">
                             <h:commandButton value="Sim" class="btn btn-block btn-primary"
-                                             action="#{c_Livro.realizarDelecaoLivro}"/>
+                                             action="#{livroController.realizarDelecaoLivro}"/>
                         </div>
                         <div class="form-group">
                             <h:commandButton value="Não" class="btn btn-block btn-primary"

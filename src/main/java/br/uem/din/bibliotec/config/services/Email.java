@@ -6,7 +6,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 
-public class SendEmail {
+public class Email {
     private String emailDestinatario;
     private String assunto;
     private String msg;

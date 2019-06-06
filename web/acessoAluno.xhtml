@@ -89,11 +89,11 @@
 <h:body>
     <div align="left" class="retornos" id="retornos">
         <b>
-            <font color="#{c_Livro.livro.color_msg_retorno}">
-                #{c_Livro.livro.msg_retorno}
+            <font color="#{livroController.livro.color_msg_retorno}">
+                #{livroController.livro.msg_retorno}
             </font>
-            <font color="#{c_Usuario.user.color_msg}">
-                #{c_Usuario.user.msg_autenticacao}
+            <font color="#{usuarioController.user.color_msg}">
+                #{usuarioController.user.msg_autenticacao}
             </font>
         </b>
     </div>
@@ -101,14 +101,16 @@
     <i><h1 align="center"> BiblioTec </h1></i>
     <h:form>
         <p:menubar>
-            <p:menuitem value="SAIR" action="#{c_Login.logoutSession}"/>
+            <p:menuitem value="SAIR" action="#{loginController.logoutSession}"/>
             <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
+            <p:menuitem rendered="#{emprestimoController.consultaQtdeEmpAtrasados() != 0}" style="color: red;"
+                        value="PENDÊNCIAS" action="meusEmprestimos?faces-redirect=true"></p:menuitem>
         </p:menubar>
     </h:form>
     <section alig="center" class="right">
         <div class="jumbotron">
             <h:form id="telaAluno">
-                    <h5 align="center">Menu do Aluno</h5>
+                <h5 align="center">Menu do Aluno</h5>
                 <div class="menu">
                     <div class="form-group">
                         <h:commandButton value="Consultar Livros" class="btn btn-block btn-primary"
@@ -161,21 +163,21 @@
             </h:form>
         </div>
         <div class="resetValue">
-            #{c_Usuario.user.msg_autenticacao = ''}
-            #{c_Usuario.user.nome = ''}
-            #{c_Usuario.user.usuario = ''}
-            #{c_Usuario.user.senha = ''}
-            #{c_Usuario.user.rg = ''}
-            #{c_Usuario.user.cpf = ''}
-            #{c_Usuario.user.email = ''}
-            #{c_Usuario.user.endereco = ''}
-            #{c_Usuario.user.cep = ''}
-            #{c_Usuario.user.cidade = ''}
-            #{c_Usuario.user.estado = ''}
-            #{c_Usuario.user.datanasc = ''}
-            #{c_Livro.livro.msg_retorno = ''}
-            #{c_Livro.livro.codlivro = -1}
-            #{c_Livro.livro.titulo = ''}
+            #{usuarioController.user.msg_autenticacao = ''}
+            #{usuarioController.user.nome = ''}
+            #{usuarioController.user.usuario = ''}
+            #{usuarioController.user.senha = ''}
+            #{usuarioController.user.rg = ''}
+            #{usuarioController.user.cpf = ''}
+            #{usuarioController.user.email = ''}
+            #{usuarioController.user.endereco = ''}
+            #{usuarioController.user.cep = ''}
+            #{usuarioController.user.cidade = ''}
+            #{usuarioController.user.estado = ''}
+            #{usuarioController.user.datanasc = ''}
+            #{livroController.livro.msg_retorno = ''}
+            #{livroController.livro.codlivro = -1}
+            #{livroController.livro.titulo = ''}
         </div>
     </section>
 </h:body>

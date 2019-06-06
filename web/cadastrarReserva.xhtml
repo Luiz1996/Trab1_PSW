@@ -89,7 +89,7 @@
     <i><h1 align="center"> BiblioTec </h1></i>
     <h:form>
         <p:menubar>
-            <p:menuitem value="MENU INICIAL" action="#{c_Usuario.chamaMenuInicial}"></p:menuitem>
+            <p:menuitem value="MENU INICIAL" action="#{usuarioController.chamaMenuInicial}"></p:menuitem>
             <p:menuitem value="AJUDA?" url="javascript: abrir();"></p:menuitem>
         </p:menubar>
     </h:form>
@@ -100,16 +100,17 @@
                 <h:form>
                     <div class="selectItens">
                         <p:outputLabel value="Livros"/><font color="red">*</font>
-                        <p:selectOneMenu filter="true" value="#{c_Livro.livro.codlivro}" filterMatchMode="contains"
+                        <p:selectOneMenu filter="true" value="#{livroController.livro.codlivro}"
+                                         filterMatchMode="contains"
                                          required="true" style="width:1290px" panelStyle="width:1290px">
                             <f:selectItem noSelectionOption="true" itemLabel="Selecione um livro"/>
-                            <f:selectItems value="#{c_Livro.realizarConsultaLivro()}" var="book"
+                            <f:selectItems value="#{livroController.realizarConsultaLivro()}" var="book"
                                            itemLabel="Título: #{book.titulo} | Autor: #{book.autor} | Editora: #{book.editora} | Ano Lanç.: #{book.anolancamento} - Cód. Catal: #{book.codcatalogacao}"
                                            itemValue="#{book.codlivro}"/>
                         </p:selectOneMenu>
                         <div class="form-group">
                             <h:commandButton value="Reservar" class="btn btn-block btn-primary"
-                                             action="#{c_Livro.realizaReservaLivro}"/>
+                                             action="#{livroController.realizaReservaLivro}"/>
                         </div>
                     </div>
                 </h:form>

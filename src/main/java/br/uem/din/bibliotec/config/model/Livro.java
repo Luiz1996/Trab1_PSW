@@ -2,7 +2,7 @@ package br.uem.din.bibliotec.config.model;
 
 import java.util.Objects;
 
-public class M_Livro {
+public class Livro {
     //declaracao dos atributos do livro
     private Integer codlivro = 0;
     private String codcatalogacao = "";
@@ -24,12 +24,12 @@ public class M_Livro {
     private int usuariores = 0;
 
     //contrutores e gets/sets
-    public M_Livro(String datares, int usuariores) {
+    public Livro(String datares, int usuariores) {
         this.datares = datares;
         this.usuariores = usuariores;
     }
 
-    public M_Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo) {
+    public Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo) {
         this.codlivro = codlivro;
         this.codcatalogacao = codcatalogacao;
         this.numchamada = numchamada;
@@ -44,7 +44,7 @@ public class M_Livro {
         this.msg_retorno = msg_retorno;
     }
 
-    public M_Livro(String titulo, String autor, String editora, String anolancamento, Integer volume, String datares, int codlivro) {
+    public Livro(String titulo, String autor, String editora, String anolancamento, Integer volume, String datares, int codlivro) {
         this.titulo = titulo;
         this.autor = autor;
         this.editora = editora;
@@ -54,7 +54,7 @@ public class M_Livro {
         this.codlivro = codlivro;
     }
 
-    public M_Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo, String status) {
+    public Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo, String status) {
         this.codlivro = codlivro;
         this.codcatalogacao = codcatalogacao;
         this.numchamada = numchamada;
@@ -70,7 +70,7 @@ public class M_Livro {
         this.msg_retorno = msg_retorno;
     }
 
-    public M_Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo, String status, String msg_retorno, String color_msg_retorno, String datacad, String dataalt, String disponibilidade) {
+    public Livro(Integer codlivro, String codcatalogacao, String numchamada, String titulo, String autor, String editora, String anolancamento, String cidade, Integer volume, Integer ativo, String status, String msg_retorno, String color_msg_retorno, String datacad, String dataalt, String disponibilidade) {
         this.codlivro = codlivro;
         this.codcatalogacao = codcatalogacao;
         this.numchamada = numchamada;
@@ -89,7 +89,7 @@ public class M_Livro {
         this.disponibilidade = disponibilidade;
     }
 
-    public M_Livro(Integer codlivro, String titulo, String autor, String editora, String anolancamento, String codcatalogacao) {
+    public Livro(Integer codlivro, String titulo, String autor, String editora, String anolancamento, String codcatalogacao) {
         this.codlivro = codlivro;
         this.titulo = titulo;
         this.autor = autor;
@@ -110,7 +110,9 @@ public class M_Livro {
 
     public void setDisponibilidade(String disponibilidade) { this.disponibilidade = disponibilidade; }
 
-    public M_Livro(Integer codlivro) { this.codlivro = codlivro; }
+    public Livro(Integer codlivro) {
+        this.codlivro = codlivro;
+    }
 
     public String getDatacad() { return datacad; }
 
@@ -219,17 +221,17 @@ public class M_Livro {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        M_Livro m_livro = (M_Livro) o;
-        return codlivro.equals(m_livro.codlivro) &&
-                codcatalogacao.equals(m_livro.codcatalogacao) &&
-                numchamada.equals(m_livro.numchamada) &&
-                titulo.equals(m_livro.titulo) &&
-                autor.equals(m_livro.autor) &&
-                editora.equals(m_livro.editora) &&
-                anolancamento.equals(m_livro.anolancamento) &&
-                cidade.equals(m_livro.cidade) &&
-                volume.equals(m_livro.volume) &&
-                ativo.equals(m_livro.ativo);
+        Livro livro = (Livro) o;
+        return codlivro.equals(livro.codlivro) &&
+                codcatalogacao.equals(livro.codcatalogacao) &&
+                numchamada.equals(livro.numchamada) &&
+                titulo.equals(livro.titulo) &&
+                autor.equals(livro.autor) &&
+                editora.equals(livro.editora) &&
+                anolancamento.equals(livro.anolancamento) &&
+                cidade.equals(livro.cidade) &&
+                volume.equals(livro.volume) &&
+                ativo.equals(livro.ativo);
     }
 
     @Override

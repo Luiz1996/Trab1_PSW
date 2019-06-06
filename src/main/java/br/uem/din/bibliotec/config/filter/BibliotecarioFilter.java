@@ -12,13 +12,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-@WebFilter(filterName = "Aluno", urlPatterns = {
-                                                "/acessoAluno.xhtml",
-                                                "/consultarAcervoAluno.xhtml"
-                                               }
-          )
-public class Aluno implements Filter {
-    public Aluno(){}
+@WebFilter(filterName = "BibliotecarioFilter", urlPatterns = {
+                                                                "/cadastrarLivro.xhtml",
+                                                                "/consultarLivro.xhtml",
+                                                                "/alterarLivro.xhtml",
+                                                                "/deletarLivro.xhtml",
+                                                                "/acessoBibliotecario.xhtml"
+                                                        }
+           )
+public class BibliotecarioFilter implements Filter {
+    public BibliotecarioFilter() {
+    }
 
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
@@ -27,6 +31,7 @@ public class Aluno implements Filter {
         HttpServletResponse res = (HttpServletResponse)response;
         HttpSession session = (HttpSession) req.getSession();
         String login = (String)session.getAttribute("usuario");
+
         try{
             if(login == null){
                 res.sendRedirect(req.getContextPath() + "/gestaoBibliotecas.xhtml");
@@ -38,18 +43,18 @@ public class Aluno implements Filter {
                 Statement st = con.conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet rs = null;
 
-                st.execute("SELECT u.permissao FROM `bibliotec`.`usuarios` u WHERE u.usuario = '" + login + "';");
+                st.execute("SELECT u.permissao FROM `bibliotec`.`usuarios` u WHERE u.usuario = '" + login.trim() + "';");
                 rs = st.getResultSet();
 
                 while (rs.next()) {
                     permissaoAcesso = rs.getInt("permissao");
                 }
 
-                if (permissaoAcesso != 3) {
+                if (permissaoAcesso != 1) {
                     session.invalidate();
                     res.sendRedirect(req.getContextPath() + "/acessoRestrito.xhtml");
                 }
-                //Se a permissão for de Aluno, então deixa carregar nova página
+                //Se a permissão for de Bibliotecario, então deixa carregar nova página
                 chain.doFilter(request, response);
             }
         } catch (SQLException e) {

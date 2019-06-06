@@ -101,40 +101,42 @@
             <h:form id="dadosLivro">
                 <div class="form-group">
                     <h:outputLabel value="Título"  /><font color="red">*</font>
-                    <p:inputText value="#{c_Livro.livro.titulo}" class="form-control"
+                    <p:inputText value="#{livroController.livro.titulo}" class="form-control"
                                  maxlength="60" required="true" placeholder="Insira o título do livro"></p:inputText>
 
 
                     <h:outputLabel value="Autor"/><font color="red">*</font>
-                    <p:inputText value="#{c_Livro.livro.autor}" class="form-control"
+                    <p:inputText value="#{livroController.livro.autor}" class="form-control"
                                  maxlength="60" required="true" placeholder="Insira o nome do autor"></p:inputText>
 
                     <h:outputLabel value="Editora"/><font color="red">*</font>
-                    <p:inputText value="#{c_Livro.livro.editora}" class="form-control"
+                    <p:inputText value="#{livroController.livro.editora}" class="form-control"
                                  maxlength="60" required="true" placeholder="Insira o nome da editora"></p:inputText>
 
                     <h:outputLabel value="Ano Lançamento"/><font color="red">*</font>
-                    <p:inputMask class="form-control" value="#{c_Livro.livro.anolancamento}" mask="9999" required="true" placeholder="Insira o ano de lançamento do livro" maxlength="4"/>
+                    <p:inputMask class="form-control" value="#{livroController.livro.anolancamento}" mask="9999"
+                                 required="true" placeholder="Insira o ano de lançamento do livro" maxlength="4"/>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Cidade"/><font color="red">*</font>
-                    <p:inputText value="#{c_Livro.livro.cidade}" class="form-control"
+                    <p:inputText value="#{livroController.livro.cidade}" class="form-control"
                                  maxlength="60" required="true" placeholder="Insira a cidade"></p:inputText>
 
                     <h:outputLabel value="Volume"/><font color="red">*</font>
-                    <p:inputMask class="form-control" value="#{c_Livro.livro.volume}" mask="99" required="true" placeholder="Insira o volume do livro" maxlength="2"/>
+                    <p:inputMask class="form-control" value="#{livroController.livro.volume}" mask="99" required="true"
+                                 placeholder="Insira o volume do livro" maxlength="2"/>
 
                     <h:outputLabel value="Código de Catalogação"/><font color="red">*</font>
-                    <p:inputText value="#{c_Livro.livro.codcatalogacao}" class="form-control"
+                    <p:inputText value="#{livroController.livro.codcatalogacao}" class="form-control"
                                  maxlength="15" required="true" placeholder="Insira o código de catalogação"></p:inputText>
 
                     <h:outputLabel value="Número Chamada"/><font color="red">*</font>
-                    <p:inputText value="#{c_Livro.livro.numchamada}" class="form-control"
+                    <p:inputText value="#{livroController.livro.numchamada}" class="form-control"
                                  maxlength="15" required="true" placeholder="Insira o número de chamada"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Cadastrar Livro" class="btn btn-block btn-primary"
-                                     action="#{c_Livro.realizarCadastroLivro}"/>
+                                     action="#{livroController.realizarCadastroLivro}"/>
                 </div>
             </h:form>
         </div>

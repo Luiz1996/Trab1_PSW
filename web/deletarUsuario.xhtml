@@ -133,11 +133,11 @@
             </h:form>
             <p:outputLabel value="Usuários"/><font color="red">*</font>
             <h:form id="Usuario">
-                <p:selectOneMenu filter="true" value="#{c_Usuario.user.codusuario}" filterMatchMode="contains"
+                <p:selectOneMenu filter="true" value="#{usuarioController.user.codusuario}" filterMatchMode="contains"
                                  required="true" style="width:1290px" panelStyle="width:1330px">
 
                     <f:selectItem noSelectionOption="true" itemLabel="Selecione um usuário"/>
-                    <f:selectItems value="#{c_Usuario.realizaConsultaUsuariosAtivos()}" var="user"
+                    <f:selectItems value="#{usuarioController.realizaConsultaUsuariosAtivos()}" var="user"
                                    itemLabel="Nome: #{user.nome} | E-mail: #{user.email} | Usuário: #{user.usuario} | CPF: #{user.cpf} | RG: #{user.rg} | Cidade: #{user.cidade} | Dt. Nasc.: #{user.datanasc}"
                                    itemValue="#{user.codusuario}"/>
                 </p:selectOneMenu>
@@ -148,7 +148,7 @@
                     <h:form>
                         <div class="form-group">
                             <h:commandButton value="Sim" class="btn btn-block btn-primary"
-                                             action="#{c_Usuario.realizaDelecaoUsuario}"/>
+                                             action="#{usuarioController.realizaDelecaoUsuario}"/>
                         </div>
                         <div class="form-group">
                             <h:commandButton value="Não" class="btn btn-block btn-primary"

@@ -1,5 +1,7 @@
 package br.uem.din.bibliotec.config.filter;
 
+import br.uem.din.bibliotec.config.controller.UsuarioController;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -7,12 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "Reservas", urlPatterns = {"/cadastrarReserva.xhtml",
-                                                   "/cancelarReserva.xhtml",
-                                                   "/minhasReservas.xhtml"})
-public class Reservas implements Filter {
+@WebFilter(filterName = "meusDados", urlPatterns = {"/meusDados.xhtml"})
+public class meusDadosFilter implements Filter {
 
-    public Reservas(){}
+    public meusDadosFilter() {
+    }
 
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException{
@@ -23,6 +24,8 @@ public class Reservas implements Filter {
         HttpSession session = (HttpSession) req.getSession();
 
         String login = (String)session.getAttribute("usuario");
+
+        UsuarioController user = new UsuarioController(login);
 
         if(login == null){
             res.sendRedirect(req.getContextPath() + "/gestaoBibliotecas.xhtml");

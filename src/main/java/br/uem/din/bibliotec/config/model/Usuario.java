@@ -3,7 +3,7 @@ package br.uem.din.bibliotec.config.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class M_Usuario implements Serializable {
+public class Usuario implements Serializable {
     public static final long serialVersionUID = 1L;
     //atributos dos usuarios
     private String email = "";
@@ -28,7 +28,7 @@ public class M_Usuario implements Serializable {
     private String datanasc = "";
 
     //contrutores e gets/sets
-    public M_Usuario(String email, String usuario, String senha, String nome, String rg, String cpf, String endereco, String cep, String cidade, String estado, int permissao, int ativo, String msg_autenticacao, String color_msg) {
+    public Usuario(String email, String usuario, String senha, String nome, String rg, String cpf, String endereco, String cep, String cidade, String estado, int permissao, int ativo, String msg_autenticacao, String color_msg) {
         this.email = email;
         this.usuario = usuario;
         this.senha = senha;
@@ -45,12 +45,12 @@ public class M_Usuario implements Serializable {
         this.color_msg = color_msg;
     }
 
-    public M_Usuario(String usuario, String senha) {
+    public Usuario(String usuario, String senha) {
         this.usuario = usuario;
         this.senha = senha;
     }
 
-    public M_Usuario(String email, String usuario, String senha, String nome, String rg, String cpf, String endereco, String cep, String cidade, String estado, String msg_autenticacao, String color_msg, int permissao, int ativo, String status, String perfil, int codusuario) {
+    public Usuario(String email, String usuario, String senha, String nome, String rg, String cpf, String endereco, String cep, String cidade, String estado, String msg_autenticacao, String color_msg, int permissao, int ativo, String status, String perfil, int codusuario) {
         this.email = email;
         this.usuario = usuario;
         this.senha = senha;
@@ -70,7 +70,7 @@ public class M_Usuario implements Serializable {
         this.codusuario = codusuario;
     }
 
-    public M_Usuario(String email, String usuario, String senha, String nome, String rg, String cpf, String endereco, String cep, String cidade, String estado, String msg_autenticacao, String color_msg, int permissao, int ativo, String status, String perfil, int codusuario, String datacad, String dataalt, String datanasc) {
+    public Usuario(String email, String usuario, String senha, String nome, String rg, String cpf, String endereco, String cep, String cidade, String estado, String msg_autenticacao, String color_msg, int permissao, int ativo, String status, String perfil, int codusuario, String datacad, String dataalt, String datanasc) {
         this.email = email;
         this.usuario = usuario;
         this.senha = senha;
@@ -93,7 +93,7 @@ public class M_Usuario implements Serializable {
         this.datanasc = datanasc;
     }
 
-    public M_Usuario(String nome, int codusuario, String cpf, String email, String rg, String datanasc) {
+    public Usuario(String nome, int codusuario, String cpf, String email, String rg, String datanasc) {
         this.nome = nome;
         this.codusuario = codusuario;
         this.cpf = cpf;
@@ -102,9 +102,12 @@ public class M_Usuario implements Serializable {
         this.datanasc = datanasc;
     }
 
-    public M_Usuario(){}
+    public Usuario() {
+    }
 
-    public M_Usuario(int codusuario) { this.codusuario = codusuario; }
+    public Usuario(int codusuario) {
+        this.codusuario = codusuario;
+    }
 
     public String getDatanasc() { return datanasc; }
 
@@ -202,20 +205,20 @@ public class M_Usuario implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        M_Usuario m_usuario = (M_Usuario) o;
-        return permissao == m_usuario.permissao &&
-                ativo == m_usuario.ativo &&
-                email.equals(m_usuario.email) &&
-                usuario.equals(m_usuario.usuario) &&
-                senha.equals(m_usuario.senha) &&
-                nome.equals(m_usuario.nome) &&
-                rg.equals(m_usuario.rg) &&
-                cpf.equals(m_usuario.cpf) &&
-                endereco.equals(m_usuario.endereco) &&
-                cep.equals(m_usuario.cep) &&
-                cidade.equals(m_usuario.cidade) &&
-                estado.equals(m_usuario.estado) &&
-                msg_autenticacao.equals(m_usuario.msg_autenticacao);
+        Usuario usuario = (Usuario) o;
+        return permissao == usuario.permissao &&
+                ativo == usuario.ativo &&
+                email.equals(usuario.email) &&
+                this.usuario.equals(usuario.usuario) &&
+                senha.equals(usuario.senha) &&
+                nome.equals(usuario.nome) &&
+                rg.equals(usuario.rg) &&
+                cpf.equals(usuario.cpf) &&
+                endereco.equals(usuario.endereco) &&
+                cep.equals(usuario.cep) &&
+                cidade.equals(usuario.cidade) &&
+                estado.equals(usuario.estado) &&
+                msg_autenticacao.equals(usuario.msg_autenticacao);
     }
 
     @Override

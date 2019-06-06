@@ -130,11 +130,12 @@
 
                 <p:outputLabel value="Empréstimos"/><font color="red">*</font>
                 <h:form id="Empréstimo">
-                    <p:selectOneMenu filter="true" value="#{c_Emprestimo.emp.codemprestimo}" filterMatchMode="contains"
+                    <p:selectOneMenu filter="true" value="#{emprestimoController.emp.codemprestimo}"
+                                     filterMatchMode="contains"
                                      required="true" style="width:1290px" panelStyle="width:1330px">
 
                         <f:selectItem noSelectionOption="true" itemLabel="Selecione um empréstimo"/>
-                        <f:selectItems value="#{c_Emprestimo.consultaEmprestimosEmVigor()}" var="emp"
+                        <f:selectItems value="#{emprestimoController.consultaEmprestimosEmVigor()}" var="emp"
                                        itemLabel="Nome: #{emp.nome_user} | E-mail: #{emp.email_user} | Título: #{emp.titulo_book} | Autor: #{emp.autor_book} | Editora: #{emp.editora_book} | Ano Lanç.: #{emp.anolancamento_book}"
                                        itemValue="#{emp.codemprestimo}"/>
                     </p:selectOneMenu>
@@ -145,7 +146,7 @@
                         <h:form>
                             <div class="form-group">
                                 <h:commandButton value="Sim" class="btn btn-block btn-primary"
-                                                 action="#{c_Emprestimo.realizaFinalizarEmprestimo}"/>
+                                                 action="#{emprestimoController.realizaFinalizarEmprestimo}"/>
                             </div>
                             <div class="form-group">
                                 <h:commandButton value="Não" class="btn btn-block btn-primary"

@@ -86,46 +86,52 @@
             <h:form id="dadosUsuario">
                 <div class="form-group">
                     <h:outputLabel value="Nome Completo"  /><font color="red">*</font>
-                    <p:inputMask class="form-control" value="#{c_Usuario.user.nome}" required="true" placeholder="Insira o seu nome completo" maxlength="60"/>
+                    <p:inputMask class="form-control" value="#{usuarioController.user.nome}" required="true"
+                                 placeholder="Insira o seu nome completo" maxlength="60"/>
 
                     <h:outputLabel value="Username"  /><font color="red">*</font>
-                    <p:inputText value="#{c_Usuario.user.usuario}" class="form-control"
+                    <p:inputText value="#{usuarioController.user.usuario}" class="form-control"
                                  required="true" placeholder="Insira o username de acesso" maxlength="30"></p:inputText>
 
                     <h:outputLabel value="Senha"  /><font color="red">*</font>
-                    <p:inputText value="#{c_Usuario.user.senha}" class="form-control"
+                    <p:inputText value="#{usuarioController.user.senha}" class="form-control"
                                  required="true" placeholder="Insira a senha de acesso" maxlength="30"></p:inputText>
 
                     <h:outputLabel value="RG"/><font color="red">*</font>
-                    <p:inputMask class="form-control" value="#{c_Usuario.user.rg}" mask="99.999.999-9" required="true" placeholder="Insira o seu RG(somente números)" maxlength="12"/>
+                    <p:inputMask class="form-control" value="#{usuarioController.user.rg}" mask="99.999.999-9"
+                                 required="true" placeholder="Insira o seu RG(somente números)" maxlength="12"/>
 
                     <h:outputLabel value="CPF"/><font color="red">*</font>
-                    <p:inputMask class="form-control" value="#{c_Usuario.user.cpf}" mask="999.999.999-99" required="true" placeholder="Insira o seu CPF(somente números)" maxlength="14"/>
+                    <p:inputMask class="form-control" value="#{usuarioController.user.cpf}" mask="999.999.999-99"
+                                 required="true" placeholder="Insira o seu CPF(somente números)" maxlength="14"/>
 
                     <h:outputLabel value="Endereço"/><font color="red">*</font>
-                    <p:inputText value="#{c_Usuario.user.endereco}" class="form-control"
+                    <p:inputText value="#{usuarioController.user.endereco}" class="form-control"
                                  required="true" placeholder="Insira os dados do seu endereço(ex: rua, bairro, número, etc...)" maxlength="100"></p:inputText>
 
                     <h:outputLabel value="CEP"/><font color="red">*</font>
-                    <p:inputMask class="form-control" value="#{c_Usuario.user.cep}" mask="99999-999" required="true" placeholder="Insira o CEP da sua rua(somente números)" maxlength="8"/>
+                    <p:inputMask class="form-control" value="#{usuarioController.user.cep}" mask="99999-999"
+                                 required="true" placeholder="Insira o CEP da sua rua(somente números)" maxlength="8"/>
 
                     <h:outputLabel value="Cidade"/><font color="red">*</font>
-                    <p:inputText value="#{c_Usuario.user.cidade}" class="form-control"
+                    <p:inputText value="#{usuarioController.user.cidade}" class="form-control"
                                  required="true" placeholder="Insira a cidade onde mora" maxlength="60"></p:inputText>
 
                     <h:outputLabel value="Estado"/><font color="red">*</font>
-                    <p:inputMask class="form-control" value="#{c_Usuario.user.estado}" mask="aa" required="true" placeholder="Insira a sigla do Estado onde mora" maxlength="2"/>
+                    <p:inputMask class="form-control" value="#{usuarioController.user.estado}" mask="aa" required="true"
+                                 placeholder="Insira a sigla do Estado onde mora" maxlength="2"/>
 
                     <h:outputLabel value="E-mail"/><font color="red">*</font>
-                    <p:inputText value="#{c_Usuario.user.email}" class="form-control"
+                    <p:inputText value="#{usuarioController.user.email}" class="form-control"
                                  required="true" placeholder="Insira seu endereço de e-mail" maxlength="100"></p:inputText>
 
                     <h:outputLabel value="Data Nascimento"/><font color="red">*</font>
-                    <p:inputMask class="form-control" value="#{c_Usuario.user.datanasc}" mask="99/99/9999" required="true" placeholder="DD/MM/AAAA" maxlength="10"/>
+                    <p:inputMask class="form-control" value="#{usuarioController.user.datanasc}" mask="99/99/9999"
+                                 required="true" placeholder="DD/MM/AAAA" maxlength="10"/>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Enviar dados" class="btn btn-block btn-primary"
-                                     action="#{c_Usuario.realizarCadastroUsuario}"/>
+                                     action="#{usuarioController.realizarCadastroUsuario}"/>
                 </div>
             </h:form>
         </div>

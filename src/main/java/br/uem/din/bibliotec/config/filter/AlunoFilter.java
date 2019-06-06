@@ -12,33 +12,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-@WebFilter(filterName = "Balconista", urlPatterns = {
-                                                     "/acessoBalconista.xhtml",
-                                                     "/cadastrarEmprestimo.xhtml",
-                                                     "/cadastrarUsuarioBalconista.xhtml",
-                                                     "/consultaUsuario.xhtml",
-                                                     "/editarUsuario.xhtml",
-                                                     "/deletarUsuario.xhtml",
-                                                     "/consultarEmprestimo.xhtml",
-                                                     "/alterarEmprestimo.xhtml",
-                                                     "/deletarEmprestimo.xhtml",
-                                                     "/consultarAcervoBalconista.xhtml"
-         })
-
-
-public class Balconista implements Filter {
-    public Balconista(){}
+@WebFilter(filterName = "Aluno", urlPatterns = {
+                                                "/acessoAluno.xhtml",
+                                                "/consultarAcervoAluno.xhtml"
+                                               }
+          )
+public class AlunoFilter implements Filter {
+    public AlunoFilter() {
+    }
 
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest)request;
         HttpServletResponse res = (HttpServletResponse)response;
-
         HttpSession session = (HttpSession) req.getSession();
-
         String login = (String)session.getAttribute("usuario");
-
         try{
             if(login == null){
                 res.sendRedirect(req.getContextPath() + "/gestaoBibliotecas.xhtml");
@@ -57,11 +46,11 @@ public class Balconista implements Filter {
                     permissaoAcesso = rs.getInt("permissao");
                 }
 
-                if (permissaoAcesso != 2) {
+                if (permissaoAcesso != 3) {
                     session.invalidate();
                     res.sendRedirect(req.getContextPath() + "/acessoRestrito.xhtml");
                 }
-                //Se a permissão for de Balconista, então deixa carregar nova página
+                //Se a permissão for de Aluno, então deixa carregar nova página
                 chain.doFilter(request, response);
             }
         } catch (SQLException e) {

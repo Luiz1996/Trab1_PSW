@@ -47,13 +47,13 @@
 
             .parteLogin {
                 position: absolute;
-                top: -120px;
+                top: -80px;
                 bottom: 0;
                 left: -1077px;
                 right: 0px;
                 margin: auto;
                 width: 280px;
-                height: 290px;
+                height: 330px;
                 border: darkgray 1px solid;
                 border-radius: 5px;
                 background: lightgray;
@@ -95,7 +95,7 @@
 
             .cadastro {
                 position: absolute;
-                top: 145px;
+                top: 150px;
                 bottom: 0;
                 left: 0px;
                 right: 0px;
@@ -141,7 +141,7 @@
     </script>
 </h:head>
 <h:body>
-    #{c_Login.usuario = ''}
+    #{loginController.usuario = ''}
     <i><h1 align="center"> BiblioTec </h1></i>
     <p:menubar>
         <p:menuitem value="ACERVO" url="consultarAcervo.xhtml"></p:menuitem>
@@ -149,21 +149,23 @@
     </p:menubar>
     <section  class="row">
         <div class="parteLogin" id="parteLogin">
-
             <h:form id="telaLogin">
                 <h5 align="center">Acesso</h5><br></br>
                 <div class="usuario" id="usuario">
+
+
                     <h:outputLabel value="Usuário"/><br></br>
-                    <p:inputText value="#{c_Login.usuario}" class="form-control"
-                                 placeholder="Username, E-mail ou CPF" maxlength="100"/>
+                    <p:inputText value="#{loginController.usuario}" class="form-control"
+                                 placeholder="Username, CPF ou E-mail" maxlength="30"/>
                 </div>
                 <div class="senha" id="senha">
                     <h:outputLabel value="Senha"/><br></br>
-                    <p:password value="#{c_Login.senha}" class="form-control" maxlength="30" placeholder="Senha"/>
+                    <p:password value="#{loginController.senha}" class="form-control" maxlength="30"
+                                placeholder="Senha"/>
                 </div>
                 <div class="login" id="login">
                     <h:commandButton value="Login" class="btn btn-block btn-primary"
-                                     action="#{c_Login.realizarAcesso}"></h:commandButton>
+                                     action="#{loginController.realizarAcesso}"></h:commandButton>
                 </div>
                 <div class="cadastro" id="cadastro">
                     <h:commandButton value="Cadastrar-se" class="btn btn-block btn-primary"
@@ -172,12 +174,12 @@
                 <div align="center" class="retorno" id="retorno">
                     <font color="red">
                         <i>
-                            <h:outputLabel value="#{c_Login.login.msg_autenticacao}"/>
-                            <h:outputLabel value="#{c_Usuario.user.msg_autenticacao}"/>
+                            <h:outputLabel value="#{loginController.login.msg_autenticacao}"/>
+                            <h:outputLabel value="#{usuarioController.user.msg_autenticacao}"/>
                         </i>
                     </font>
                 </div>
-                #{c_Login.login.msg_autenticacao = ''}
+                #{loginController.login.msg_autenticacao = ''}
             </h:form>
         </div>
         <div id="imagem" class="imagem">
@@ -202,18 +204,18 @@
             </p>
         </div>
         <div>
-            #{c_Usuario.user.msg_autenticacao = ''}
-            #{c_Usuario.user.nome = ''}
-            #{c_Usuario.user.usuario = ''}
-            #{c_Usuario.user.senha = ''}
-            #{c_Usuario.user.rg = ''}
-            #{c_Usuario.user.cpf = ''}
-            #{c_Usuario.user.email = ''}
-            #{c_Usuario.user.endereco = ''}
-            #{c_Usuario.user.cep = ''}
-            #{c_Usuario.user.cidade = ''}
-            #{c_Usuario.user.estado = ''}
-            #{c_Usuario.user.datanasc = ''}
+            #{usuarioController.user.msg_autenticacao = ''}
+            #{usuarioController.user.nome = ''}
+            #{usuarioController.user.usuario = ''}
+            #{usuarioController.user.senha = ''}
+            #{usuarioController.user.rg = ''}
+            #{usuarioController.user.cpf = ''}
+            #{usuarioController.user.email = ''}
+            #{usuarioController.user.endereco = ''}
+            #{usuarioController.user.cep = ''}
+            #{usuarioController.user.cidade = ''}
+            #{usuarioController.user.estado = ''}
+            #{usuarioController.user.datanasc = ''}
         </div>
     </section>
 </h:body>

@@ -1,6 +1,6 @@
 package br.uem.din.bibliotec.config.filter;
 
-import br.uem.din.bibliotec.config.controller.C_Usuario;
+import br.uem.din.bibliotec.config.controller.EmprestimoController;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "meusDados", urlPatterns = {"/meusDados.xhtml"})
-public class meusDados implements Filter {
+@WebFilter(filterName = "meusEmp", urlPatterns = {"/meusEmprestimos.xhtml"})
+public class meusEmpFilter implements Filter {
 
-    public meusDados(){}
+    public meusEmpFilter() {
+    }
 
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException{
@@ -24,7 +25,7 @@ public class meusDados implements Filter {
 
         String login = (String)session.getAttribute("usuario");
 
-        C_Usuario user = new C_Usuario(login);
+        EmprestimoController emp = new EmprestimoController(login);
 
         if(login == null){
             res.sendRedirect(req.getContextPath() + "/gestaoBibliotecas.xhtml");

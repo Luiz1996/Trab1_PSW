@@ -1,6 +1,6 @@
 package br.uem.din.bibliotec.config.model;
 
-public class M_Emprestimo {
+public class Emprestimo {
     private int codemprestimo = 0;
     private int codusuario = 0;
     private int codlivro = 0;
@@ -19,9 +19,10 @@ public class M_Emprestimo {
     private String status_emp = "";
     private String rg_user = "";
     private String cpf_user = "";
+    private int atrasado = 0;
 
     //declaração dos contrutores e gets/sets
-    public M_Emprestimo(int codemprestimo, int codusuario, int codlivro, String dataemp, String datadev, String dataalt, int ativo, String msg_retorno, String color_msg_retorno, String nome_user, String email_user, String titulo_book, String autor_book, String editora_book, String anolancamento_book, String status_emp) {
+    public Emprestimo(int codemprestimo, int codusuario, int codlivro, String dataemp, String datadev, String dataalt, int ativo, String msg_retorno, String color_msg_retorno, String nome_user, String email_user, String titulo_book, String autor_book, String editora_book, String anolancamento_book, String status_emp) {
         this.codemprestimo = codemprestimo;
         this.codusuario = codusuario;
         this.codlivro = codlivro;
@@ -42,15 +43,16 @@ public class M_Emprestimo {
         this.cpf_user = cpf_user;
     }
 
-    public M_Emprestimo(String titulo_book, String autor_book, String editora_book,String dataemp, String datadev) {
+    public Emprestimo(String titulo_book, String autor_book, String editora_book, String dataemp, String datadev, int atrasado) {
         this.titulo_book = titulo_book;
         this.autor_book = autor_book;
         this.editora_book = editora_book;
         this.dataemp = dataemp;
         this.datadev = datadev;
+        this.atrasado = atrasado;
     }
 
-    public M_Emprestimo(int codemprestimo, int codusuario, int codlivro, String dataemp, String datadev, String dataalt, int ativo, String msg_retorno, String color_msg_retorno, String nome_user, String email_user, String titulo_book, String autor_book, String editora_book, String anolancamento_book, String status_emp, String rg_user, String cpf_user) {
+    public Emprestimo(int codemprestimo, int codusuario, int codlivro, String dataemp, String datadev, String dataalt, int ativo, String msg_retorno, String color_msg_retorno, String nome_user, String email_user, String titulo_book, String autor_book, String editora_book, String anolancamento_book, String status_emp, String rg_user, String cpf_user) {
         this.codemprestimo = codemprestimo;
         this.codusuario = codusuario;
         this.codlivro = codlivro;
@@ -69,6 +71,14 @@ public class M_Emprestimo {
         this.status_emp = status_emp;
         this.rg_user = rg_user;
         this.cpf_user = cpf_user;
+    }
+
+    public int getAtrasado() {
+        return atrasado;
+    }
+
+    public void setAtrasado(int atrasado) {
+        this.atrasado = atrasado;
     }
 
     public String getRg_user() { return rg_user; }

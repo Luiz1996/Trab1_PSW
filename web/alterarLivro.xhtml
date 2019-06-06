@@ -128,16 +128,18 @@
             <h:form id="buscarLivro">
                 <div class="form-group">
                     <h:outputLabel value="Título, Autor ou Editora"/>
-                    <p:inputText maxlength="60" value="#{c_Livro.livro.titulo}" class="form-control" required="false" placeholder="Insira o título, autor ou editora do livro desejado"></p:inputText>
+                    <p:inputText maxlength="60" value="#{livroController.livro.titulo}" class="form-control"
+                                 required="false"
+                                 placeholder="Insira o título, autor ou editora do livro desejado"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:commandButton value="Buscar Livro" class="btn btn-block btn-primary"
-                                     action="#{c_Livro.realizarConsultaLivroBibliotecario}"></h:commandButton>
+                                     action="#{livroController.realizarConsultaLivroBibliotecario}"></h:commandButton>
                 </div>
             </h:form>
             <h:form>
                 <p:dataTable id="tbl" class="tbl" var="livro"
-                             value="#{c_Livro.realizarConsultaLivroBibliotecario()}"
+                             value="#{livroController.realizarConsultaLivroBibliotecario()}"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                              paginator="true" rows="5"
                              scrollWidth="1300">
@@ -226,52 +228,54 @@
                 <font color="red">**Inserir as informações apenas nos campos que deseja alterar**</font>
             </p>
             <h:form id="alterarLivro">
-                #{c_Livro.livro.titulo = ""}
-                #{c_Livro.livro.autor = ""}
-                #{c_Livro.livro.editora = ""}
+                #{livroController.livro.titulo = ""}
+                #{livroController.livro.autor = ""}
+                #{livroController.livro.editora = ""}
                 <div class="form-group">
                     <h:outputLabel value="Título"/>
-                    <p:inputText value="#{c_Livro.livro.titulo}" class="form-control"
+                    <p:inputText value="#{livroController.livro.titulo}" class="form-control"
                                  maxlength="60" required="false" placeholder="Insira o título do livro"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Autor(a)"/>
-                    <p:inputText value="#{c_Livro.livro.autor}" class="form-control"
+                    <p:inputText value="#{livroController.livro.autor}" class="form-control"
                                  maxlength="60" required="false" placeholder="Insira o nome do autor do livro"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Edtora"/>
-                    <p:inputText value="#{c_Livro.livro.editora}" class="form-control"
+                    <p:inputText value="#{livroController.livro.editora}" class="form-control"
                                  maxlength="60" required="false" placeholder="Insira o nome da editora"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Ano lançamento"/>
-                    <p:inputMask class="form-control" value="#{c_Livro.livro.anolancamento}" mask="9999" required="false" placeholder="Insira o ano de lançamento do livro" maxlength="4"/>
+                    <p:inputMask class="form-control" value="#{livroController.livro.anolancamento}" mask="9999"
+                                 required="false" placeholder="Insira o ano de lançamento do livro" maxlength="4"/>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Cidade"/>
-                    <p:inputText value="#{c_Livro.livro.cidade}" class="form-control"
+                    <p:inputText value="#{livroController.livro.cidade}" class="form-control"
                                  maxlength="60" required="false" placeholder="Insira a cidade"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Volume"/>
-                    <p:inputMask class="form-control" value="#{c_Livro.livro.volume}" mask="99" required="false" placeholder="Insira o volume do livro" maxlength="2"/>
+                    <p:inputMask class="form-control" value="#{livroController.livro.volume}" mask="99" required="false"
+                                 placeholder="Insira o volume do livro" maxlength="2"/>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Código Catalogação"/>
-                    <p:inputText value="#{c_Livro.livro.codcatalogacao}" class="form-control"
+                    <p:inputText value="#{livroController.livro.codcatalogacao}" class="form-control"
                                  maxlength="15" required="false" placeholder="Insira o código de catalogação"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Número Chamada"/>
-                    <p:inputText value="#{c_Livro.livro.numchamada}" class="form-control"
+                    <p:inputText value="#{livroController.livro.numchamada}" class="form-control"
                                  maxlength="15" required="false" placeholder="Insira o número de chamado"></p:inputText>
                 </div>
                 <div class="form-group">
                     <h:outputText value="Status do Livro"/><font color="red">*</font>
                     <div align="left" class="form-group">
                         <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                            <p:selectOneButton value="#{c_Livro.livro.ativo}" required="true">
+                            <p:selectOneButton value="#{livroController.livro.ativo}" required="true">
                                 <f:selectItem itemLabel="Ativar" itemValue='1'/>
                                 <f:selectItem itemLabel="Inativar" itemValue='0'/>
                             </p:selectOneButton>
@@ -280,7 +284,7 @@
                     <h:outputText value="Torná-lo disponível para empréstimos?"/><font color="red">*</font>
                     <div align="left" class="form-group">
                         <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                            <p:selectOneButton value="#{c_Livro.livro.disponibilidade}" required="true">
+                            <p:selectOneButton value="#{livroController.livro.disponibilidade}" required="true">
                                 <f:selectItem itemLabel="Sim" itemValue='1'/>
                                 <f:selectItem itemLabel="Não" itemValue='0'/>
                             </p:selectOneButton>
@@ -288,7 +292,7 @@
                     </div>
                     <div class="form-group">
                         <h:outputLabel value="Id do Livro"/><font color="red">*</font>
-                        <p:inputText value="#{c_Livro.livro.codlivro}" class="form-control"
+                        <p:inputText value="#{livroController.livro.codlivro}" class="form-control"
                                      required="true" placeholder="Insira o Id do livro"></p:inputText>
                     </div>
                     <div id="conf" class="conf">
@@ -298,7 +302,7 @@
                         <h:form>
                             <div class="form-group">
                                 <h:commandButton value="Sim" class="btn btn-block btn-primary"
-                                                 action="#{c_Livro.realizarEdicaoLivro}"/>
+                                                 action="#{livroController.realizarEdicaoLivro}"/>
                             </div>
                             <div class="form-group">
                                 <h:commandButton value="Não" class="btn btn-block btn-primary"

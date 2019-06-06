@@ -103,7 +103,7 @@ CREATE TABLE `usuarios` (
   `codusuario` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL,
   `usuario` varchar(30) NOT NULL,
-  `senha` varchar(30) NOT NULL,
+  `senha` varchar(32) NOT NULL,
   `nome` varchar(60) NOT NULL,
   `rg` varchar(10) NOT NULL,
   `cpf` varchar(15) NOT NULL,
@@ -132,7 +132,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'luiz.pereira@agfertipol.com.br','2','2','Balconista','222222222','22222222222','Rua B','87000000','Maringá','PR',2,1,'2019-05-01',NULL,'2019-01-01',1),(2,'luiz_flavio_p@hotmail.com','1','1','Bibliotecário','111111111','11111111111','Rua A','87000000','Maringá','PR',1,1,'2019-05-01',NULL,'2019-01-01',1),(3,'ra91706@uem.br','3','3','Luiz Flávio Pereira','333333333','33333333333','Rua C','87000000','Maringá','PR',3,1,'2019-05-01',NULL,'2019-01-01',1);
+INSERT INTO `usuarios` VALUES (1,'luiz.pereira@agfertipol.com.br','2','c81e728d9d4c2f636f067f89cc14862c','Balconista','222222222','22222222222','Rua B','87000000','Maringá','PR',2,1,'2019-05-01',NULL,'2019-01-01',1),(2,'luiz_flavio_p@hotmail.com','1','c4ca4238a0b923820dcc509a6f75849b','Bibliotecário','111111111','11111111111','Rua A','87000000','Maringá','PR',1,1,'2019-05-01',NULL,'2019-01-01',1),(3,'ra91706@uem.br','3','eccbc87e4b5ce2fe28308fd9f2a7baf3','Luiz Flávio Pereira','333333333','33333333333','Rua C','87000000','Maringá','PR',3,1,'2019-05-01',NULL,'2019-01-01',1);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,3 +154,19 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2019-05-18 18:16:26
+
+
+ALTER TABLE `bibliotec`.`emprestimo` AUTO_INCREMENT = 1;
+ALTER TABLE `bibliotec`.`usuarios` AUTO_INCREMENT = 4;
+ALTER TABLE `bibliotec`.`livro` AUTO_INCREMENT = 11;
+commit;
+
+DROP EVENT IF EXISTS `RESETA_RESERVAS`;
+CREATE EVENT RESETA_RESERVAS
+ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 5 MINUTE
+ON COMPLETION PRESERVE
+DO
+   update `bibliotec`.`livro` l set l.datares = null, l.usuariores = null where (l.datares < current_date());
+commit;   	
+
+SET GLOBAL event_scheduler  = 1;

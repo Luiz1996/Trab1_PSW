@@ -106,20 +106,20 @@
             <h:form id="telaConsultaUsuarios">
                 <div class="form-group"><br/>
                     <h:outputLabel value="Nome do Usuário ou Título do Livro"/>
-                    <p:inputText value="#{c_Emprestimo.emp.nome_user}" class="form-control" required="false"
+                    <p:inputText value="#{emprestimoController.emp.nome_user}" class="form-control" required="false"
                                  maxlength="60"
                                  placeholder="Insira o nome do usuário ou o título do livro"></p:inputText>
                 </div>
                 <h:form>
                     <div class="form-group">
                         <h:commandButton value="Buscar" class="btn btn-block btn-primary"
-                                         action="#{c_Emprestimo.consultaEmprestimos}"></h:commandButton>
+                                         action="#{emprestimoController.consultaEmprestimos}"></h:commandButton>
                     </div>
                 </h:form>
             </h:form>
             <h:form>
                 <p:dataTable id="tbl" class="tbl" var="emp"
-                             value="#{c_Emprestimo.consultaEmprestimos()}"
+                             value="#{emprestimoController.consultaEmprestimos()}"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                              paginator="true" rows="5"
                              scrollWidth="1300">

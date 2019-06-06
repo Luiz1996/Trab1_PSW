@@ -13,8 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 @WebFilter(filterName = "loginAuth", urlPatterns = {"/gestaoBibliotecas.xhtml"})
-public class loginAuth implements Filter {
-    public loginAuth() {
+public class loginAuthFilter implements Filter {
+    public loginAuthFilter() {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response,

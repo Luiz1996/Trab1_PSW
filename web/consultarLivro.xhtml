@@ -117,18 +117,18 @@
                     <h:form id="telaConsultaBibliotecario">
                         <div class="form-group">
                             <h:outputLabel value="Título, Autor ou Editora"/>
-                            <p:inputText value="#{c_Livro.livro.titulo}" class="form-control" required="false"
+                            <p:inputText value="#{livroController.livro.titulo}" class="form-control" required="false"
                                          maxlength="100"
                                          placeholder="Insira o título, autor ou editora do livro desejado"></p:inputText>
                         </div>
                         <div class="form-group">
                             <h:commandButton value="Buscar Livro" class="btn btn-block btn-primary"
-                                             action="#{c_Livro.realizarConsultaLivroBibliotecario}"/>
+                                             action="#{livroController.realizarConsultaLivroBibliotecario}"/>
                         </div>
                     </h:form>
                     <h:form>
                         <p:dataTable id="tbl" class="tbl" var="livro"
-                                     value="#{c_Livro.realizarConsultaLivroBibliotecario()}"
+                                     value="#{livroController.realizarConsultaLivroBibliotecario()}"
                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                                      paginator="true" rows="5"
                                      scrollWidth="1300">
